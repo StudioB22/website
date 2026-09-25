@@ -14,6 +14,19 @@
   production launch.
 - **Decision**: `No GitHub Project routing` — The organisation currently exposes only the
   unrelated Visio-Back project, so issue #1 was not attached to an incorrect board.
+- **Portfolio routing introduced**
+  ([StudioB22 Roadmap & Delivery](https://github.com/orgs/StudioB22/projects/2)) — Created the
+  single organisation-level agile portfolio, attached issue #1 and pull request #2, and added
+  `Kanban global` and `Daily` board views. The Daily view excludes completed work so active
+  topics remain visible during stand-ups.
+- **Decision**: `One repository per managed project` — Keep every client or internal product in
+  an independent repository so source code, access control, history, deployment, and an eventual
+  client handover remain isolated. Use the central project's `Projet / client` field for portfolio
+  filtering and repository-scoped milestones for concrete delivery objectives such as an MVP,
+  release, or redesign.
+- **Public website classified** — Assigned issue #1 and pull request #2 to
+  `StudioB22 — site commercial`, created the `Public website MVP` milestone, and moved both active
+  items to `In Progress`.
 - **Conception package prepared** — Documented the product brief, public MVP requirements,
   launch gates, three architecture decisions, focused use-case and component diagrams, and a
   requirements-to-verification matrix. At this stage Astro remained proposed pending the
