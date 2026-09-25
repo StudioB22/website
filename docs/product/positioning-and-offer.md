@@ -106,6 +106,40 @@ The client remains responsible for:
 - recurring content entry, maintenance, SEO campaigns, analytics reporting, or provider fees;
 - migration or publication of every experimental repository.
 
+## Delivery method
+
+The public method presents three phases and seven decision milestones. The milestones are control
+points, not promises of identical duration for every engagement. Each proposal maps its deliverables,
+dates, acceptance criteria, and staged payments to this method.
+
+### Phase 1 — Understand and commit
+
+| Milestone | Purpose | Decision and client action | Commercial gate |
+| --- | --- | --- | --- |
+| 1. Project orientation | Understand the activity, audience, current situation, useful outcome, constraints, and investment orientation. | The client supplies available context and identifies the people authorised to decide. Both parties decide whether a structured proposal is appropriate. | No project commitment is implied by the first exchange. Any paid discovery work is identified before it begins. |
+| 2. Scope approval | Turn the need into a bounded objective, page and feature scope, responsibilities, assumptions, exclusions, schedule, and acceptance path. | The client reviews one written proposal, resolves open assumptions, and approves the scope and contractual documents. | The initial contractual payment activates the project and reserves delivery capacity. No production work starts before this gate. |
+
+### Phase 2 — Design and deliver
+
+| Milestone | Purpose | Decision and client action | Commercial gate |
+| --- | --- | --- | --- |
+| 3. Content and direction readiness | Establish the content structure, available assets, responsibilities, and visual direction before detailed production. | The client supplies or approves the required content and rights, then validates one consolidated direction. | Missing client inputs may move the schedule. Additional content or identity work requires an approved scope change. |
+| 4. Experience approval | Validate hierarchy, key journeys, responsive intent, and representative screens before full implementation. | The client provides consolidated feedback through the agreed channel and approves the experience baseline. | Approval unlocks full implementation. Reopening an approved direction is handled as a documented change. |
+| 5. Build verification | Implement the approved scope and verify content, responsive behaviour, accessibility, performance, security, privacy, and search foundations. | The client reviews the complete preview against the agreed acceptance criteria and reports factual corrections or scoped defects. | The next staged payment becomes due at the contractual verification gate, before production release preparation. |
+
+### Phase 3 — Launch and evolve
+
+| Milestone | Purpose | Decision and client action | Commercial gate |
+| --- | --- | --- | --- |
+| 6. Launch and handover | Complete final checks, publish through the approved infrastructure, and transfer the agreed documentation, ownership information, and operating guidance. | The client gives written launch approval, confirms legal and factual content, and receives the agreed handover material. | The launch or handover payment defined by the contract is required before the corresponding assets or production release are transferred. |
+| 7. Follow-up decision | Review the delivered result, outstanding observations, maintenance needs, and evidence for a later improvement stage. | The client accepts the completed scope, identifies any warranty defect, and decides whether support or a new optional block is useful. | Ongoing support and later improvements are separate, explicit services; there is no automatic renewal or pressure to continue. |
+
+At every milestone, acceptance concerns the written scope and criteria rather than subjective unlimited
+revision. A requested change is first clarified for impact on cost, timing, data, and quality; it is
+implemented only after written approval when it changes the agreed scope. Payment percentages, due dates,
+late-payment terms, intellectual-property transfer, warranty, and termination rules belong to the signed
+proposal and contract, not to universal website copy.
+
 ## Pricing position
 
 The public site does not publish invented or unsustainable figures. A future `from` price may be

@@ -259,8 +259,9 @@ minimisation, and required client information or authorisation are in place.
 - **Primary actor**: Prospect, specialising Visitor.
 - **Stakeholders and interests**: the prospect wants clarity without commitment; the maintainer wants a
   useful but non-binding context that does not collect unnecessary data.
-- **Preconditions**: diagnostic rules, copy, accessibility, REQ-DATA-001, privacy information, and the
-  release 1.1 operating process are approved.
+- **Preconditions**: local diagnostic rules, copy, accessibility, and the in-browser privacy boundary are
+  approved. REQ-DATA-001, provider approval, and the submission operating process become additional
+  preconditions only when connected submission or scheduling is enabled.
 - **Minimal guarantee**: exiting or declining submission stores no server-side draft and exposes no
   identity data.
 - **Success guarantee**: the prospect receives a non-binding orientation and understands unresolved points.
