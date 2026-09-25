@@ -17,8 +17,10 @@ Deliver the public product through independently releasable boundaries:
 - release 0.1 is a private identity-and-proof preview;
 - release 1.0 is the first public website with one monitored contact channel and no required connected
   diagnostic, scheduling, or analytics;
-- release 1.1 adds qualification and measurement only after their own privacy, security,
-  accessibility, provider, retention, and operational gates pass;
+- release 1.1 may add the browser-local diagnostic after its rules, copy, accessibility, and
+  in-browser privacy boundary pass review; connected submission, scheduling, or measurement is added
+  only after the specific integration's privacy, security, provider, retention, and operational gates
+  pass;
 - the authenticated client portal remains a separate product under ADR-0001.
 
 Each release has its own acceptance gates. A deferred optional integration cannot block an earlier
