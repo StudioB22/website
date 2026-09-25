@@ -38,7 +38,7 @@ human conversation and appears only in release 1.1.
 | Route | Primary visitor intent | Activation condition | Indexing |
 | --- | --- | --- | --- |
 | `/preparer-mon-projet/` | Receive a non-binding project orientation | Local rules, copy, accessibility, and the in-browser privacy boundary approved; connected submission or scheduling additionally requires its provider, retention, abuse protection, and operating process to be approved | Index only if the page has substantive standalone value |
-| `/merci/` | Confirm an accepted request and explain the next step | Submission path tested end to end | No index |
+| `/merci/` | Confirm an accepted request and explain the next step | Submission path tested end to end; verified per-session success state is required to show confirmation, while direct, restored, or bookmarked visits show a neutral recovery path | No index |
 
 Booking may remain an external reviewed link rather than a dedicated page. No route is reserved for
 the future client portal until that separate product is conceived.

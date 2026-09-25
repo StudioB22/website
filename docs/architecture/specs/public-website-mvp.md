@@ -389,6 +389,9 @@ and signatures require their own issue, conception, threat model, data model, an
 - REQ-DATA-001 and the data-flow diagram approved for each active provider.
 - Diagnostic rules, submission, error, deletion, retention, scheduling, measurement, and rights paths tested
   end to end where applicable.
+- When a confirmation route is enabled, only verified per-session submission success can display an
+  accepted-request confirmation; direct, restored, expired, or bookmarked visits display a neutral
+  recovery path and never claim that a request was received.
 - Connected journeys pass keyboard, screen-reader, zoom, reflow, error-identification, and reduced-motion review.
 - Every enabled provider has documented outage and abuse scenarios with a tested manual fallback;
   this gate does not apply when release 1.1 contains only the browser-local diagnostic.
