@@ -86,11 +86,12 @@ Release 1.0 succeeds when a representative visitor can, without assistance:
 - understand how modern tools and AI support the work without replacing human responsibility;
 - choose a functional next step.
 
-Release 1.1 separately validates diagnostic completion, connected submission, and provider failure
-paths. Commercial targets will be defined from the first 90 production days rather than invented
-before traffic exists. The measurement plan may track privacy-approved aggregate visits, gallery and
-contact-path engagement, qualified enquiries, and enquiry-to-project outcomes; it must not collect data
-without a decision it will inform.
+Release 1.1 validates local diagnostic completion independently. Connected submission, scheduling, and
+provider failure paths are validated only for the integrations that are actually enabled. Commercial
+targets will be defined from the first 90 production days rather than invented before traffic exists.
+The measurement plan may track privacy-approved aggregate visits, gallery and contact-path engagement,
+qualified enquiries, and enquiry-to-project outcomes; it must not collect data without a decision it
+will inform.
 
 ## Long-term proof programme
 

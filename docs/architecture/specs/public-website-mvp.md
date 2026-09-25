@@ -27,8 +27,9 @@ belong to the future portal under ADR-0001.
 
 ### REQ-PUB-001 — Understand the proposition
 
-The homepage must let a visitor identify the service, primary audience, accountable founder, primary
-proof path, and low-pressure project path from the first viewport and immediate continuation.
+The homepage must let a visitor identify the service, primary audience, accountable founder, and
+primary proof path from the first viewport and immediate continuation. Release 1.0 additionally exposes
+the approved low-pressure project path; release 0.1 instead directs preview visitors to reviewed proof.
 
 ### REQ-PUB-002 — Explore truthful creations
 
@@ -184,14 +185,16 @@ minimisation, and required client information or authorisation are in place.
 - **Preconditions**: the preview or public site is reachable.
 - **Minimal guarantee**: no unsupported claim is presented.
 - **Success guarantee**: the visitor can state what is offered, for whom, who is accountable, and the
-  available next step.
+  release-appropriate next step.
 - **Main success scenario**:
   1. The visitor opens the homepage.
   2. The visitor identifies the offer and primary audience.
   3. The visitor sees a truthful proof path and the founder's accountability.
-  4. The visitor identifies the available low-pressure next step.
+  4. In release 0.1, the visitor can continue to reviewed creations; from release 1.0, the visitor can
+     also identify the approved low-pressure contact path.
 - **Extensions**: 3a. The visitor needs more trust, then follows method, about, FAQ, or project evidence.
-- **Postcondition**: the visitor can continue to proof, offer, method, or contact without guessing.
+- **Postcondition**: the visitor can continue to proof in release 0.1 and, from release 1.0, to the
+  published offer, method, or monitored contact path without guessing.
 - **Relationships**: none.
 
 ### UC2 — Explore relevant creations (release 0.1 and later)
