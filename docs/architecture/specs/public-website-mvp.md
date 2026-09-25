@@ -358,6 +358,11 @@ and signatures require their own issue, conception, threat model, data model, an
 
 ### Release 0.1 preview gates
 
+- Any remote preview is protected by a deny-by-default Cloudflare Access policy (or reviewed
+  equivalent) that requires authentication and explicitly allowlists named reviewers; otherwise the
+  preview is reviewed locally and is not remotely deployed.
+- Allowed and denied access paths are tested. An unlisted Pages URL, disabled indexing, or
+  `robots.txt` is never treated as an access-control mechanism.
 - Provisional identity is visibly controlled and cannot be mistaken for an approved public launch.
 - Every previewed gallery entry passes the applicable truthfulness, rights, responsive, and maturity review.
 - Static build, schema, route, link, accessibility smoke, and representative viewport checks pass.

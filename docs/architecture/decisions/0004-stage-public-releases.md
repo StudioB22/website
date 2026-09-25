@@ -24,6 +24,12 @@ Deliver the public product through independently releasable boundaries:
 Each release has its own acceptance gates. A deferred optional integration cannot block an earlier
 release and must not appear as operational before activation.
 
+A remotely deployed release 0.1 preview is private only when Cloudflare Access (or an equivalently
+reviewed identity-aware proxy) denies access by default and allowlists named reviewers who must
+authenticate. A secret URL, disabled indexing, `robots.txt`, or a shared password is not an access
+control. If the access policy cannot be verified, review remains local and no remote preview is
+published.
+
 ## Consequences
 
 - The studio can publish a useful, honest site without collecting unnecessary data.
@@ -31,6 +37,8 @@ release and must not appear as operational before activation.
 - Qualification features receive a focused conception and data-flow review.
 - The implementation must keep inactive routes, scripts, embeds, and provider SDKs out of earlier
   release bundles.
+- Preview access must be tested as both an allowed reviewer and an unauthorised visitor, and the
+  reviewer allowlist must be removed or replaced when the public release is approved.
 
 ## Rejected alternatives
 
