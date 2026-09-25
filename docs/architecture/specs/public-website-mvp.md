@@ -147,8 +147,10 @@ logging before activation.
 ### REQ-PRIV-001 — Data minimisation
 
 Release 1.0 contains no first-party connected form, scheduling embed, marketing list, or required
-analytics. Release 1.1 follows REQ-DATA-001 and the approved data-flow diagram. An external provider is
-never added merely for convenience when a simpler no-collection path satisfies the need.
+analytics. Its external email-client handoff and monitored mailbox still require an approved provider,
+privacy information, access control, retention, deletion, and rights process. Release 1.1 follows
+REQ-DATA-001 and the approved data-flow diagram. An external provider is never added merely for
+convenience when a lower-collection path satisfies the need.
 
 ### REQ-HON-001 — Truthful commercial presentation
 
@@ -340,7 +342,7 @@ may add the project-orientation route and non-indexed confirmation route.
 
 - Final identity, domain, monitored professional email, and legal publisher information.
 - Services, optional blocks, method, about, FAQ when justified, and contact through monitored email.
-- Legal and privacy pages appropriate to the active no-collection feature set.
+- Legal and privacy pages appropriate to the active mailbox-only collection boundary.
 - Technical SEO, accessibility, performance, security, and truthful-content launch checks.
 - No dependency on the diagnostic, connected form, scheduling, or analytics.
 

@@ -1,4 +1,4 @@
-# Data-flow diagram — public website — preview access and release 1.1 qualification
+# Data-flow diagram — public website — preview access, mailbox, and release 1.1 qualification
 
 > **Feature**: [issue #1 — Design the public commercial website MVP](https://github.com/StudioB22/website/issues/1)
 >
@@ -8,9 +8,9 @@
 
 ## Context
 
-This diagram identifies the personal-data boundary required for any remotely deployed release 0.1
-preview and the optional boundaries planned for release 1.1. It does not select a provider or authorise
-collection. Every dotted release 1.1 flow remains inactive until the field schema, legal basis,
+This diagram identifies the personal-data boundaries required for any remotely deployed release 0.1
+preview and the release 1.0 monitored mailbox, plus the optional boundaries planned for release 1.1.
+It does not select a provider or authorise collection. Every dotted release 1.1 flow remains inactive until the field schema, legal basis,
 processor terms, retention, deletion, security, accessibility, and operating process pass review.
 
 ## Diagram
@@ -39,6 +39,12 @@ flowchart LR
     Measurement["Optional privacy-reviewed measurement"]
   end
 
+  subgraph MailBoundary ["Approved monitored-mailbox boundary — release 1.0"]
+    Mailbox["Professional mailbox provider"]
+    MailRecord["Restricted enquiry email and response history"]
+    Mailbox -->|"PII: sender, recipients, message, metadata and attachments if supplied"| MailRecord
+  end
+
   Maintainer(("Maintainer — Benoît"))
 
   Reviewer -->|"PII: allowlisted identifier and authentication evidence"| Identity
@@ -46,6 +52,9 @@ flowchart LR
   Policy -->|"PII: minimum access decision record"| AccessLog
   Maintainer -.->|"PII: allowlist and authorised log review"| Policy
   Maintainer -.->|"PII: retention, deletion or incident review"| AccessLog
+  Prospect -->|"PII: sender address, project message, metadata and attachments if supplied"| Mailbox
+  MailRecord -->|"PII: minimum enquiry and response context"| Maintainer
+  Maintainer -.->|"PII: response, deletion request or retention action"| MailRecord
   Prospect -->|"PII possible: business context without direct identity fields"| Draft
   Draft -->|"PII possible: derived orientation — browser memory only"| Result
   Notice --> Prospect
@@ -64,6 +73,9 @@ flowchart LR
   otherwise preview review remains local and the preview-access boundary is absent.
 - Preview-access records are restricted to authorised maintainers, retained only for the approved
   security purpose and duration, and never reused for commercial measurement or marketing.
+- Before public release 1.0, the professional mailbox provider, access permissions, privacy information,
+  retention schedule, deletion and rights paths are approved and exercised. Mailbox data is not reused
+  for marketing without a separate valid choice and process.
 - Unsubmitted diagnostic answers remain in browser memory and disappear when the journey ends.
 - The diagnostic does not request health, legal, financial, authentication, or other sensitive details.
 - A free-text field, if retained, warns the prospect not to submit confidential or sensitive data.

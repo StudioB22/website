@@ -13,8 +13,10 @@ payment state, and collaborator access.
 ## Decision
 
 Treat the public website and future client portal as separate products and deployment
-boundaries. The public MVP contains no account creation, authentication, private project data,
-payment, signature, or portal placeholder that implies availability.
+boundaries. The public MVP contains no client account creation, application authentication, private
+project data, payment, signature, or portal placeholder that implies availability. This exclusion does
+not prohibit the identity-aware perimeter authentication required to protect a remotely deployed
+release 0.1 preview; that boundary authenticates named reviewers, not public-site or client accounts.
 
 ## Consequences
 
