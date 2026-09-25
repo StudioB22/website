@@ -276,8 +276,9 @@ minimisation, and required client information or authorisation are in place.
   5. The prospect optionally chooses an approved next step.
 - **Extensions**: 2a. The prospect skips a non-essential answer; 3a. No responsible orientation exists, so
   the result recommends a human exchange; 5a. The prospect exits and nothing is submitted.
-- **Postcondition**: the prospect has an orientation; personal data exists only if a separate explicit
-  submission succeeds.
+- **Postcondition**: the prospect has an orientation; possible personal data in the local draft and
+  derived result remains in browser memory and is neither transmitted nor stored server-side unless a
+  separate explicit submission succeeds.
 - **Relationships**: actor generalisation from Prospect to Visitor; optional continuation to UC6.
 
 ### UC6 — Request a first exchange (release 1.0 and later)
@@ -363,6 +364,9 @@ and signatures require their own issue, conception, threat model, data model, an
   preview is reviewed locally and is not remotely deployed.
 - Allowed and denied access paths are tested. An unlisted Pages URL, disabled indexing, or
   `robots.txt` is never treated as an access-control mechanism.
+- Before any remote preview is enabled, the access provider, reviewer identifier fields, authentication
+  events, processor terms, retention, access-log permissions, deletion path, and privacy information are
+  documented and approved in the data-flow diagram; otherwise review remains local.
 - Provisional identity is visibly controlled and cannot be mistaken for an approved public launch.
 - Every previewed gallery entry passes the applicable truthfulness, rights, responsive, and maturity review.
 - Static build, schema, route, link, accessibility smoke, and representative viewport checks pass.
