@@ -386,7 +386,8 @@ and signatures require their own issue, conception, threat model, data model, an
 - Diagnostic rules, submission, error, deletion, retention, scheduling, measurement, and rights paths tested
   end to end where applicable.
 - Connected journeys pass keyboard, screen-reader, zoom, reflow, error-identification, and reduced-motion review.
-- Provider outage and abuse scenarios have a documented manual fallback.
+- Every enabled provider has documented outage and abuse scenarios with a tested manual fallback;
+  this gate does not apply when release 1.1 contains only the browser-local diagnostic.
 - Inactive optional providers ship no script, cookie, route, or misleading interface.
 
 ## 8. Risks and mitigations
