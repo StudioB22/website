@@ -8,9 +8,10 @@
 ## Purpose
 
 Create the French-first commercial website for Benoît Bremaud's future web studio. The
-website must help craftspeople, independent professionals, local retailers, hospitality
-businesses, regulated professionals, and other small organisations understand the offer,
-assess the work, and choose a low-pressure next step.
+homepage primarily addresses owners and decision-makers of small local organisations who need
+a first professional website or substantial redesign. Sector-specific creations then provide
+relevant paths for crafts, local trades, retail, food, hospitality, independent services, and
+other activities without making the main message generic.
 
 The desired reputation is a serious, attentive, and methodical partner. The site must not
 compete on the lowest price, imitate a large agency, or use fabricated proof.
@@ -29,19 +30,31 @@ compete on the lowest price, imitate a large agency, or use fabricated proof.
 2. Explore relevant creations by business sector, then visual direction.
 3. Understand the core website offer and optional building blocks.
 4. Review the three-phase, seven-milestone delivery method.
-5. Prepare a project through a short guided diagnostic or choose an alternative contact path.
-6. Book a first conversation only after a suitable specialist provider is approved.
+5. Request a first exchange through one monitored, low-pressure contact channel.
+6. In a later release, optionally prepare a project through a short guided diagnostic.
 
-## Public MVP
+## Release 0.1 — Private preview
 
 - French homepage and clear positioning.
-- Truthfully labelled portfolio gallery and detail pages.
-- Core offer plus optional content, identity, visual, commercial, visibility, and support blocks.
+- Truthfully labelled portfolio gallery and detail pages for four to six reviewed entries.
+- Founder accountability and central provisional identity.
+- No indexing, connected collection, booking, or analytics requirement.
+
+## Release 1.0 — First public website
+
+- Final public identity, domain, legal publisher information, and monitored professional email.
+- Core offer plus optional content, identity, visual, conversion, visibility, commerce, support, and
+  integration blocks.
 - Three-phase project method and trust principles.
 - Concise FAQ.
-- Five-minute guided diagnostic after its rules and data flow are approved.
-- Contact alternatives that are actually operational.
+- One calm, genuinely operational contact path.
 - Technical SEO, accessibility, performance, security, privacy, and legal foundations.
+
+## Release 1.1 — Qualification and measurement
+
+- Five-minute guided diagnostic after its rules, accessibility, and data flow are approved.
+- Connected submission or scheduling only through approved providers and operating processes.
+- Privacy-reviewed measurement only when it answers an explicit product or commercial question.
 
 ## Explicit exclusions
 
@@ -61,14 +74,24 @@ verified identity can replace them without restructuring the product.
 
 ## Success criteria
 
-The MVP succeeds when a representative visitor can, without assistance:
+Release 1.0 succeeds when a representative visitor can, without assistance:
 
 - explain the offer and intended audience;
 - find a relevant creation;
 - distinguish a landing page, one-page presence, and structured website at a useful level;
+- distinguish the finite core foundation from optional building blocks;
 - understand the method and commercial boundaries;
-- complete the diagnostic with fictional information;
 - choose a functional next step.
 
-Commercial targets will be defined from the first 90 production days rather than invented
-before traffic exists.
+Release 1.1 separately validates diagnostic completion, connected submission, and provider failure
+paths. Commercial targets will be defined from the first 90 production days rather than invented
+before traffic exists. The measurement plan may track privacy-approved aggregate visits, gallery and
+contact-path engagement, qualified enquiries, and enquiry-to-project outcomes; it must not collect data
+without a decision it will inform.
+
+## Long-term proof programme
+
+The 157 StudioB22 repositories form a multi-week or multi-month content programme. They will be
+reviewed, completed, differentiated, and published progressively by sector. The site should gain new
+examples regularly, but neither the first preview nor the first public launch waits for the entire
+backlog. Only work that passes the catalogue publication checklist becomes public evidence.

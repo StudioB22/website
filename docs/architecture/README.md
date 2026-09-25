@@ -13,6 +13,9 @@ catalogue. Published demonstrations remain separate deployable artefacts. Extern
 scheduling, and measurement services are introduced only after focused privacy, security,
 and operational validation.
 
+ADR-0004 separates the private preview, first public website, and connected qualification. The first
+public release remains useful without a form, scheduler, analytics provider, or server runtime.
+
 The future portal is outside the public website boundary and receives its own conception,
 threat model, data model, and deployment when a real signed-client need activates it.
 
@@ -29,7 +32,10 @@ layer stack are not justified until a real second implementation or testability 
 ## Authoritative sources
 
 - [Product brief](../product/product-brief.md)
+- [Positioning and modular offer](../product/positioning-and-offer.md)
+- [Information architecture](../product/site-map.md)
+- [Gallery inventory](../product/gallery-inventory.md)
 - [Decision register](../product/decision-register.md)
-- [MVP specification](specs/public-website-mvp.md)
+- [Public website specification](specs/public-website-mvp.md)
 - [Architecture decisions](decisions/)
 - [Traceability matrix](traceability-matrix.md)

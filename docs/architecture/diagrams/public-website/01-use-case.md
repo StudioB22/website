@@ -1,4 +1,4 @@
-# Use-case diagram — public website — visitor and maintainer goals
+# uc — Public website — visitor and maintainer goals
 
 > **Feature**: [issue #1 — Design the public commercial website MVP](https://github.com/StudioB22/website/issues/1)
 >
@@ -43,11 +43,13 @@ flowchart LR
   Visitor --> UC4
   Prospect --> UC5
   Prospect --> UC6
+  Prospect -.->|"specialises"| Visitor
   Maintainer --> UC7
 ```
 
 ## Notes
 
-- `Prospect` specialises the visitor role in prose but is shown separately to keep qualification goals clear.
-- UC5 and UC6 remain planned until their privacy, security, provider, and operating gates pass.
+- `Prospect` specialises `Visitor`, inherits its discovery goals, and owns only the additional enquiry goals.
+- UC5 belongs to release 1.1. UC6 starts with monitored email in release 1.0; connected alternatives
+  remain inactive until their privacy, security, provider, and operating gates pass.
 - Authenticated client and collaborator goals are intentionally absent under ADR-0001.

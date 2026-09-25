@@ -3,7 +3,8 @@
 ## Stack
 
 - Conception phase: Markdown and Mermaid.
-- Planned implementation: Astro, strict TypeScript, static Cloudflare Pages output.
+- Accepted implementation: Astro, strict TypeScript, static Cloudflare Pages output for releases 0.1
+  and 1.0; re-evaluate Workers only for an approved runtime need.
 - No server runtime, persistence, or authentication in the initial public slice.
 
 ## Commands
@@ -29,6 +30,10 @@
 - `StudioB22` is a working name, never a production brand assumption.
 - Gallery entries must declare their truthful status and may not imply client work.
 - The public website and authenticated client portal are separate products.
+- Release 0.1 is a private preview, release 1.0 is the no-collection public website, and release 1.1
+  owns connected qualification and measurement.
+- The 157-repository inventory is a progressive proof programme, not a launch dependency or public
+  runtime source.
 - Production code must use named exports and strict TypeScript without `any`.
 
 ## Known pitfalls

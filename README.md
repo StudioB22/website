@@ -10,16 +10,19 @@ portal, authentication, payment, or personal-data collection is implemented yet.
 ## Current work
 
 - Product conception: [issue #1](https://github.com/StudioB22/website/issues/1)
-- MVP specification: [`docs/architecture/specs/public-website-mvp.md`](docs/architecture/specs/public-website-mvp.md)
+- Public website specification: [`docs/architecture/specs/public-website-mvp.md`](docs/architecture/specs/public-website-mvp.md)
+- Positioning and offer: [`docs/product/positioning-and-offer.md`](docs/product/positioning-and-offer.md)
+- Information architecture: [`docs/product/site-map.md`](docs/product/site-map.md)
+- Gallery inventory: [`docs/product/gallery-inventory.md`](docs/product/gallery-inventory.md)
 - Architecture overview: [`docs/architecture/README.md`](docs/architecture/README.md)
 - Decision records: [`docs/architecture/decisions/`](docs/architecture/decisions/)
 
 ## Planned delivery
 
 1. Approve the documentation-only conception.
-2. Build the identity-and-proof slice as a static, content-first website.
-3. Add trust and conversion content.
-4. Add the guided diagnostic only after its data flow and safeguards are approved.
-5. Validate accessibility, performance, security, SEO, privacy, and legal readiness.
-6. Select the final name and domain before production launch.
-Public commercial website for the StudioB22 project (working name)
+2. Build release 0.1 as a private identity-and-proof preview with four to six reviewed creations.
+3. Complete release 1.0 with the final identity, offer, method, legal structure, SEO, and one monitored
+   contact path.
+4. Enrich the gallery progressively from the 157-repository backlog over the following weeks and months.
+5. Add release 1.1 qualification features only after their data flow and safeguards are approved.
+6. Keep the authenticated client portal as a separately conceived product.

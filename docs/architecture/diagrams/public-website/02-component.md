@@ -1,4 +1,4 @@
-# Component diagram — public website — static delivery boundary
+# cmp — Public website — static delivery boundary
 
 > **Feature**: [issue #1 — Design the public commercial website MVP](https://github.com/StudioB22/website/issues/1)
 >
@@ -33,7 +33,7 @@ flowchart LR
     Generator --> Checks
   end
 
-  subgraph Delivery ["Cloudflare Pages"]
+  subgraph Delivery ["Cloudflare Pages — static releases 0.1 and 1.0"]
     StaticSite["Static HTML, CSS, assets, and justified islands"]
     Headers["Caching and browser security headers"]
     StaticSite --> Headers
@@ -54,7 +54,7 @@ flowchart LR
   Headers -->|"Public pages"| Visitor
   StaticSite -.->|"PII: approved enquiry fields"| Submission
   StaticSite -.->|"PII: approved booking fields"| Scheduling
-  StaticSite -.->|"Aggregate consent-assessed events"| Measurement
+  StaticSite -.->|"PII: consent-assessed technical identifiers and aggregate events"| Measurement
   StaticSite -->|"Explicit reviewed link"| Demo
 ```
 
@@ -62,5 +62,6 @@ flowchart LR
 
 - Private GitHub repositories never become runtime inputs.
 - Dotted edges are inactive until provider-specific conception and approval are complete.
+- Inactive integrations contribute no route, embed, script, cookie, or SDK to earlier releases.
 - Every PII-bearing edge is labelled so privacy review cannot be skipped.
 - The future client portal is a separate system boundary under ADR-0001.

@@ -16,5 +16,18 @@
   unrelated Visio-Back project, so issue #1 was not attached to an incorrect board.
 - **Conception package prepared** — Documented the product brief, public MVP requirements,
   launch gates, three architecture decisions, focused use-case and component diagrams, and a
-  requirements-to-verification matrix. Astro remains proposed until the owner approves the
-  documentation-only conception; implementation and production deployment have not started.
+  requirements-to-verification matrix. At this stage Astro remained proposed pending the
+  documentation review; implementation and production deployment had not started.
+- **Conception review decisions** ([issue #1](https://github.com/StudioB22/website/issues/1)) —
+  Resolved the review findings before implementation:
+  - `Independent release gates` — Separate private preview, first public website, connected
+    qualification, and future portal so speculative providers cannot block useful delivery.
+  - `Finite modular offer` — Define one bounded core website foundation plus optional blocks,
+    client responsibilities, and exclusions without publishing uncalculated prices.
+  - `Progressive proof programme` — Treat the 157 StudioB22 repositories as a multi-week or
+    multi-month backlog; launch with four to six reviewed entries and enrich by sector over time.
+  - `Data minimisation first` — Keep release 1.0 free of required connected forms, scheduling,
+    and analytics; require a dedicated field, provider, retention, deletion, and data-flow review
+    before release 1.1 activation.
+  - `Static delivery retained` — Accept Astro and Cloudflare Pages for static releases while
+    recording Cloudflare Workers as the option to reconsider for a real runtime requirement.
