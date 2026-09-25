@@ -35,6 +35,7 @@ layer stack are not justified until a real second implementation or testability 
 - [Positioning and modular offer](../product/positioning-and-offer.md)
 - [Information architecture](../product/site-map.md)
 - [Gallery inventory](../product/gallery-inventory.md)
+- [Responsible AI-assisted delivery](../product/ai-assisted-delivery.md)
 - [Decision register](../product/decision-register.md)
 - [Public website specification](specs/public-website-mvp.md)
 - [Architecture decisions](decisions/)

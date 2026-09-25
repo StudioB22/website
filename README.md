@@ -14,6 +14,7 @@ portal, authentication, payment, or personal-data collection is implemented yet.
 - Positioning and offer: [`docs/product/positioning-and-offer.md`](docs/product/positioning-and-offer.md)
 - Information architecture: [`docs/product/site-map.md`](docs/product/site-map.md)
 - Gallery inventory: [`docs/product/gallery-inventory.md`](docs/product/gallery-inventory.md)
+- Responsible AI-assisted delivery: [`docs/product/ai-assisted-delivery.md`](docs/product/ai-assisted-delivery.md)
 - Architecture overview: [`docs/architecture/README.md`](docs/architecture/README.md)
 - Decision records: [`docs/architecture/decisions/`](docs/architecture/decisions/)
 

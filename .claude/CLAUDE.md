@@ -34,6 +34,8 @@
   owns connected qualification and measurement.
 - The 157-repository inventory is a progressive proof programme, not a launch dependency or public
   runtime source.
+- AI and automation are transparent supervised tools, never substitutes for human accountability,
+  validation, confidentiality, or rights review.
 - Production code must use named exports and strict TypeScript without `any`.
 
 ## Known pitfalls

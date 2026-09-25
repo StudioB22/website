@@ -23,6 +23,9 @@ compete on the lowest price, imitate a large agency, or use fabricated proof.
 3. Scope, ownership, ongoing services, and commercial boundaries remain transparent.
 4. Concepts, demonstrations, and client work are labelled truthfully.
 5. Accessibility, performance, security, privacy, and search visibility are designed in.
+6. Mastery of artificial intelligence, automation, and modern engineering tools is presented as a
+   professional skill: frame the need, select and orchestrate tools, challenge output, verify the
+   result, and retain human accountability.
 
 ## Primary visitor journey
 
@@ -81,6 +84,7 @@ Release 1.0 succeeds when a representative visitor can, without assistance:
 - distinguish a landing page, one-page presence, and structured website at a useful level;
 - distinguish the finite core foundation from optional building blocks;
 - understand the method and commercial boundaries;
+- understand how modern tools and AI support the work without replacing human responsibility;
 - choose a functional next step.
 
 Release 1.1 separately validates diagnostic completion, connected submission, and provider failure

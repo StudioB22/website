@@ -31,3 +31,7 @@
     before release 1.1 activation.
   - `Static delivery retained` — Accept Astro and Cloudflare Pages for static releases while
     recording Cloudflare Workers as the option to reconsider for a real runtime requirement.
+  - `AI mastery is professional expertise` — Present effective use of AI, automation, testing,
+    analysis, and modern engineering tools as a skill requiring problem framing, context, selection,
+    orchestration, critical evaluation, verification, and judgement. Keep human accountability,
+    confidentiality, privacy, and licensing explicit; avoid vendor-led or novelty-only claims.

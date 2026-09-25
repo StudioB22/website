@@ -41,6 +41,7 @@ an exclusion rule.
 - Professional, attentive, direct, and reassuring.
 - Explain outcomes and responsibilities in business language.
 - Show the method instead of claiming to be methodical.
+- Explain the benefit of AI and automation without making a vendor or novelty the product.
 - Never use artificial urgency, countdowns, unsolicited follow-up, or pressure tactics.
 - Never present a concept, mock-up, or demonstrator as paid client work.
 
@@ -63,7 +64,9 @@ The core foundation is the smallest complete professional website service. It in
   and internal links;
 - baseline accessibility, performance, security, and privacy review within the agreed feature set;
 - preview, structured feedback, acceptance, and production deployment preparation;
-- handover notes covering ownership, routine updates, and known limits.
+- handover notes covering ownership, routine updates, and known limits;
+- transparent use of suitable AI, automation, analysis, testing, and documentation tools under human
+  review and responsibility.
 
 The exact number and type of pages are defined in the written proposal. The word `core` does not
 mean unlimited pages, copywriting, branding, integrations, or ongoing support.
@@ -118,3 +121,7 @@ path, including a smaller first stage when appropriate.
 Before final public copy is written, validate the language with a small set of representative local
 business owners. Record the words they use for their current problem, their main objections, and what
 makes a provider feel trustworthy. Do not fabricate voice-of-customer language in the meantime.
+
+The approved AI and modern-tooling position is documented in
+[`docs/product/ai-assisted-delivery.md`](ai-assisted-delivery.md). Public copy should explain practical
+benefits and safeguards rather than list transient vendor names.

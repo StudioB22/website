@@ -6,6 +6,7 @@
 - Positioning and offer: [`docs/product/positioning-and-offer.md`](../../product/positioning-and-offer.md)
 - Information architecture: [`docs/product/site-map.md`](../../product/site-map.md)
 - Gallery inventory: [`docs/product/gallery-inventory.md`](../../product/gallery-inventory.md)
+- AI-assisted delivery policy: [`docs/product/ai-assisted-delivery.md`](../../product/ai-assisted-delivery.md)
 - Decisions: ADR-0001, ADR-0002, ADR-0003, ADR-0004
 
 ## 1. Product boundary and actors
@@ -158,6 +159,20 @@ or embryonic repositories are backlog, not portfolio evidence.
 
 Keep the working identity in typed configuration and design tokens. Block public production while the
 name, domain, email, legal identity, and required metadata remain provisional.
+
+### REQ-AI-001 — Explain and govern AI-assisted delivery
+
+The public site explains in plain French that effective use of artificial intelligence is a professional
+skill: understand and frame the need, select and orchestrate appropriate tools, prepare useful context,
+challenge uncertain output, cross-check, test, and decide. AI, automation, static analysis, testing,
+accessibility, performance, security, and documentation tools can improve exploration, feedback speed,
+verification, and maintainability when this expertise is applied. The message must not depend on one
+vendor, promise novelty for its own sake, or imply that a model performs the project independently.
+
+All generated or suggested output is treated as untrusted until reviewed and tested. Confidential
+information, credentials, personal data, and unpublished client material are excluded from external AI
+services unless a documented need, approved provider, appropriate contractual and data terms,
+minimisation, and required client information or authorisation are in place.
 
 ## 4. Use cases
 
@@ -379,6 +394,7 @@ and signatures require their own issue, conception, threat model, data model, an
 | Free text collects sensitive information | Avoid uploads, warn explicitly, limit length, and collect only after approved submission. |
 | Third parties introduce tracking or outages | Review providers, ship no inactive SDK, offer manual alternatives, and document data flows. |
 | SEO creates misleading location content | Use truthful local identity and substantive pages; prohibit mass city or thin sector pages. |
+| AI messaging sounds like automation replaces expertise | Explain concrete benefits, human accountability, verification, confidentiality, and appropriate tool selection. |
 
 ## 9. Planned verification
 
@@ -390,4 +406,5 @@ and signatures require their own issue, conception, threat model, data model, an
 - Mobile and desktop performance-budget checks on representative pages.
 - Dependency audit, Gitleaks, CodeQL, dependency review, and browser-header review.
 - Manual content, rights, truthfulness, privacy, provider, and release-readiness checklists.
+- AI-assisted output review covering factual accuracy, licences, confidentiality, security, and human approval.
 - Moderated comprehension tasks using the success criteria in the product brief.

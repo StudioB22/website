@@ -19,6 +19,7 @@ erase the broader discovery history maintained before this repository was create
 | WEB-012 | Accepted | Present one finite core website foundation plus optional building blocks, responsibilities, and exclusions. | Modular growth supports evolving client needs without implying unlimited scope or premature fixed packages. |
 | WEB-013 | Accepted | Treat the 157-repository inventory as a progressive, multi-month proof programme. | Four to six reviewed entries are sufficient to launch; additional sectors improve the site only after each creation meets the publication standard. |
 | WEB-014 | Accepted | Keep release 1.0 free of required connected forms, scheduling, and analytics. | A monitored email path serves the first need with less personal-data and operational risk; release 1.1 has a separate data gate. |
+| WEB-015 | Accepted | Present mastery of AI, automation, and modern engineering tools as a professional delivery skill. | Access to a tool is not the expertise: the studio differentiates through problem framing, context, selection, orchestration, critical evaluation, verification, confidentiality, and accountable client outcomes rather than model names or novelty claims. |
 
 ## Open decisions
 

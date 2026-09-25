@@ -25,8 +25,8 @@ human conversation and appears only in release 1.1.
 | `/realisations/` | Find a relevant example | Sector filters, truthful status labels, project summaries, visual directions | Index |
 | `/realisations/[slug]/` | Assess one creation in detail | Context, status, sector, objectives, demonstrated capabilities, previews, credits, limits, reviewed demo link when available | Index when publication review passes |
 | `/services/` | Understand the core foundation and optional blocks | Outcomes, included work, options, responsibilities, exclusions, pricing position | Index |
-| `/methode/` | Understand how a project stays controlled | Three phases, seven milestones, approvals, feedback, scope changes, staged payment principles, handover | Index |
-| `/a-propos/` | Identify who is accountable and how the studio works | Benoît's factual introduction, principles, capacity model, collaborator policy without invented team claims | Index |
+| `/methode/` | Understand how a project stays controlled | Three phases, seven milestones, approvals, feedback, scope changes, staged payment principles, handover, responsible use of AI and automation | Index |
+| `/a-propos/` | Identify who is accountable and how the studio works | Benoît's factual introduction, principles, human accountability, modern-tooling position, capacity model, collaborator policy without invented team claims | Index |
 | `/contact/` | Request a first exchange | One monitored channel, expected response process, minimum information, privacy notice | Index |
 | `/questions-frequentes/` | Resolve common objections | Scope, content, timing, ownership, providers, maintenance, payments, changes, accessibility | Index if content is substantial; otherwise integrate into services |
 | `/mentions-legales/` | Identify the publisher and host | Validated legal identity and required notices | Indexing decision at launch review |
@@ -50,9 +50,11 @@ the future client portal until that separate product is conceived.
 3. **Useful outcomes** — credibility, clarity, contact, and maintainability rather than technology.
 4. **Offer structure** — the core foundation and optional building blocks.
 5. **Method** — visible phases, decisions, and responsibilities.
-6. **Founder accountability** — the person responsible for the work and quality.
-7. **Objection handling** — concise answers or a link to the FAQ.
-8. **Calm next step** — contact without urgency or commitment pressure.
+6. **Modern tools with human responsibility** — practical benefits of AI, automation, tests, and
+   verification without vendor theatre.
+7. **Founder accountability** — the person responsible for the work and quality.
+8. **Objection handling** — concise answers or a link to the FAQ, including transparent AI use.
+9. **Calm next step** — contact without urgency or commitment pressure.
 
 ## Internal linking rules
 

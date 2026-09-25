@@ -19,6 +19,7 @@
 | REQ-PRIV-001 | UC5, UC6 | 1.0 | No-collection first release; deferred reviewed providers | Component, data flow for 1.1 | Release inventory, provider assessment, retention and rights-path exercise |
 | REQ-HON-001 | UC1–UC7 | 0.1 | Truthful catalogue states, exclusions, and publication controls | Use case, component | Manual evidence, claims, credits, and structured-data review |
 | REQ-BRAND-001 | UC1–UC7 | 0.1 | Typed central brand configuration and production gate | Component | Provisional-value build test and release checklist |
+| REQ-AI-001 | UC1, UC3, UC4 | 1.0 | Public AI-assisted delivery policy, method content, and human review controls | Use case, component | Copy review, claims review, confidentiality checklist, and moderated trust-comprehension task |
 
 ## Diagram index
 
