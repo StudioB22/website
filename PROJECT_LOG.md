@@ -27,6 +27,15 @@
 - **Public website classified** — Assigned issue #1 and pull request #2 to
   `StudioB22 — site commercial`, created the `Public website MVP` milestone, and moved both active
   items to `In Progress`.
+- **Active-repository intake automated** — Enabled automatic intake for open issues and pull
+  requests from `StudioB22/website`. Organisation-wide intake was deliberately rejected because
+  the demonstration repositories currently expose more than one hundred open pull requests that
+  would obscure active delivery work. Future client repositories must be added explicitly when
+  they become active.
+- **Daily prioritisation added** — Added `Urgent`, `High`, `Normal`, and `Low` priority values and
+  exposed priority, project/client, and milestone directly on the `Kanban global` and `Daily`
+  cards. Current conception items start at `Normal`; no sprint or effort fields were introduced
+  before an operational need exists.
 - **Conception package prepared** — Documented the product brief, public MVP requirements,
   launch gates, three architecture decisions, focused use-case and component diagrams, and a
   requirements-to-verification matrix. At this stage Astro remained proposed pending the
