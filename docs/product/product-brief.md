@@ -81,7 +81,6 @@ Release 1.0 succeeds when a representative visitor can, without assistance:
 
 - explain the offer and intended audience;
 - find a relevant creation;
-- distinguish a landing page, one-page presence, and structured website at a useful level;
 - distinguish the finite core foundation from optional building blocks;
 - understand the method and commercial boundaries;
 - understand how modern tools and AI support the work without replacing human responsibility;

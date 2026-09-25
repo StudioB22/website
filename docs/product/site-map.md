@@ -37,7 +37,7 @@ human conversation and appears only in release 1.1.
 
 | Route | Primary visitor intent | Activation condition | Indexing |
 | --- | --- | --- | --- |
-| `/preparer-mon-projet/` | Receive a non-binding project orientation | Diagnostic rules, accessibility, privacy, provider, retention, abuse protection, and operational handling approved | Index only if the page has substantive standalone value |
+| `/preparer-mon-projet/` | Receive a non-binding project orientation | Local rules, copy, accessibility, and the in-browser privacy boundary approved; connected submission or scheduling additionally requires its provider, retention, abuse protection, and operating process to be approved | Index only if the page has substantive standalone value |
 | `/merci/` | Confirm an accepted request and explain the next step | Submission path tested end to end | No index |
 
 Booking may remain an external reviewed link rather than a dedicated page. No route is reserved for
