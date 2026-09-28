@@ -42,12 +42,32 @@ test("all local links in generated pages resolve to built routes or assets", asy
   }
 });
 
-test("the gallery is honest while no project has passed publication review", async () => {
+test("the gallery and homepage adapt to the published catalogue", async () => {
   const html = await readFile(
     join(distDirectory, "realisations", "index.html"),
     "utf8",
   );
+  const homepage = await readFile(join(distDirectory, "index.html"), "utf8");
+  const publishedCount = Number(
+    html.match(/data-published-count="(\d+)"/)?.[1],
+  );
+  assert.ok(Number.isInteger(publishedCount));
+  const renderedCards = [...html.matchAll(/class="project-card"/g)].length;
+  assert.equal(renderedCards, publishedCount);
+  const hasPublishedProjects = publishedCount > 0;
 
-  assert.match(html, /Galerie en préparation/);
-  assert.doesNotMatch(html, /class="project-card"/);
+  if (hasPublishedProjects) {
+    assert.doesNotMatch(html, /Galerie en préparation/);
+    assert.match(html, /id="sector-filter"/);
+    assert.match(
+      homepage,
+      /class="button button-primary" href="\/realisations\/"/,
+    );
+  } else {
+    assert.match(html, /Galerie en préparation/);
+    assert.doesNotMatch(html, /id="sector-filter"/);
+    assert.match(homepage, /class="button button-primary" href="\/services\/"/);
+  }
+
+  assert.match(homepage, /href="\/realisations\/"/);
 });

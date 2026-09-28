@@ -1,6 +1,9 @@
 ---
 import { brand } from "../config/brand";
+import { projects } from "../data/projects";
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const hasPublishedProjects = projects.some((project) => project.published);
 ---
 
 <BaseLayout
@@ -20,12 +23,25 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         votre métier, puis on avance ensemble, étape par étape.
       </p>
       <div class="action-row">
-        <a class="button button-primary" href="/services/">
-          Comprendre ce que je propose
-        </a>
-        <a class="text-link" href="/methode/">
-          Voir comment se déroule un projet <span aria-hidden="true">↗</span>
-        </a>
+        {hasPublishedProjects ? (
+          <>
+            <a class="button button-primary" href="/realisations/">
+              Voir les réalisations
+            </a>
+            <a class="text-link" href="/services/">
+              Comprendre ce que je propose <span aria-hidden="true">↗</span>
+            </a>
+          </>
+        ) : (
+          <>
+            <a class="button button-primary" href="/services/">
+              Comprendre ce que je propose
+            </a>
+            <a class="text-link" href="/realisations/">
+              Suivre la galerie en préparation <span aria-hidden="true">↗</span>
+            </a>
+          </>
+        )}
       </div>
       <p class="preview-note">
         Le nom du studio et le parcours de contact sont encore en préparation.

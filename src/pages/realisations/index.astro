@@ -14,7 +14,10 @@ const availableSectors = [
   title={`Réalisations — ${brand.name}`}
   description="Galerie de créations web examinées et présentées avec leur véritable statut, leurs capacités et leurs limites. Préversion privée."
 >
-  <div class="page-shell inner-page">
+  <div
+    class="page-shell inner-page"
+    data-published-count={publishedProjects.length}
+  >
     <header class="page-intro">
       <p class="section-kicker">Réalisations</p>
       <h1>Des créations à regarder de près.</h1>
