@@ -254,6 +254,10 @@ p {
   font-size: clamp(1.12rem, 1.6vw, 1.35rem);
   line-height: 1.65;
 }
+.founder-intro {
+  margin-top: var(--space-2);
+  font-weight: 700;
+}
 .action-row {
   display: flex;
   flex-wrap: wrap;

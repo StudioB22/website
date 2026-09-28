@@ -70,4 +70,8 @@ test("the gallery and homepage adapt to the published catalogue", async () => {
   }
 
   assert.match(homepage, /href="\/realisations\/"/);
+  assert.match(
+    homepage,
+    /class="founder-intro">\s*Je suis Benoît Bremaud, fondateur de StudioB22\./,
+  );
 });
