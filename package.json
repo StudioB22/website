@@ -14,8 +14,9 @@
     "lint": "eslint \"src/**/*.ts\" \"tests/**/*.ts\"",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "vitest run",
-    "check": "npm run format:check && npm run lint && npm run typecheck && npm test && npm run build"
+    "test": "vitest run tests/*.test.ts",
+    "test:site": "node tests/site-build.test.mjs",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm test && npm run build && npm run test:site"
   },
   "dependencies": {
     "astro": "7.3.5",

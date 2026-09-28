@@ -1,0 +1,74 @@
+---
+import { brand } from "../../config/brand";
+import { sectorLabels, statusLabels } from "../../data/project-labels";
+import { projects } from "../../data/projects";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const publishedProjects = projects.filter((project) => project.published);
+---
+
+<BaseLayout
+  title={`Réalisations — ${brand.name}`}
+  description="Galerie de créations web examinées et présentées avec leur véritable statut, leurs capacités et leurs limites. Préversion privée."
+>
+  <div class="page-shell inner-page">
+    <header class="page-intro">
+      <p class="section-kicker">Réalisations</p>
+      <h1>Des créations à regarder de près.</h1>
+      <p>
+        Chaque exemple publié ici doit montrer un travail réel et vérifié. Les
+        maquettes et démonstrations seront nommées comme telles, sans les
+        présenter comme des commandes clients.
+      </p>
+    </header>
+    {publishedProjects.length === 0 ? (
+      <section class="empty-gallery" aria-labelledby="empty-title">
+        <span class="empty-symbol" aria-hidden="true">
+          ⌁
+        </span>
+        <div>
+          <p class="section-kicker">Galerie en préparation</p>
+          <h2 id="empty-title">
+            Les premières fiches ne sont pas encore prêtes à être montrées.
+          </h2>
+          <p>
+            Je vérifie les contenus, les droits des images, le rendu sur
+            différents écrans et la qualité des démonstrations avant
+            publication. Cette galerie s’enrichira progressivement, secteur par
+            secteur.
+          </p>
+          <a class="text-link" href="/services/">
+            En attendant, découvrir les services{" "}
+            <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </section>
+    ) : (
+      <div class="project-grid">
+        {publishedProjects.map((project) => (
+          <article class="project-card">
+            {project.previewAssets.slice(0, 1).map((asset) => (
+              <img
+                src={asset.src}
+                width={asset.width}
+                height={asset.height}
+                alt={asset.alt}
+                loading="lazy"
+              />
+            ))}
+            <div>
+              <p class="project-meta">
+                {sectorLabels[project.sector]} · {statusLabels[project.status]}
+              </p>
+              <h2>{project.title}</h2>
+              <p>{project.summary}</p>
+              <a class="text-link" href={`/realisations/${project.slug}/`}>
+                Voir cette création <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    )}
+  </div>
+</BaseLayout>
