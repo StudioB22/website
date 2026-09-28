@@ -5,7 +5,7 @@ import { parseProjects, projectSchema } from "../src/domain/project";
 const validProject = {
   slug: "atelier-floral",
   title: "Atelier floral",
-  sector: "Artisanat",
+  sector: "artisans-et-metiers",
   summary:
     "Une démonstration éditoriale conçue pour présenter clairement un savoir-faire artisanal.",
   status: "demonstrator",
@@ -76,7 +76,77 @@ describe("projectSchema", () => {
     const publishedProject = {
       ...validProject,
       published: true,
-      visualDirection: "Éditoriale et lumineuse",
+      visualDirection: "editoriale",
+      previewAssets: [
+        {
+          src: "/images/atelier-floral.webp",
+          width: 1600,
+          height: 1000,
+          alt: "Page d’accueil de la démonstration Atelier floral",
+          credit: "Conception StudioB22",
+          rights: "Création originale StudioB22",
+        },
+      ],
+      reviewDates: {
+        content: "2026-09-25",
+        rights: "2026-09-25",
+        security: "2026-09-25",
+        dependencies: "2026-09-25",
+        responsive: "2026-09-25",
+        demoMaturity: "2026-09-25",
+      },
+      reviewedDemoUrl: "https://demo.example.com/atelier-floral/",
+      publishedAt: "2026-09-25",
+    } as const;
+
+    // act
+    const result = projectSchema.parse(publishedProject);
+
+    // assert
+    expect(result).toEqual(publishedProject);
+  });
+
+  it("rejects an invalid demo URL on a published entry", () => {
+    // arrange
+    const publishedProject = {
+      ...validProject,
+      published: true,
+      visualDirection: "editoriale",
+      previewAssets: [
+        {
+          src: "/images/atelier-floral.webp",
+          width: 1600,
+          height: 1000,
+          alt: "Page d’accueil de la démonstration Atelier floral",
+          credit: "Conception StudioB22",
+          rights: "Création originale StudioB22",
+        },
+      ],
+      reviewDates: {
+        content: "2026-09-25",
+        rights: "2026-09-25",
+        security: "2026-09-25",
+        dependencies: "2026-09-25",
+        responsive: "2026-09-25",
+        demoMaturity: "2026-09-25",
+      },
+      reviewedDemoUrl: "not-a-url",
+      publishedAt: "2026-09-25",
+    } as const;
+
+    // act
+    const result = projectSchema.safeParse(publishedProject);
+
+    // assert
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects a live demo without dependency and responsive review evidence", () => {
+    // arrange
+    const insufficientlyReviewedDemo = {
+      ...validProject,
+      published: true,
+      visualDirection: "editoriale",
       previewAssets: [
         {
           src: "/images/atelier-floral.webp",
@@ -98,15 +168,29 @@ describe("projectSchema", () => {
     } as const;
 
     // act
-    const result = projectSchema.parse(publishedProject);
+    const result = projectSchema.safeParse(insufficientlyReviewedDemo);
 
     // assert
-    expect(result).toEqual(publishedProject);
+    expect(result.success).toBe(false);
   });
 
-  it("rejects an invalid demo URL on a published entry", () => {
+  it("rejects an uncontrolled sector value", () => {
     // arrange
-    const publishedProject = {
+    const uncontrolledProject = {
+      ...validProject,
+      sector: "Artisanat",
+    };
+
+    // act
+    const result = projectSchema.safeParse(uncontrolledProject);
+
+    // assert
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects an uncontrolled visual-direction value", () => {
+    // arrange
+    const uncontrolledProject = {
       ...validProject,
       published: true,
       visualDirection: "Éditoriale et lumineuse",
@@ -124,9 +208,44 @@ describe("projectSchema", () => {
         content: "2026-09-25",
         rights: "2026-09-25",
         security: "2026-09-25",
+        dependencies: "2026-09-25",
+        responsive: "2026-09-25",
         demoMaturity: "2026-09-25",
       },
-      reviewedDemoUrl: "not-a-url",
+      publishedAt: "2026-09-25",
+    } as const;
+
+    // act
+    const result = projectSchema.safeParse(uncontrolledProject);
+
+    // assert
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects protocol-relative preview asset paths", () => {
+    // arrange
+    const publishedProject = {
+      ...validProject,
+      published: true,
+      visualDirection: "editoriale",
+      previewAssets: [
+        {
+          src: "//images/atelier-floral.webp",
+          width: 1600,
+          height: 1000,
+          alt: "Page d’accueil de la démonstration Atelier floral",
+          credit: "Conception StudioB22",
+          rights: "Création originale StudioB22",
+        },
+      ],
+      reviewDates: {
+        content: "2026-09-25",
+        rights: "2026-09-25",
+        security: "2026-09-25",
+        dependencies: "2026-09-25",
+        responsive: "2026-09-25",
+        demoMaturity: "2026-09-25",
+      },
       publishedAt: "2026-09-25",
     } as const;
 

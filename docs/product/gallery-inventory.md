@@ -86,3 +86,10 @@ The implementation schema should include at least:
 - optional source reference kept private at build time;
 - review dates for content, rights, security, and demo maturity;
 - display order based on editorial relevance, never repository creation date alone.
+
+The initial sector vocabulary uses stable identifiers: `artisans-et-metiers`,
+`restauration-et-hospitalite`, `commerce`, `beaute-et-bien-etre`, `sante`, `immobilier`, `sport`,
+`photographie`, and `services-locaux`. The initial visual-direction vocabulary is `editoriale`,
+`chaleureuse-et-organique`, `contemporaine-et-affirmee`, `elegante-et-minimale`,
+`ludique-et-coloree`, and `technique-et-fonctionnelle`. Visitor-facing French labels remain a
+presentation concern; changing an identifier requires an explicit catalogue migration.

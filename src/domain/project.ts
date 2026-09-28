@@ -8,10 +8,31 @@ export const projectStatusSchema = z.enum([
   "archived-experiment",
 ]);
 
+export const projectSectorSchema = z.enum([
+  "artisans-et-metiers",
+  "restauration-et-hospitalite",
+  "commerce",
+  "beaute-et-bien-etre",
+  "sante",
+  "immobilier",
+  "sport",
+  "photographie",
+  "services-locaux",
+]);
+
+export const visualDirectionSchema = z.enum([
+  "editoriale",
+  "chaleureuse-et-organique",
+  "contemporaine-et-affirmee",
+  "elegante-et-minimale",
+  "ludique-et-coloree",
+  "technique-et-fonctionnelle",
+]);
+
 const projectCoreSchema = z.object({
   slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   title: z.string().trim().min(1),
-  sector: z.string().trim().min(1),
+  sector: projectSectorSchema,
   summary: z.string().trim().min(40).max(220),
   status: projectStatusSchema,
   demonstratedCapabilities: z.array(z.string().trim().min(1)).min(1),
@@ -21,7 +42,9 @@ const projectCoreSchema = z.object({
 });
 
 const previewAssetSchema = z.object({
-  src: z.string().regex(/^\/[a-zA-Z0-9/_-]+\.[a-zA-Z0-9]+$/),
+  src: z
+    .string()
+    .regex(/^\/[a-zA-Z0-9_-]+(?:\/[a-zA-Z0-9_-]+)*\.[a-zA-Z0-9]+$/),
   width: z.int().positive(),
   height: z.int().positive(),
   alt: z.string().trim().min(1),
@@ -33,6 +56,8 @@ const reviewDatesSchema = z.object({
   content: z.iso.date(),
   rights: z.iso.date(),
   security: z.iso.date(),
+  dependencies: z.iso.date(),
+  responsive: z.iso.date(),
   demoMaturity: z.iso.date(),
 });
 
@@ -42,7 +67,7 @@ const draftProjectSchema = projectCoreSchema.extend({
 
 const publishedProjectSchema = projectCoreSchema.extend({
   published: z.literal(true),
-  visualDirection: z.string().trim().min(1),
+  visualDirection: visualDirectionSchema,
   previewAssets: z.array(previewAssetSchema).min(1),
   reviewDates: reviewDatesSchema,
   reviewedDemoUrl: z.url().optional(),
