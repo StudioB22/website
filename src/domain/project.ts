@@ -45,6 +45,7 @@ const publishedProjectSchema = projectCoreSchema.extend({
   visualDirection: z.string().trim().min(1),
   previewAssets: z.array(previewAssetSchema).min(1),
   reviewDates: reviewDatesSchema,
+  reviewedDemoUrl: z.url().optional(),
   publishedAt: z.iso.date(),
 });
 

@@ -6,6 +6,7 @@ export const brand = {
   founder: "Benoît Bremaud",
   locale: "fr-FR",
   isProvisional: true,
+  publicLaunchApproved: false,
   canonicalOrigin: null,
   contactEmail: null,
 } as const satisfies Brand;

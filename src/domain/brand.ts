@@ -10,6 +10,7 @@ export const brandSchema = z.object({
   founder: z.string().trim().min(1),
   locale: z.literal("fr-FR"),
   isProvisional: z.boolean(),
+  publicLaunchApproved: z.boolean(),
   canonicalOrigin: z.url().nullable(),
   contactEmail: z.email().nullable(),
 });
@@ -25,11 +26,12 @@ export const validateBrandForRelease = (
   if (
     releaseChannel === "public" &&
     (brand.isProvisional ||
+      !brand.publicLaunchApproved ||
       brand.canonicalOrigin === null ||
       brand.contactEmail === null)
   ) {
     throw new Error(
-      "A public release requires an approved brand, canonical origin, and contact email.",
+      "A public release requires an approved brand, explicit launch approval, canonical origin, and contact email.",
     );
   }
 

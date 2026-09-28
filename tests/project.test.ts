@@ -93,6 +93,7 @@ describe("projectSchema", () => {
         security: "2026-09-25",
         demoMaturity: "2026-09-25",
       },
+      reviewedDemoUrl: "https://demo.example.com/atelier-floral/",
       publishedAt: "2026-09-25",
     } as const;
 
@@ -101,6 +102,39 @@ describe("projectSchema", () => {
 
     // assert
     expect(result).toEqual(publishedProject);
+  });
+
+  it("rejects an invalid demo URL on a published entry", () => {
+    // arrange
+    const publishedProject = {
+      ...validProject,
+      published: true,
+      visualDirection: "Éditoriale et lumineuse",
+      previewAssets: [
+        {
+          src: "/images/atelier-floral.webp",
+          width: 1600,
+          height: 1000,
+          alt: "Page d’accueil de la démonstration Atelier floral",
+          credit: "Conception StudioB22",
+          rights: "Création originale StudioB22",
+        },
+      ],
+      reviewDates: {
+        content: "2026-09-25",
+        rights: "2026-09-25",
+        security: "2026-09-25",
+        demoMaturity: "2026-09-25",
+      },
+      reviewedDemoUrl: "not-a-url",
+      publishedAt: "2026-09-25",
+    } as const;
+
+    // act
+    const result = projectSchema.safeParse(publishedProject);
+
+    // assert
+    expect(result.success).toBe(false);
   });
 
   it("keeps an empty reviewed catalogue valid during foundation work", () => {

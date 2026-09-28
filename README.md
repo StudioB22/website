@@ -51,8 +51,9 @@ npm run check
 ```
 
 The safe default is `PUBLIC_RELEASE_CHANNEL=preview`, which keeps the generated page
-non-indexable. A `public` build fails while the identity is provisional or the canonical
-origin and professional contact email are missing. Copy `.env.example` only when an
+non-indexable. A `public` build fails until the identity is final, the canonical origin and
+professional contact email exist, and the release 1.0 gates have received explicit launch
+approval in the central brand configuration. Copy `.env.example` only when an
 explicit local environment file is useful; never commit credentials.
 
 ## Current foundation boundaries

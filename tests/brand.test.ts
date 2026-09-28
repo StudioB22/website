@@ -25,6 +25,7 @@ describe("validateBrandForRelease", () => {
       ...brand,
       name: "Approved studio",
       isProvisional: false,
+      publicLaunchApproved: true,
       canonicalOrigin: "https://example.com",
       contactEmail: "contact@example.com",
     } as const;
@@ -34,5 +35,21 @@ describe("validateBrandForRelease", () => {
 
     // assert
     expect(result).toEqual(approvedBrand);
+  });
+
+  it("rejects a public release until all launch gates are explicitly approved", () => {
+    // arrange
+    const unapprovedLaunch = {
+      ...brand,
+      name: "Approved studio",
+      isProvisional: false,
+      canonicalOrigin: "https://example.com",
+      contactEmail: "contact@example.com",
+    } as const;
+
+    // act / assert
+    expect(() => validateBrandForRelease(unapprovedLaunch, "public")).toThrow(
+      "explicit launch approval",
+    );
   });
 });
