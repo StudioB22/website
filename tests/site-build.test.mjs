@@ -56,6 +56,9 @@ test("the gallery and homepage adapt to the published catalogue", async () => {
   assert.ok(Number.isInteger(publishedCount));
   const renderedCards = [...html.matchAll(/class="project-card"/g)].length;
   assert.equal(renderedCards, publishedCount);
+  const visibleDirections = [...html.matchAll(/class="project-direction"/g)]
+    .length;
+  assert.equal(visibleDirections, publishedCount);
   const hasPublishedProjects = publishedCount > 0;
 
   if (hasPublishedProjects) {

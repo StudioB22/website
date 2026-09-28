@@ -1,6 +1,10 @@
 ---
 import { brand } from "../../config/brand";
-import { sectorLabels, statusLabels } from "../../data/project-labels";
+import {
+  sectorLabels,
+  statusLabels,
+  visualDirectionLabels,
+} from "../../data/project-labels";
 import { projects } from "../../data/projects";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
@@ -77,6 +81,10 @@ const availableSectors = [
                 <p class="project-meta">
                   {sectorLabels[project.sector]} ·{" "}
                   {statusLabels[project.status]}
+                </p>
+                <p class="project-direction">
+                  Direction visuelle :{" "}
+                  {visualDirectionLabels[project.visualDirection]}
                 </p>
                 <h2>{project.title}</h2>
                 <p>{project.summary}</p>
