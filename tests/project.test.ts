@@ -304,6 +304,56 @@ describe("projectSchema", () => {
     expect(result.success).toBe(false);
   });
 
+  it("rejects a preview asset with a non-image extension", () => {
+    // arrange
+    const publishedProject = {
+      ...validProject,
+      published: true,
+      visualDirection: "editoriale",
+      previewAssets: [
+        {
+          src: "/images/atelier-floral.txt",
+          width: 1600,
+          height: 1000,
+          alt: "Page d’accueil de la démonstration Atelier floral",
+          credit: "Conception StudioB22",
+          rights: "Création originale StudioB22",
+        },
+      ],
+      reviewDates: {
+        content: "2026-09-25",
+        rights: "2026-09-25",
+        security: "2026-09-25",
+        dependencies: "2026-09-25",
+        accessibility: "2026-09-25",
+        performance: "2026-09-25",
+        responsive: "2026-09-25",
+        demoMaturity: "2026-09-25",
+      },
+      publishedAt: "2026-09-25",
+    } as const;
+
+    // act
+    const result = projectSchema.safeParse(publishedProject);
+
+    // assert
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects future-dated review evidence", () => {
+    // arrange
+    const futureReview = {
+      ...validProject,
+      reviewedAt: "2999-01-01",
+    };
+
+    // act
+    const result = projectSchema.safeParse(futureReview);
+
+    // assert
+    expect(result.success).toBe(false);
+  });
+
   it("keeps an empty reviewed catalogue valid during foundation work", () => {
     // arrange / act
     const result = parseProjects([]);
