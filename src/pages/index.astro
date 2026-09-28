@@ -162,10 +162,21 @@ const hasPublishedProjects = projects.some((project) => project.published);
     </div>
     <div>
       <p>
-        La galerie présentera progressivement des maquettes, démonstrations et
-        projets réalisés. Chaque création indiquera clairement son statut, ce
-        qu’elle montre et ses limites. Les premières fiches sont en cours de
-        vérification.
+        {hasPublishedProjects ? (
+          <>
+            La galerie présente des maquettes, démonstrations et projets
+            réalisés après vérification. Chaque création indique clairement son
+            statut, ce qu’elle montre et ses limites. D’autres exemples seront
+            ajoutés progressivement.
+          </>
+        ) : (
+          <>
+            La galerie présentera progressivement des maquettes, démonstrations
+            et projets réalisés. Chaque création indiquera clairement son
+            statut, ce qu’elle montre et ses limites. Les premières fiches sont
+            en cours de vérification.
+          </>
+        )}
       </p>
       <a class="text-link" href="/realisations/">
         Découvrir la galerie <span aria-hidden="true">↗</span>

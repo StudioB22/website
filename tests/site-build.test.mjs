@@ -4,6 +4,8 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
 
+import { brand } from "../src/config/brand.ts";
+
 const distDirectory = fileURLToPath(new URL("../dist/", import.meta.url));
 const routes = ["/", "/realisations/", "/services/", "/methode/", "/a-propos/"];
 
@@ -58,6 +60,8 @@ test("the gallery and homepage adapt to the published catalogue", async () => {
 
   if (hasPublishedProjects) {
     assert.doesNotMatch(html, /Galerie en préparation/);
+    assert.doesNotMatch(homepage, /premières fiches sont en cours de/);
+    assert.match(homepage, /D’autres exemples seront/);
     assert.match(html, /id="sector-filter"/);
     assert.match(
       homepage,
@@ -65,13 +69,17 @@ test("the gallery and homepage adapt to the published catalogue", async () => {
     );
   } else {
     assert.match(html, /Galerie en préparation/);
+    assert.match(homepage, /premières fiches sont en cours de/);
     assert.doesNotMatch(html, /id="sector-filter"/);
     assert.match(homepage, /class="button button-primary" href="\/services\/"/);
   }
 
   assert.match(homepage, /href="\/realisations\/"/);
-  assert.match(
-    homepage,
-    /class="founder-intro">\s*Je suis Benoît Bremaud, fondateur de StudioB22\./,
+  const founderIntro = homepage
+    .match(/<p class="founder-intro">([^<]+)<\/p>/)?.[1]
+    .trim();
+  assert.equal(
+    founderIntro,
+    `Je suis ${brand.founder}, fondateur de ${brand.name}.`,
   );
 });
