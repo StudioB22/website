@@ -61,6 +61,13 @@ const reviewDatesSchema = z.object({
   demoMaturity: z.iso.date(),
 });
 
+const secureWebUrlSchema = z
+  .url()
+  .refine(
+    (value) => URL.canParse(value) && new URL(value).protocol === "https:",
+    "Expected an HTTPS URL",
+  );
+
 const draftProjectSchema = projectCoreSchema.extend({
   published: z.literal(false),
 });
@@ -70,7 +77,7 @@ const publishedProjectSchema = projectCoreSchema.extend({
   visualDirection: visualDirectionSchema,
   previewAssets: z.array(previewAssetSchema).min(1),
   reviewDates: reviewDatesSchema,
-  reviewedDemoUrl: z.url().optional(),
+  reviewedDemoUrl: secureWebUrlSchema.optional(),
   publishedAt: z.iso.date(),
 });
 
@@ -81,5 +88,43 @@ export const projectSchema = z.discriminatedUnion("published", [
 
 export type Project = z.infer<typeof projectSchema>;
 
-export const parseProjects = (input: readonly unknown[]): readonly Project[] =>
-  z.array(projectSchema).parse(input);
+const projectListSchema = z
+  .array(projectSchema)
+  .superRefine((projects, context) => {
+    const knownSlugs = new Set<string>();
+
+    projects.forEach((project, index) => {
+      if (knownSlugs.has(project.slug)) {
+        context.addIssue({
+          code: "custom",
+          message: `Duplicate project slug: ${project.slug}`,
+          path: [index, "slug"],
+        });
+      }
+
+      knownSlugs.add(project.slug);
+    });
+  });
+
+export const parseProjects = (
+  input: readonly unknown[],
+  availableAssetPaths: ReadonlySet<string> = new Set(),
+): readonly Project[] => {
+  const projects = projectListSchema.parse(input);
+
+  for (const project of projects) {
+    if (!project.published) {
+      continue;
+    }
+
+    for (const asset of project.previewAssets) {
+      if (!availableAssetPaths.has(asset.src)) {
+        throw new Error(
+          `Published project ${project.slug} references a missing preview asset: ${asset.src}`,
+        );
+      }
+    }
+  }
+
+  return projects;
+};

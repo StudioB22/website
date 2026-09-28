@@ -52,4 +52,23 @@ describe("validateBrandForRelease", () => {
       "explicit launch approval",
     );
   });
+
+  it.each([
+    "mailto:contact@example.com",
+    "ftp://example.com",
+    "https://example.com/studio",
+    "https://example.com?campaign=launch",
+  ])("rejects %s as a canonical origin", (canonicalOrigin) => {
+    // arrange
+    const invalidOrigin = {
+      ...brand,
+      canonicalOrigin,
+    };
+
+    // act
+    const result = () => validateBrandForRelease(invalidOrigin, "preview");
+
+    // assert
+    expect(result).toThrow("Expected an HTTP(S) origin");
+  });
 });

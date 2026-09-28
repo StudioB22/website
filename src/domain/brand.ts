@@ -4,6 +4,23 @@ export const releaseChannelSchema = z.enum(["preview", "public"]);
 
 export type ReleaseChannel = z.infer<typeof releaseChannelSchema>;
 
+const webOriginSchema = z.url().refine((value) => {
+  if (!URL.canParse(value)) {
+    return false;
+  }
+
+  const url = new URL(value);
+
+  return (
+    (url.protocol === "https:" || url.protocol === "http:") &&
+    url.pathname === "/" &&
+    url.search === "" &&
+    url.hash === "" &&
+    url.username === "" &&
+    url.password === ""
+  );
+}, "Expected an HTTP(S) origin without credentials, path, query, or fragment");
+
 export const brandSchema = z.object({
   name: z.string().trim().min(1),
   descriptor: z.string().trim().min(1),
@@ -11,7 +28,7 @@ export const brandSchema = z.object({
   locale: z.literal("fr-FR"),
   isProvisional: z.boolean(),
   publicLaunchApproved: z.boolean(),
-  canonicalOrigin: z.url().nullable(),
+  canonicalOrigin: webOriginSchema.nullable(),
   contactEmail: z.email().nullable(),
 });
 

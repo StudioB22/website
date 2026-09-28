@@ -141,6 +141,44 @@ describe("projectSchema", () => {
     expect(result.success).toBe(false);
   });
 
+  it.each(["mailto:test@example.com", "http://demo.example.com"])(
+    "rejects the non-HTTPS demo URL %s",
+    (reviewedDemoUrl) => {
+      // arrange
+      const publishedProject = {
+        ...validProject,
+        published: true,
+        visualDirection: "editoriale",
+        previewAssets: [
+          {
+            src: "/images/atelier-floral.webp",
+            width: 1600,
+            height: 1000,
+            alt: "Page d’accueil de la démonstration Atelier floral",
+            credit: "Conception StudioB22",
+            rights: "Création originale StudioB22",
+          },
+        ],
+        reviewDates: {
+          content: "2026-09-25",
+          rights: "2026-09-25",
+          security: "2026-09-25",
+          dependencies: "2026-09-25",
+          responsive: "2026-09-25",
+          demoMaturity: "2026-09-25",
+        },
+        reviewedDemoUrl,
+        publishedAt: "2026-09-25",
+      } as const;
+
+      // act
+      const result = projectSchema.safeParse(publishedProject);
+
+      // assert
+      expect(result.success).toBe(false);
+    },
+  );
+
   it("rejects a live demo without dependency and responsive review evidence", () => {
     // arrange
     const insufficientlyReviewedDemo = {
@@ -262,5 +300,48 @@ describe("projectSchema", () => {
 
     // assert
     expect(result).toEqual([]);
+  });
+
+  it("rejects duplicate catalogue slugs", () => {
+    // arrange
+    const duplicateProjects = [validProject, { ...validProject }];
+
+    // act / assert
+    expect(() => parseProjects(duplicateProjects)).toThrow(
+      "Duplicate project slug",
+    );
+  });
+
+  it("rejects a published entry whose preview asset is unavailable", () => {
+    // arrange
+    const publishedProject = {
+      ...validProject,
+      published: true,
+      visualDirection: "editoriale",
+      previewAssets: [
+        {
+          src: "/images/missing.webp",
+          width: 1600,
+          height: 1000,
+          alt: "Page d’accueil de la démonstration Atelier floral",
+          credit: "Conception StudioB22",
+          rights: "Création originale StudioB22",
+        },
+      ],
+      reviewDates: {
+        content: "2026-09-25",
+        rights: "2026-09-25",
+        security: "2026-09-25",
+        dependencies: "2026-09-25",
+        responsive: "2026-09-25",
+        demoMaturity: "2026-09-25",
+      },
+      publishedAt: "2026-09-25",
+    } as const;
+
+    // act / assert
+    expect(() => parseProjects([publishedProject], new Set())).toThrow(
+      "references a missing preview asset",
+    );
   });
 });
