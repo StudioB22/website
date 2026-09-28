@@ -92,6 +92,8 @@ describe("projectSchema", () => {
         rights: "2026-09-25",
         security: "2026-09-25",
         dependencies: "2026-09-25",
+        accessibility: "2026-09-25",
+        performance: "2026-09-25",
         responsive: "2026-09-25",
         demoMaturity: "2026-09-25",
       },
@@ -127,6 +129,8 @@ describe("projectSchema", () => {
         rights: "2026-09-25",
         security: "2026-09-25",
         dependencies: "2026-09-25",
+        accessibility: "2026-09-25",
+        performance: "2026-09-25",
         responsive: "2026-09-25",
         demoMaturity: "2026-09-25",
       },
@@ -164,6 +168,8 @@ describe("projectSchema", () => {
           rights: "2026-09-25",
           security: "2026-09-25",
           dependencies: "2026-09-25",
+          accessibility: "2026-09-25",
+          performance: "2026-09-25",
           responsive: "2026-09-25",
           demoMaturity: "2026-09-25",
         },
@@ -179,7 +185,7 @@ describe("projectSchema", () => {
     },
   );
 
-  it("rejects a live demo without dependency and responsive review evidence", () => {
+  it("rejects a live demo without all required review evidence", () => {
     // arrange
     const insufficientlyReviewedDemo = {
       ...validProject,
@@ -247,6 +253,8 @@ describe("projectSchema", () => {
         rights: "2026-09-25",
         security: "2026-09-25",
         dependencies: "2026-09-25",
+        accessibility: "2026-09-25",
+        performance: "2026-09-25",
         responsive: "2026-09-25",
         demoMaturity: "2026-09-25",
       },
@@ -281,6 +289,8 @@ describe("projectSchema", () => {
         rights: "2026-09-25",
         security: "2026-09-25",
         dependencies: "2026-09-25",
+        accessibility: "2026-09-25",
+        performance: "2026-09-25",
         responsive: "2026-09-25",
         demoMaturity: "2026-09-25",
       },
@@ -333,6 +343,8 @@ describe("projectSchema", () => {
         rights: "2026-09-25",
         security: "2026-09-25",
         dependencies: "2026-09-25",
+        accessibility: "2026-09-25",
+        performance: "2026-09-25",
         responsive: "2026-09-25",
         demoMaturity: "2026-09-25",
       },

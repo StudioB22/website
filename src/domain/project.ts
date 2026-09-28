@@ -57,6 +57,8 @@ const reviewDatesSchema = z.object({
   rights: z.iso.date(),
   security: z.iso.date(),
   dependencies: z.iso.date(),
+  accessibility: z.iso.date(),
+  performance: z.iso.date(),
   responsive: z.iso.date(),
   demoMaturity: z.iso.date(),
 });
