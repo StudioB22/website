@@ -61,4 +61,7 @@ explicit local environment file is useful; never commit credentials.
 - The working identity is centralised in `src/config/brand.ts`.
 - Catalogue entries are validated by `src/domain/project.ts` before publication.
 - Inactive external services contribute no SDK, endpoint, script, cookie, or embed.
-- CI separates the quality gate, CodeQL, dependency review, and Gitleaks scans.
+- CI separates the quality gate, CodeQL, dependency audit, and Gitleaks scans.
+- Because this private repository does not currently expose GitHub Advanced Security, CodeQL and
+  Gitleaks preserve SARIF artefacts for review, while a blocking npm audit replaces GitHub's
+  unavailable dependency-review service.
