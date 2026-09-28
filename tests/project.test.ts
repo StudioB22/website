@@ -8,7 +8,7 @@ const validProject = {
   sector: "Artisanat",
   summary:
     "Une démonstration éditoriale conçue pour présenter clairement un savoir-faire artisanal.",
-  status: "demonstration",
+  status: "demonstrator",
   demonstratedCapabilities: ["Direction éditoriale", "Interface responsive"],
   credits: ["Conception StudioB22"],
   limitations: ["Démonstration sans client réel"],
@@ -38,6 +38,69 @@ describe("projectSchema", () => {
 
     // assert
     expect(result.success).toBe(false);
+  });
+
+  it.each([
+    "concept",
+    "mock-up",
+    "demonstrator",
+    "client-work",
+    "archived-experiment",
+  ] as const)("accepts the approved %s status", (status) => {
+    // arrange
+    const candidate = { ...validProject, status };
+
+    // act
+    const result = projectSchema.safeParse(candidate);
+
+    // assert
+    expect(result.success).toBe(true);
+  });
+
+  it("rejects a published entry without publication evidence", () => {
+    // arrange
+    const incompletePublishedProject = {
+      ...validProject,
+      published: true,
+    };
+
+    // act
+    const result = projectSchema.safeParse(incompletePublishedProject);
+
+    // assert
+    expect(result.success).toBe(false);
+  });
+
+  it("accepts a published entry with complete publication evidence", () => {
+    // arrange
+    const publishedProject = {
+      ...validProject,
+      published: true,
+      visualDirection: "Éditoriale et lumineuse",
+      previewAssets: [
+        {
+          src: "/images/atelier-floral.webp",
+          width: 1600,
+          height: 1000,
+          alt: "Page d’accueil de la démonstration Atelier floral",
+          credit: "Conception StudioB22",
+          rights: "Création originale StudioB22",
+        },
+      ],
+      reviewDates: {
+        content: "2026-09-25",
+        rights: "2026-09-25",
+        security: "2026-09-25",
+        demoMaturity: "2026-09-25",
+      },
+      publishedAt: "2026-09-25",
+    } as const;
+
+    // act
+    const result = projectSchema.parse(publishedProject);
+
+    // assert
+    expect(result).toEqual(publishedProject);
   });
 
   it("keeps an empty reviewed catalogue valid during foundation work", () => {
