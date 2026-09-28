@@ -1,0 +1,22 @@
+---
+import { brand } from "../config/brand";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title={`${brand.name} — Préversion privée`}
+  description="Préversion privée du futur site commercial de Benoît Bremaud."
+>
+  <section class="hero" aria-labelledby="hero-title">
+    <p class="eyebrow">Préversion privée · Socle technique</p>
+    <h1 id="hero-title">{brand.descriptor}</h1>
+    <p class="hero-copy">
+      Le produit entre en construction. Cette première étape valide une base
+      sobre, accessible, rapide et indépendante du futur nom définitif.
+    </p>
+    <div class="status" role="status">
+      <strong>Lot en cours :</strong> fondations techniques, contrats de
+      données, tests et sécurité de livraison.
+    </div>
+  </section>
+</BaseLayout>

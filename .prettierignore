@@ -1,0 +1,7 @@
+.astro
+.claude
+dist
+docs
+node_modules
+package-lock.json
+PROJECT_LOG.md
