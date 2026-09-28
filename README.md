@@ -4,12 +4,14 @@ Public commercial website for Benoît Bremaud's future web studio. `StudioB22` i
 working name: the product architecture must remain independent from the final brand,
 domain, and email identity.
 
-The project is currently in its conception phase. No production website, client
-portal, authentication, payment, or personal-data collection is implemented yet.
+The approved conception is now being implemented as a static Astro website. No
+production website, client portal, application authentication, payment, connected
+form, analytics, or provider integration is implemented yet.
 
 ## Current work
 
-- Product conception: [issue #1](https://github.com/StudioB22/website/issues/1)
+- Foundation implementation: [issue #3](https://github.com/StudioB22/website/issues/3)
+- Approved conception: [issue #1](https://github.com/StudioB22/website/issues/1)
 - Public website specification: [`docs/architecture/specs/public-website-mvp.md`](docs/architecture/specs/public-website-mvp.md)
 - Positioning and offer: [`docs/product/positioning-and-offer.md`](docs/product/positioning-and-offer.md)
 - Information architecture: [`docs/product/site-map.md`](docs/product/site-map.md)
@@ -27,3 +29,36 @@ portal, authentication, payment, or personal-data collection is implemented yet.
 4. Enrich the gallery progressively from the 157-repository backlog over the following weeks and months.
 5. Add release 1.1 qualification features only after their data flow and safeguards are approved.
 6. Keep the authenticated client portal as a separately conceived product.
+
+## Local development
+
+Requirements:
+
+- Node.js 22.12 or later;
+- npm 9.6.5 or later.
+
+Install and run the private-preview build:
+
+```bash
+npm install
+npm run dev
+```
+
+Run the complete local quality gate:
+
+```bash
+npm run check
+```
+
+The safe default is `PUBLIC_RELEASE_CHANNEL=preview`, which keeps the generated page
+non-indexable. A `public` build fails while the identity is provisional or the canonical
+origin and professional contact email are missing. Copy `.env.example` only when an
+explicit local environment file is useful; never commit credentials.
+
+## Current foundation boundaries
+
+- Astro generates static HTML; no application server or runtime database exists.
+- The working identity is centralised in `src/config/brand.ts`.
+- Catalogue entries are validated by `src/domain/project.ts` before publication.
+- Inactive external services contribute no SDK, endpoint, script, cookie, or embed.
+- CI separates the quality gate, CodeQL, dependency review, and Gitleaks scans.

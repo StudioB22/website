@@ -1,0 +1,51 @@
+---
+import { brand } from "../config/brand";
+import { releaseChannelSchema, validateBrandForRelease } from "../domain/brand";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const releaseChannel = releaseChannelSchema.parse(
+  import.meta.env.PUBLIC_RELEASE_CHANNEL ?? "preview",
+);
+const activeBrand = validateBrandForRelease(brand, releaseChannel);
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta
+      name="robots"
+      content={
+        releaseChannel === "preview" ? "noindex, nofollow" : "index, follow"
+      }
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#contenu">
+      Aller au contenu
+    </a>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label={`${activeBrand.name} — accueil`}>
+        <span>{activeBrand.name}</span>
+        {activeBrand.isProvisional && <small>Nom de travail</small>}
+      </a>
+    </header>
+    <main id="contenu">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <p>Préversion privée — identité et contenus en cours de validation.</p>
+      <p>Responsable du projet : {activeBrand.founder}</p>
+    </footer>
+  </body>
+</html>

@@ -2,6 +2,17 @@
 
 ## 2026-09-25
 
+- **PR #2 merged** (`69ddd96`) — `docs(public-website): define commercial website conception`.
+  Squash-merged branch `docs/public-website-conception` after ten review rounds and fifteen inline
+  findings. The final package defines the product boundary, staged releases, static architecture,
+  provisional-brand control, offer, gallery intake, responsible AI position, privacy flows, access
+  gates, and verification plan. Issue #1 was closed after merge.
+- **Foundation implementation opened**
+  ([issue #3](https://github.com/StudioB22/website/issues/3)) — Created the first implementation lot
+  for the Astro static foundation, typed identity and catalogue contracts, tests, local quality gate,
+  and mandatory security workflows. Added the issue to the organisation delivery project as
+  `StudioB22 — site commercial`, `High`, and `In Progress`.
+
 - **Repository initialised** (`3cf8242`) — Created the private
   `StudioB22/website` repository for the public commercial website. The repository name
   deliberately remains independent from the final agency brand.
