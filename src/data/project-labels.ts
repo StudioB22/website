@@ -33,3 +33,23 @@ export const visualDirectionLabels: Record<
   "ludique-et-coloree": "Ludique et colorée",
   "technique-et-fonctionnelle": "Technique et fonctionnelle",
 };
+
+export const reviewDateLabels: Record<
+  keyof PublishedProject["reviewDates"],
+  string
+> = {
+  content: "Contenu",
+  rights: "Droits",
+  security: "Sécurité",
+  dependencies: "Dépendances",
+  accessibility: "Accessibilité",
+  performance: "Performance",
+  responsive: "Adaptation aux écrans",
+  demoMaturity: "Maturité de la démonstration",
+};
+
+export const formatReviewDate = (date: string): string =>
+  new Intl.DateTimeFormat("fr-FR", {
+    dateStyle: "medium",
+    timeZone: "UTC",
+  }).format(new Date(`${date}T12:00:00Z`));

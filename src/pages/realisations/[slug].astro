@@ -4,6 +4,8 @@ import {
   sectorLabels,
   statusLabels,
   visualDirectionLabels,
+  reviewDateLabels,
+  formatReviewDate,
 } from "../../data/project-labels";
 import { projects } from "../../data/projects";
 import type { Project } from "../../domain/project";
@@ -82,6 +84,21 @@ const { project } = Astro.props;
               <li>{credit}</li>
             ))}
           </ul>
+        </section>
+        <section>
+          <h2>Vérifications</h2>
+          <dl class="review-dates">
+            {Object.entries(project.reviewDates).map(([key, date]) => (
+              <div>
+                <dt>
+                  {reviewDateLabels[key as keyof typeof reviewDateLabels]}
+                </dt>
+                <dd>
+                  <time datetime={date}>{formatReviewDate(date)}</time>
+                </dd>
+              </div>
+            ))}
+          </dl>
         </section>
         {project.reviewedDemoUrl && (
           <a

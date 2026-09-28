@@ -5,6 +5,9 @@ import { projects } from "../../data/projects";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const publishedProjects = projects.filter((project) => project.published);
+const availableSectors = [
+  ...new Set(publishedProjects.map((project) => project.sector)),
+];
 ---
 
 <BaseLayout
@@ -44,31 +47,69 @@ const publishedProjects = projects.filter((project) => project.published);
         </div>
       </section>
     ) : (
-      <div class="project-grid">
-        {publishedProjects.map((project) => (
-          <article class="project-card">
-            {project.previewAssets.slice(0, 1).map((asset) => (
-              <img
-                src={asset.src}
-                width={asset.width}
-                height={asset.height}
-                alt={asset.alt}
-                loading="lazy"
-              />
+      <div>
+        <div class="gallery-filter" hidden>
+          <label for="sector-filter">Filtrer par secteur</label>
+          <select id="sector-filter" name="secteur">
+            <option value="">Tous les secteurs</option>
+            {availableSectors.map((sector) => (
+              <option value={sector}>{sectorLabels[sector]}</option>
             ))}
-            <div>
-              <p class="project-meta">
-                {sectorLabels[project.sector]} · {statusLabels[project.status]}
-              </p>
-              <h2>{project.title}</h2>
-              <p>{project.summary}</p>
-              <a class="text-link" href={`/realisations/${project.slug}/`}>
-                Voir cette création <span aria-hidden="true">↗</span>
-              </a>
-            </div>
-          </article>
-        ))}
+          </select>
+          <p id="filter-count" aria-live="polite"></p>
+        </div>
+        <div class="project-grid">
+          {publishedProjects.map((project) => (
+            <article class="project-card" data-sector={project.sector}>
+              {project.previewAssets.slice(0, 1).map((asset) => (
+                <img
+                  src={asset.src}
+                  width={asset.width}
+                  height={asset.height}
+                  alt={asset.alt}
+                  loading="lazy"
+                />
+              ))}
+              <div>
+                <p class="project-meta">
+                  {sectorLabels[project.sector]} ·{" "}
+                  {statusLabels[project.status]}
+                </p>
+                <h2>{project.title}</h2>
+                <p>{project.summary}</p>
+                <a class="text-link" href={`/realisations/${project.slug}/`}>
+                  Voir cette création <span aria-hidden="true">↗</span>
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
     )}
   </div>
 </BaseLayout>
+
+<script>
+  const filter = document.querySelector<HTMLSelectElement>("#sector-filter");
+  const filterPanel = document.querySelector<HTMLElement>(".gallery-filter");
+  const cards = [...document.querySelectorAll<HTMLElement>(".project-card")];
+  const count = document.querySelector<HTMLElement>("#filter-count");
+
+  if (filter && filterPanel && count) {
+    filterPanel.hidden = false;
+    const updateFilter = () => {
+      let visibleCount = 0;
+
+      for (const card of cards) {
+        const visible = !filter.value || card.dataset.sector === filter.value;
+        card.hidden = !visible;
+        if (visible) visibleCount += 1;
+      }
+
+      count.textContent = `${visibleCount} création${visibleCount > 1 ? "s" : ""} affichée${visibleCount > 1 ? "s" : ""}`;
+    };
+
+    filter.addEventListener("change", updateFilter);
+    updateFilter();
+  }
+</script>
