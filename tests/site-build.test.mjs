@@ -35,6 +35,25 @@ test("the private preview generates every planned page without indexing", async 
   }
 });
 
+test("the About page labels the C++ Lab initiative as unpublished work", async () => {
+  const html = await readFile(
+    join(distDirectory, "a-propos", "index.html"),
+    "utf8",
+  );
+
+  assert.match(html, /Lab · projet en préparation/);
+  assert.match(html, /cpp-learning-course/);
+  assert.match(
+    html,
+    /aucun cours ni exemple de code C\+\+ n’est encore publié/,
+  );
+  assert.match(html, /ne correspond pas à une réalisation client/);
+  assert.doesNotMatch(
+    html,
+    /href="https:\/\/github.com\/benoit-bremaud\/cpp-learning-course"/,
+  );
+});
+
 test("preview-only identity notices remain visible in the private build", async () => {
   const homepage = await readFile(join(distDirectory, "index.html"), "utf8");
   const about = await readFile(
@@ -104,6 +123,10 @@ test("an approved public build has no private-preview copy in generated pages", 
       assert.doesNotMatch(
         html,
         /identité définitive prend forme|parcours de contact sont encore en préparation/,
+      );
+      assert.doesNotMatch(
+        html,
+        /Lab · projet en préparation|cpp-learning-course/,
       );
     }
   } finally {

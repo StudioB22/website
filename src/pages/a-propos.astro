@@ -48,6 +48,29 @@ const releaseChannel = releaseChannelSchema.parse(
         </p>
       </div>
     </section>
+    {releaseChannel === "preview" && (
+      <section
+        class="section-divider split-section"
+        aria-labelledby="lab-cpp-title"
+      >
+        <div>
+          <p class="section-kicker">Lab · projet en préparation</p>
+          <h2 id="lab-cpp-title">Apprendre le C++ embarqué, pas à pas.</h2>
+        </div>
+        <div class="prose">
+          <p>
+            Je prépare <strong>cpp-learning-course</strong>, un parcours en
+            français autour du C++ embarqué, avec l’intention d’associer
+            explications, pratique locale et études UML.
+          </p>
+          <p>
+            Le dépôt ne contient pour l’instant qu’une présentation du projet :
+            aucun cours ni exemple de code C++ n’est encore publié. Ce travail
+            personnel ne correspond pas à une réalisation client.
+          </p>
+        </div>
+      </section>
+    )}
     <section class="section-divider" aria-labelledby="values-title">
       <div class="section-heading">
         <p class="section-kicker">Ce qui compte</p>
