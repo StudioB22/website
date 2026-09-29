@@ -1,6 +1,7 @@
 ---
 import { brand } from "../config/brand";
 import { releaseChannelSchema, validateBrandForRelease } from "../domain/brand";
+import { pageDescription, previewOnly } from "../domain/release-copy";
 import "../styles/global.css";
 
 interface Props {
@@ -27,7 +28,10 @@ const currentPath = Astro.url.pathname;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <meta name="description" content={description} />
+    <meta
+      name="description"
+      content={pageDescription(description, releaseChannel)}
+    />
     <meta
       name="robots"
       content={
@@ -78,7 +82,14 @@ const currentPath = Astro.url.pathname;
       </div>
       <div>
         <p>Responsable du projet : {activeBrand.founder}</p>
-        <p>Préversion privée — identité et contenus en cours de validation.</p>
+        {previewOnly(
+          "Préversion privée — identité et contenus en cours de validation.",
+          releaseChannel,
+        ) && (
+          <p>
+            Préversion privée — identité et contenus en cours de validation.
+          </p>
+        )}
       </div>
     </footer>
   </body>

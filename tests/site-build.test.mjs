@@ -1,5 +1,16 @@
 import assert from "node:assert/strict";
-import { access, readFile } from "node:fs/promises";
+import { spawnSync } from "node:child_process";
+import { globSync } from "node:fs";
+import {
+  access,
+  cp,
+  mkdtemp,
+  readFile,
+  rm,
+  symlink,
+  writeFile,
+} from "node:fs/promises";
+import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
@@ -7,6 +18,7 @@ import test from "node:test";
 import { brand } from "../src/config/brand.ts";
 
 const distDirectory = fileURLToPath(new URL("../dist/", import.meta.url));
+const projectDirectory = fileURLToPath(new URL("../", import.meta.url));
 const routes = ["/", "/realisations/", "/services/", "/methode/", "/a-propos/"];
 
 test("the private preview generates every planned page without indexing", async () => {
@@ -17,8 +29,85 @@ test("the private preview generates every planned page without indexing", async 
     );
 
     assert.match(html, /name="robots" content="noindex, nofollow"/);
+    assert.match(html, /Préversion privée/);
     assert.match(html, /<html lang="fr">/);
     assert.match(html, /<main id="contenu">/);
+  }
+});
+
+test("preview-only identity notices remain visible in the private build", async () => {
+  const homepage = await readFile(join(distDirectory, "index.html"), "utf8");
+  const about = await readFile(
+    join(distDirectory, "a-propos", "index.html"),
+    "utf8",
+  );
+
+  assert.match(homepage, /Atelier web indépendant · Préversion privée/);
+  assert.match(homepage, /Le nom du studio et le parcours de contact/);
+  assert.match(about, /son identité définitive prend forme/);
+});
+
+test("an approved public build has no private-preview copy in generated pages", async () => {
+  const fixtureDirectory = await mkdtemp(
+    join(tmpdir(), "studiob22-public-build-"),
+  );
+
+  try {
+    await cp(join(projectDirectory, "src"), join(fixtureDirectory, "src"), {
+      recursive: true,
+    });
+    await cp(
+      join(projectDirectory, "public"),
+      join(fixtureDirectory, "public"),
+      {
+        recursive: true,
+      },
+    );
+    await cp(
+      join(projectDirectory, "package.json"),
+      join(fixtureDirectory, "package.json"),
+    );
+    await symlink(
+      join(projectDirectory, "node_modules"),
+      join(fixtureDirectory, "node_modules"),
+      "dir",
+    );
+    const approvedBrand = await readFile(
+      join(projectDirectory, "tests", "fixtures", "approved-brand.txt"),
+      "utf8",
+    );
+    await writeFile(
+      join(fixtureDirectory, "src", "config", "brand.ts"),
+      approvedBrand,
+    );
+
+    const build = spawnSync("npm", ["run", "build"], {
+      cwd: fixtureDirectory,
+      env: { ...process.env, PUBLIC_RELEASE_CHANNEL: "public" },
+      encoding: "utf8",
+      timeout: 120_000,
+    });
+    assert.equal(build.status, 0, build.stderr || build.stdout);
+
+    const publicDist = join(fixtureDirectory, "dist");
+    const pages = globSync("**/index.html", { cwd: publicDist });
+    for (const route of routes) {
+      const expectedPage =
+        route === "/" ? "index.html" : `${route.slice(1)}index.html`;
+      assert.ok(pages.includes(expectedPage), `Missing public page: ${route}`);
+    }
+
+    for (const page of pages) {
+      const html = await readFile(join(publicDist, page), "utf8");
+      assert.match(html, /name="robots" content="index, follow"/);
+      assert.doesNotMatch(html, /Préversion privée|Nom de travail/);
+      assert.doesNotMatch(
+        html,
+        /identité définitive prend forme|parcours de contact sont encore en préparation/,
+      );
+    }
+  } finally {
+    await rm(fixtureDirectory, { recursive: true, force: true });
   }
 });
 

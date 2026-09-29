@@ -1,0 +1,12 @@
+import type { Brand } from "../domain/brand";
+
+export const brand = {
+  name: "Studio Test",
+  descriptor: "Sites web conçus avec méthode",
+  founder: "Benoît Bremaud",
+  locale: "fr-FR",
+  isProvisional: false,
+  publicLaunchApproved: true,
+  canonicalOrigin: "https://example.com",
+  contactEmail: "contact@example.com",
+} as const satisfies Brand;
