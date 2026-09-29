@@ -17,9 +17,22 @@ test("the private preview generates every planned page without indexing", async 
     );
 
     assert.match(html, /name="robots" content="noindex, nofollow"/);
+    assert.match(html, /Préversion privée/);
     assert.match(html, /<html lang="fr">/);
     assert.match(html, /<main id="contenu">/);
   }
+});
+
+test("preview-only identity notices remain visible in the private build", async () => {
+  const homepage = await readFile(join(distDirectory, "index.html"), "utf8");
+  const about = await readFile(
+    join(distDirectory, "a-propos", "index.html"),
+    "utf8",
+  );
+
+  assert.match(homepage, /Atelier web indépendant · Préversion privée/);
+  assert.match(homepage, /Le nom du studio et le parcours de contact/);
+  assert.match(about, /son identité définitive prend forme/);
 });
 
 test("all local links in generated pages resolve to built routes or assets", async () => {
