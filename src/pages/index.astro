@@ -1,18 +1,26 @@
 ---
 import { brand } from "../config/brand";
 import { projects } from "../data/projects";
+import { releaseChannelSchema } from "../domain/brand";
+import { previewOnly } from "../domain/release-copy";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const hasPublishedProjects = projects.some((project) => project.published);
+const releaseChannel = releaseChannelSchema.parse(
+  import.meta.env.PUBLIC_RELEASE_CHANNEL ?? "preview",
+);
 ---
 
 <BaseLayout
   title={`${brand.name} — Des sites web conçus avec méthode`}
-  description={`${brand.name} accompagne les petites organisations dans la conception de sites web clairs, soignés et adaptés à leur activité. Préversion privée.`}
+  description={`${brand.name} accompagne les petites organisations dans la conception de sites web clairs, soignés et adaptés à leur activité.`}
 >
   <section class="hero page-shell" aria-labelledby="hero-title">
     <div class="hero-content">
-      <p class="section-kicker">Atelier web indépendant · Préversion privée</p>
+      <p class="section-kicker">
+        Atelier web indépendant
+        {previewOnly(" · Préversion privée", releaseChannel)}
+      </p>
       <h1 id="hero-title">
         Un site qui raconte votre activité.{" "}
         <span>Une méthode qui vous donne confiance.</span>
@@ -46,9 +54,14 @@ const hasPublishedProjects = projects.some((project) => project.published);
           </>
         )}
       </div>
-      <p class="preview-note">
-        Le nom du studio et le parcours de contact sont encore en préparation.
-      </p>
+      {previewOnly(
+        "Le nom du studio et le parcours de contact sont encore en préparation.",
+        releaseChannel,
+      ) && (
+        <p class="preview-note">
+          Le nom du studio et le parcours de contact sont encore en préparation.
+        </p>
+      )}
     </div>
     <div
       class="hero-board"

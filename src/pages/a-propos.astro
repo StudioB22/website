@@ -1,6 +1,7 @@
 ---
 import { brand } from "../config/brand";
 import { releaseChannelSchema } from "../domain/brand";
+import { previewOnly } from "../domain/release-copy";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const releaseChannel = releaseChannelSchema.parse(
@@ -10,7 +11,7 @@ const releaseChannel = releaseChannelSchema.parse(
 
 <BaseLayout
   title={`À propos — ${brand.name}`}
-  description={`${brand.founder} porte un atelier web indépendant fondé sur l’écoute, une méthode claire et une utilisation responsable des outils modernes. Préversion privée.`}
+  description={`${brand.founder} porte un atelier web indépendant fondé sur l’écoute, une méthode claire et une utilisation responsable des outils modernes.`}
 >
   <div class="page-shell inner-page">
     <header class="page-intro">
@@ -18,8 +19,11 @@ const releaseChannel = releaseChannelSchema.parse(
       <h1>Un interlocuteur identifié. Un travail assumé.</h1>
       <p>
         Je suis {brand.founder}. Je construis cet atelier pour accompagner des
-        projets web avec écoute, exigence et méthode. {brand.name} est son nom
-        de travail pendant que son identité définitive prend forme.
+        projets web avec écoute, exigence et méthode.
+        {previewOnly(
+          ` ${brand.name} est son nom de travail pendant que son identité définitive prend forme.`,
+          releaseChannel,
+        )}
       </p>
     </header>
     <section
