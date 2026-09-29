@@ -22,6 +22,25 @@ test("the private preview generates every planned page without indexing", async 
   }
 });
 
+test("the About page labels the C++ Lab initiative as unpublished work", async () => {
+  const html = await readFile(
+    join(distDirectory, "a-propos", "index.html"),
+    "utf8",
+  );
+
+  assert.match(html, /Lab · projet en préparation/);
+  assert.match(html, /cpp-learning-course/);
+  assert.match(
+    html,
+    /aucun cours ni exemple de code C\+\+ n’est encore publié/,
+  );
+  assert.match(html, /ne correspond pas à une réalisation client/);
+  assert.doesNotMatch(
+    html,
+    /href="https:\/\/github.com\/benoit-bremaud\/cpp-learning-course"/,
+  );
+});
+
 test("all local links in generated pages resolve to built routes or assets", async () => {
   for (const route of routes) {
     const html = await readFile(
