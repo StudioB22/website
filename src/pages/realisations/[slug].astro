@@ -1,0 +1,116 @@
+---
+import { brand } from "../../config/brand";
+import {
+  sectorLabels,
+  statusLabels,
+  visualDirectionLabels,
+  reviewDateLabels,
+  formatReviewDate,
+} from "../../data/project-labels";
+import { projects } from "../../data/projects";
+import type { Project } from "../../domain/project";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+type PublishedProject = Extract<Project, { published: true }>;
+
+export const getStaticPaths = () =>
+  projects
+    .filter((project): project is PublishedProject => project.published)
+    .map((project) => ({ params: { slug: project.slug }, props: { project } }));
+
+interface Props {
+  project: PublishedProject;
+}
+
+const { project } = Astro.props;
+---
+
+<BaseLayout
+  title={`${project.title} — Réalisations — ${brand.name}`}
+  description={project.summary}
+>
+  <article class="page-shell inner-page project-detail">
+    <a class="back-link" href="/realisations/">
+      ← Toutes les réalisations
+    </a>
+    <header class="page-intro">
+      <p class="section-kicker">
+        {sectorLabels[project.sector]} · {statusLabels[project.status]}
+      </p>
+      <h1>{project.title}</h1>
+      <p>{project.summary}</p>
+    </header>
+    <div class="detail-layout">
+      <div class="detail-images">
+        {project.previewAssets.map((asset) => (
+          <figure>
+            <img
+              src={asset.src}
+              width={asset.width}
+              height={asset.height}
+              alt={asset.alt}
+            />
+            <figcaption>
+              {asset.credit} · {asset.rights}
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+      <div class="detail-facts">
+        <section>
+          <h2>Direction visuelle</h2>
+          <p>{visualDirectionLabels[project.visualDirection]}</p>
+        </section>
+        <section>
+          <h2>Ce que cet exemple montre</h2>
+          <ul>
+            {project.demonstratedCapabilities.map((capability) => (
+              <li>{capability}</li>
+            ))}
+          </ul>
+        </section>
+        <section>
+          <h2>À savoir</h2>
+          <ul>
+            {project.limitations.map((limitation) => (
+              <li>{limitation}</li>
+            ))}
+          </ul>
+        </section>
+        <section>
+          <h2>Crédits</h2>
+          <ul>
+            {project.credits.map((credit) => (
+              <li>{credit}</li>
+            ))}
+          </ul>
+        </section>
+        <section>
+          <h2>Vérifications</h2>
+          <dl class="review-dates">
+            {Object.entries(project.reviewDates).map(([key, date]) => (
+              <div>
+                <dt>
+                  {reviewDateLabels[key as keyof typeof reviewDateLabels]}
+                </dt>
+                <dd>
+                  <time datetime={date}>{formatReviewDate(date)}</time>
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+        {project.reviewedDemoUrl && (
+          <a
+            class="button button-primary"
+            href={project.reviewedDemoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Voir la démonstration <span class="sr-only">(nouvel onglet)</span>
+          </a>
+        )}
+      </div>
+    </div>
+  </article>
+</BaseLayout>

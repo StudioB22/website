@@ -1,22 +1,209 @@
 ---
 import { brand } from "../config/brand";
+import { projects } from "../data/projects";
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const hasPublishedProjects = projects.some((project) => project.published);
 ---
 
 <BaseLayout
-  title={`${brand.name} — Préversion privée`}
-  description="Préversion privée du futur site commercial de Benoît Bremaud."
+  title={`${brand.name} — Des sites web conçus avec méthode`}
+  description={`${brand.name} accompagne les petites organisations dans la conception de sites web clairs, soignés et adaptés à leur activité. Préversion privée.`}
 >
-  <section class="hero" aria-labelledby="hero-title">
-    <p class="eyebrow">Préversion privée · Socle technique</p>
-    <h1 id="hero-title">{brand.descriptor}</h1>
-    <p class="hero-copy">
-      Le produit entre en construction. Cette première étape valide une base
-      sobre, accessible, rapide et indépendante du futur nom définitif.
-    </p>
-    <div class="status" role="status">
-      <strong>Lot en cours :</strong> fondations techniques, contrats de
-      données, tests et sécurité de livraison.
+  <section class="hero page-shell" aria-labelledby="hero-title">
+    <div class="hero-content">
+      <p class="section-kicker">Atelier web indépendant · Préversion privée</p>
+      <h1 id="hero-title">
+        Un site qui raconte votre activité.{" "}
+        <span>Une méthode qui vous donne confiance.</span>
+      </h1>
+      <p class="hero-copy">
+        J’aide les petites entreprises et les indépendants à construire une
+        présence en ligne claire, soignée et utile. On commence par comprendre
+        votre métier, puis on avance ensemble, étape par étape.
+      </p>
+      <p class="founder-intro">
+        Je suis {brand.founder}, fondateur de {brand.name}.
+      </p>
+      <div class="action-row">
+        {hasPublishedProjects ? (
+          <>
+            <a class="button button-primary" href="/realisations/">
+              Voir les réalisations
+            </a>
+            <a class="text-link" href="/services/">
+              Comprendre ce que je propose <span aria-hidden="true">↗</span>
+            </a>
+          </>
+        ) : (
+          <>
+            <a class="button button-primary" href="/services/">
+              Comprendre ce que je propose
+            </a>
+            <a class="text-link" href="/realisations/">
+              Suivre la galerie en préparation <span aria-hidden="true">↗</span>
+            </a>
+          </>
+        )}
+      </div>
+      <p class="preview-note">
+        Le nom du studio et le parcours de contact sont encore en préparation.
+      </p>
+    </div>
+    <div
+      class="hero-board"
+      aria-label="Un projet web avance par décisions claires et validations successives"
+    >
+      <div class="board-heading">
+        <span>Un projet, une trajectoire lisible</span>
+        <span aria-hidden="true">✳</span>
+      </div>
+      <ol class="board-steps">
+        <li>
+          <span class="step-index">01</span>
+          <span>
+            <strong>Écouter</strong>
+            <small>Votre activité et vos objectifs</small>
+          </span>
+        </li>
+        <li>
+          <span class="step-index">02</span>
+          <span>
+            <strong>Choisir</strong>
+            <small>Le bon périmètre, sans superflu</small>
+          </span>
+        </li>
+        <li>
+          <span class="step-index">03</span>
+          <span>
+            <strong>Construire</strong>
+            <small>Un site vérifié et évolutif</small>
+          </span>
+        </li>
+      </ol>
+      <div class="board-footer">
+        Vous savez où en est le projet, et pourquoi.
+      </div>
+    </div>
+  </section>
+
+  <section class="section page-shell" aria-labelledby="promise-title">
+    <div class="section-heading">
+      <p class="section-kicker">L’essentiel</p>
+      <h2 id="promise-title">
+        Un site professionnel commence par les bonnes questions.
+      </h2>
+      <p>
+        Votre site doit aider les bonnes personnes à comprendre ce que vous
+        faites et à passer à l’étape suivante. Sa forme découle de ce besoin.
+      </p>
+    </div>
+    <div class="principle-grid">
+      <article>
+        <span class="principle-mark" aria-hidden="true">
+          ◌
+        </span>
+        <h3>Un besoin bien cadré</h3>
+        <p>
+          Objectifs, contenus, responsabilités et limites sont clarifiés avant
+          la production.
+        </p>
+      </article>
+      <article>
+        <span class="principle-mark" aria-hidden="true">
+          ◇
+        </span>
+        <h3>Un travail visible</h3>
+        <p>
+          Vous validez les décisions importantes au bon moment, avec des retours
+          structurés.
+        </p>
+      </article>
+      <article>
+        <span class="principle-mark" aria-hidden="true">
+          ✳
+        </span>
+        <h3>Une base durable</h3>
+        <p>
+          Accessibilité, rapidité, référencement et maintien en état font partie
+          de la réflexion.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section class="feature-band" aria-labelledby="offer-title">
+    <div class="page-shell feature-inner">
+      <div>
+        <p class="section-kicker">Une offre qui s’adapte</p>
+        <h2 id="offer-title">Un socle solide, puis les bonnes briques.</h2>
+      </div>
+      <div>
+        <p>
+          Le point de départ est un site complet pour le périmètre convenu.
+          Contenu, identité visuelle, réservation, visibilité ou maintenance
+          peuvent être ajoutés si votre projet en a réellement besoin — dès le
+          départ ou plus tard.
+        </p>
+        <a class="button button-light" href="/services/">
+          Explorer les services
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section
+    class="section page-shell split-section"
+    aria-labelledby="proof-title"
+  >
+    <div>
+      <p class="section-kicker">Le travail, en vrai</p>
+      <h2 id="proof-title">Des exemples expliqués avec honnêteté.</h2>
+    </div>
+    <div>
+      <p>
+        {hasPublishedProjects ? (
+          <>
+            La galerie présente des maquettes, démonstrations et projets
+            réalisés après vérification. Chaque création indique clairement son
+            statut, ce qu’elle montre et ses limites. D’autres exemples seront
+            ajoutés progressivement.
+          </>
+        ) : (
+          <>
+            La galerie présentera progressivement des maquettes, démonstrations
+            et projets réalisés. Chaque création indiquera clairement son
+            statut, ce qu’elle montre et ses limites. Les premières fiches sont
+            en cours de vérification.
+          </>
+        )}
+      </p>
+      <a class="text-link" href="/realisations/">
+        Découvrir la galerie <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </section>
+
+  <section
+    class="section page-shell split-section ai-section"
+    aria-labelledby="ai-title"
+  >
+    <div>
+      <p class="section-kicker">Des outils modernes, un jugement humain</p>
+      <h2 id="ai-title">
+        L’IA est un outil. Bien l’utiliser est un savoir-faire.
+      </h2>
+    </div>
+    <div>
+      <p>
+        Je l’utilise quand elle aide à explorer des pistes, prototyper ou
+        vérifier un résultat. Elle ne décide pas à ma place : je cadre le
+        besoin, choisis les outils adaptés, questionne leurs réponses et reste
+        responsable du travail livré.
+      </p>
+      <a class="text-link" href="/methode/">
+        Comprendre ma façon de travailler <span aria-hidden="true">↗</span>
+      </a>
     </div>
   </section>
 </BaseLayout>

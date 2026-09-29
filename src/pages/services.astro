@@ -1,0 +1,108 @@
+---
+import { brand } from "../config/brand";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const options = [
+  {
+    title: "Contenus",
+    description:
+      "Clarifier les messages, organiser les pages et préparer des textes utiles.",
+  },
+  {
+    title: "Identité et visuels",
+    description:
+      "Définir une direction graphique et préparer des images adaptées au site.",
+  },
+  {
+    title: "Visibilité",
+    description:
+      "Approfondir le référencement et mesurer ce qui aide réellement votre activité.",
+  },
+  {
+    title: "Fonctionnalités",
+    description:
+      "Étudier une réservation, un formulaire, une boutique ou une connexion à vos outils.",
+  },
+  {
+    title: "Suivi",
+    description:
+      "Prévoir des mises à jour, de la maintenance ou un accompagnement après la mise en ligne.",
+  },
+] as const;
+---
+
+<BaseLayout
+  title={`Services — ${brand.name}`}
+  description="Un site web professionnel avec un périmètre clair, puis des services complémentaires selon les besoins réels de votre activité. Préversion privée."
+>
+  <div class="page-shell inner-page">
+    <header class="page-intro">
+      <p class="section-kicker">Services</p>
+      <h1>Le bon site, au bon périmètre.</h1>
+      <p>
+        Chaque projet commence par un socle complet, défini ensemble. Les
+        besoins supplémentaires deviennent des briques distinctes que l’on peut
+        ajouter quand elles sont utiles.
+      </p>
+    </header>
+
+    <section
+      class="section-divider split-section"
+      aria-labelledby="foundation-title"
+    >
+      <div>
+        <p class="section-kicker">Le socle</p>
+        <h2 id="foundation-title">
+          Une base professionnelle, sans zones floues.
+        </h2>
+      </div>
+      <div class="prose">
+        <p>
+          Nous cadrons l’objectif du site, ses visiteurs et les contenus
+          nécessaires. Je conçois ensuite les pages convenues, les adapte aux
+          écrans et vérifie leur accessibilité, leur rapidité, leur sécurité et
+          leurs bases de référencement.
+        </p>
+        <p>
+          Le projet comprend des points de validation, une préversion à relire
+          et une préparation à la mise en ligne. Le nombre de pages et les
+          livrables exacts figurent dans une proposition écrite avant de
+          démarrer.
+        </p>
+      </div>
+    </section>
+
+    <section class="section-divider" aria-labelledby="options-title">
+      <div class="section-heading">
+        <p class="section-kicker">À la carte, si nécessaire</p>
+        <h2 id="options-title">Des briques que l’on peut ajouter plus tard.</h2>
+        <p>
+          Un site peut grandir avec votre activité. Ces prestations sont
+          étudiées et chiffrées séparément selon votre contexte.
+        </p>
+      </div>
+      <div class="option-grid">
+        {options.map(({ title, description }) => (
+          <article>
+            <h3>{title}</h3>
+            <p>{description}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <aside class="note-panel" aria-label="Périmètre et prix">
+      <div>
+        <h2>Une proposition avant tout engagement.</h2>
+        <p>
+          Elle précise les objectifs, livrables, responsabilités, exclusions,
+          étapes et paiements. Aucun tarif « à partir de » n’est affiché tant
+          que son périmètre de référence n’est pas établi sérieusement.
+        </p>
+      </div>
+      <a class="text-link" href="/methode/">
+        Voir la méthode <span aria-hidden="true">↗</span>
+      </a>
+    </aside>
+  </div>
+</BaseLayout>

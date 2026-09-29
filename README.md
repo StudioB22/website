@@ -10,7 +10,8 @@ form, analytics, or provider integration is implemented yet.
 
 ## Current work
 
-- Foundation implementation: [issue #3](https://github.com/StudioB22/website/issues/3)
+- French private preview: [issue #5](https://github.com/StudioB22/website/issues/5)
+- Completed foundation: [issue #3](https://github.com/StudioB22/website/issues/3)
 - Approved conception: [issue #1](https://github.com/StudioB22/website/issues/1)
 - Public website specification: [`docs/architecture/specs/public-website-mvp.md`](docs/architecture/specs/public-website-mvp.md)
 - Positioning and offer: [`docs/product/positioning-and-offer.md`](docs/product/positioning-and-offer.md)
@@ -22,13 +23,12 @@ form, analytics, or provider integration is implemented yet.
 
 ## Planned delivery
 
-1. Approve the documentation-only conception.
-2. Build release 0.1 as a private identity-and-proof preview with four to six reviewed creations.
-3. Complete release 1.0 with the final identity, offer, method, legal structure, SEO, and one monitored
+1. Complete the release 0.1 preview pages and publish four to six rights-cleared, reviewed creations.
+2. Complete release 1.0 with the final identity, offer, method, legal structure, SEO, and one monitored
    contact path.
-4. Enrich the gallery progressively from the 157-repository backlog over the following weeks and months.
-5. Add release 1.1 qualification features only after their data flow and safeguards are approved.
-6. Keep the authenticated client portal as a separately conceived product.
+3. Enrich the gallery progressively from the 157-repository backlog over the following weeks and months.
+4. Add release 1.1 qualification features only after their data flow and safeguards are approved.
+5. Keep the authenticated client portal as a separately conceived product.
 
 ## Local development
 
@@ -59,6 +59,9 @@ explicit local environment file is useful; never commit credentials.
 ## Current foundation boundaries
 
 - Astro generates static HTML; no application server or runtime database exists.
+- French preview pages cover the homepage, services, method, founder, and creations. The gallery stays
+  empty until reviewed entries are explicitly published; no fictional client work is displayed.
+- `npm run check` also verifies the generated pages, local links, no-index directives, and empty state.
 - The working identity is centralised in `src/config/brand.ts`.
 - Catalogue entries are validated by `src/domain/project.ts` before publication.
 - Inactive external services contribute no SDK, endpoint, script, cookie, or embed.

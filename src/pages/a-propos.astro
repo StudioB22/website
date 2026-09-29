@@ -1,0 +1,93 @@
+---
+import { brand } from "../config/brand";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title={`À propos — ${brand.name}`}
+  description={`${brand.founder} porte un atelier web indépendant fondé sur l’écoute, une méthode claire et une utilisation responsable des outils modernes. Préversion privée.`}
+>
+  <div class="page-shell inner-page">
+    <header class="page-intro">
+      <p class="section-kicker">À propos</p>
+      <h1>Un interlocuteur identifié. Un travail assumé.</h1>
+      <p>
+        Je suis {brand.founder}. Je construis cet atelier pour accompagner des
+        projets web avec écoute, exigence et méthode. {brand.name} est son nom
+        de travail pendant que son identité définitive prend forme.
+      </p>
+    </header>
+    <section
+      class="section-divider split-section"
+      aria-labelledby="approach-title"
+    >
+      <div>
+        <p class="section-kicker">Ma façon de travailler</p>
+        <h2 id="approach-title">Comprendre avant de proposer.</h2>
+      </div>
+      <div class="prose">
+        <p>
+          Un site réussi part de votre réalité : votre métier, vos clients, vos
+          contraintes et ce que vous êtes prêt à faire vivre après la mise en
+          ligne. Je préfère un périmètre clair, des choix expliqués et des
+          validations régulières aux promesses floues.
+        </p>
+        <p>
+          Je peux m’appuyer sur des outils spécialisés et, si un projet le
+          demande, étudier une collaboration adaptée. Je reste votre point de
+          responsabilité pour le travail convenu.
+        </p>
+      </div>
+    </section>
+    <section class="section-divider" aria-labelledby="values-title">
+      <div class="section-heading">
+        <p class="section-kicker">Ce qui compte</p>
+        <h2 id="values-title">Une relation de travail sereine.</h2>
+      </div>
+      <div class="principle-grid">
+        <article>
+          <span class="principle-mark" aria-hidden="true">
+            ◌
+          </span>
+          <h3>Être écouté</h3>
+          <p>
+            Votre activité et vos questions ont une place réelle dans les
+            décisions.
+          </p>
+        </article>
+        <article>
+          <span class="principle-mark" aria-hidden="true">
+            ◇
+          </span>
+          <h3>Voir clair</h3>
+          <p>
+            Le périmètre, les étapes, les coûts et les responsabilités sont
+            explicités.
+          </p>
+        </article>
+        <article>
+          <span class="principle-mark" aria-hidden="true">
+            ✳
+          </span>
+          <h3>Recevoir du soin</h3>
+          <p>
+            Les détails, les contrôles et la transmission comptent autant que la
+            première impression.
+          </p>
+        </article>
+      </div>
+    </section>
+    <aside class="note-panel">
+      <div>
+        <h2>Découvrir le travail en cours.</h2>
+        <p>
+          Les réalisations seront ajoutées au fil de leur vérification, avec
+          leur contexte et leur véritable statut.
+        </p>
+      </div>
+      <a class="text-link" href="/realisations/">
+        Voir les réalisations <span aria-hidden="true">↗</span>
+      </a>
+    </aside>
+  </div>
+</BaseLayout>
