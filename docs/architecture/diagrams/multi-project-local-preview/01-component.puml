@@ -1,0 +1,22 @@
+@startuml
+title cmp: Multi-project local preview
+left to right direction
+component "Astro gallery and detail" as Pages
+component "Capture route" as Route
+component "Local preview configuration\nDEV, environment, existence checks" as Config
+component "Pure preview validation and join" as Validator
+component "Project catalogue" as Catalogue
+component "Local preview registry" as Registry
+component "Pure loopback URL validation" as URLValidator
+folder "Documented per-project captures" as Files
+component "Independent demo application" as Demo
+Pages ..> Config
+Route ..> Config
+Config ..> Validator
+Config ..> Catalogue
+Config ..> Registry
+Config ..> Files : check registered files
+Validator ..> URLValidator
+Route ..> Files : read validated registered file
+Pages ..> Demo : user opens a separate tab
+@enduml
