@@ -1,0 +1,61 @@
+---
+import type { CaseStudy } from "../domain/project";
+interface Props {
+  study: CaseStudy;
+}
+const { study } = Astro.props;
+const statusLabels: Record<CaseStudy["milestones"][number]["status"], string> =
+  {
+    documented: "Documenté",
+    "partially-verified": "Vérifications partielles",
+    pending: "À réaliser",
+    "not-applicable": "Non applicable",
+  };
+---
+
+<div class="case-study">
+  <section>
+    <h2>Le contexte et l’objectif</h2>
+    <p>{study.context}</p>
+    <p>{study.objective}</p>
+  </section>
+  <section>
+    <h2>Les choix derrière le résultat</h2>
+    <ul class="case-study-decisions">
+      {study.decisions.map((decision) => (
+        <li>
+          <h3>{decision.title}</h3>
+          <p>{decision.reason}</p>
+          <p>
+            <strong>Exemple concret :</strong> {decision.example}
+          </p>
+          <p class="case-study-evidence">
+            <strong>Preuves et limites :</strong> {decision.evidenceLimit}
+          </p>
+        </li>
+      ))}
+    </ul>
+  </section>
+  <section>
+    <h2>Les jalons et leur état réel</h2>
+    <p>
+      Les documents disponibles, les vérifications effectuées et l’accord de
+      publication sont trois choses différentes.
+    </p>
+    <ol class="case-study-milestones">
+      {study.milestones.map((milestone) => (
+        <li>
+          <h3>{milestone.title}</h3>
+          <p class="project-meta">
+            {statusLabels[milestone.status]} · Étapes{" "}
+            {milestone.methodSteps.join(", ")}
+          </p>
+          <p>{milestone.explanation}</p>
+        </li>
+      ))}
+    </ol>
+    <a class="text-link" href="/methode/">
+      Découvrir les quinze étapes de la méthode StudioB22
+    </a>
+  </section>
+</div>

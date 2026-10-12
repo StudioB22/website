@@ -36,6 +36,39 @@ const reviewedDateSchema = z.iso
     "Review evidence cannot be dated in the future",
   );
 
+const caseStudyText = z.string().trim().min(1);
+export const caseStudySchema = z.object({
+  context: caseStudyText,
+  objective: caseStudyText,
+  decisions: z
+    .array(
+      z.object({
+        title: caseStudyText,
+        reason: caseStudyText,
+        example: caseStudyText,
+        evidenceLimit: caseStudyText,
+      }),
+    )
+    .min(1),
+  milestones: z
+    .array(
+      z.object({
+        title: caseStudyText,
+        methodSteps: z.array(z.int().min(1).max(15)).min(1),
+        status: z.enum([
+          "documented",
+          "partially-verified",
+          "pending",
+          "not-applicable",
+        ]),
+        explanation: caseStudyText,
+      }),
+    )
+    .min(1),
+});
+
+export type CaseStudy = z.infer<typeof caseStudySchema>;
+
 const projectCoreSchema = z.object({
   slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   title: z.string().trim().min(1),
@@ -46,6 +79,7 @@ const projectCoreSchema = z.object({
   credits: z.array(z.string().trim().min(1)).min(1),
   limitations: z.array(z.string().trim().min(1)),
   reviewedAt: reviewedDateSchema,
+  caseStudy: caseStudySchema.optional(),
 });
 
 const previewAssetSchema = z.object({

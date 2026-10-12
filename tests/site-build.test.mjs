@@ -21,6 +21,50 @@ const distDirectory = fileURLToPath(new URL("../dist/", import.meta.url));
 const projectDirectory = fileURLToPath(new URL("../", import.meta.url));
 const routes = ["/", "/realisations/", "/services/", "/methode/", "/a-propos/"];
 
+test("production excludes local draft routes, demo addresses and captures", async () => {
+  const emitted = globSync("**/*", { cwd: distDirectory });
+  assert.ok(!emitted.some((path) => path.includes("atelier-local")));
+  assert.ok(!emitted.some((path) => /(?:desktop|mobile)\.png$/.test(path)));
+  for (const path of emitted.filter((path) => /\.(?:html|js)$/.test(path))) {
+    const text = await readFile(join(distDirectory, path), "utf8");
+    assert.doesNotMatch(
+      text,
+      /atelier-local|maison-(?:marceau|aureline)|(?:127\.0\.0\.1|localhost):\d+|Dans l’atelier : aperçu local/,
+    );
+  }
+});
+
+test("the expressive portfolio preserves semantic navigation and honest empty state", async () => {
+  const homepage = await readFile(join(distDirectory, "index.html"), "utf8");
+  const gallery = await readFile(
+    join(distDirectory, "realisations", "index.html"),
+    "utf8",
+  );
+
+  assert.match(homepage, /Votre activité mérite un site à sa mesure/);
+  assert.match(homepage, /href="#contenu"/);
+  assert.match(homepage, /aria-label="Navigation principale"/);
+  assert.match(gallery, /gallery-page/);
+  assert.match(gallery, /Les concepts fictifs sont indiqués comme tels/);
+  assert.doesNotMatch(
+    homepage + gallery,
+    /à Nantes|clients satisfaits|places restantes/,
+  );
+});
+
+test("motion remains optional and the stylesheet has no forced mobile width", async () => {
+  const cssPaths = globSync("**/*.css", { cwd: distDirectory });
+  const styles = (
+    await Promise.all(
+      cssPaths.map((path) => readFile(join(distDirectory, path), "utf8")),
+    )
+  ).join("");
+
+  assert.match(styles, /prefers-reduced-motion:no-preference/);
+  assert.match(styles, /atelier-enter/);
+  assert.doesNotMatch(styles, /body\{[^}]*min-width/);
+});
+
 test("the private preview generates every planned page without indexing", async () => {
   for (const route of routes) {
     const html = await readFile(
@@ -109,6 +153,11 @@ test("an approved public build has no private-preview copy in generated pages", 
     assert.equal(build.status, 0, build.stderr || build.stdout);
 
     const publicDist = join(fixtureDirectory, "dist");
+    assert.ok(
+      !globSync("**/*", { cwd: publicDist }).some((path) =>
+        path.includes("atelier-local"),
+      ),
+    );
     const pages = globSync("**/index.html", { cwd: publicDist });
     for (const route of routes) {
       const expectedPage =
@@ -118,6 +167,10 @@ test("an approved public build has no private-preview copy in generated pages", 
 
     for (const page of pages) {
       const html = await readFile(join(publicDist, page), "utf8");
+      assert.doesNotMatch(
+        html,
+        /atelier-local|maison-(?:marceau|aureline)|(?:127\.0\.0\.1|localhost):\d+|Dans l’atelier : aperçu local/,
+      );
       assert.match(html, /name="robots" content="index, follow"/);
       assert.doesNotMatch(html, /Préversion privée|Nom de travail/);
       assert.doesNotMatch(

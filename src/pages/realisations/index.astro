@@ -6,6 +6,7 @@ import {
   visualDirectionLabels,
 } from "../../data/project-labels";
 import { projects } from "../../data/projects";
+import { localProjectPreviews } from "../../config/local-project-preview";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const publishedProjects = projects.filter((project) => project.published);
@@ -19,22 +20,69 @@ const availableSectors = [
   description="Galerie de créations web examinées et présentées avec leur véritable statut, leurs capacités et leurs limites."
 >
   <div
-    class="page-shell inner-page"
+    class="page-shell inner-page gallery-page"
     data-published-count={publishedProjects.length}
   >
     <header class="page-intro">
       <p class="section-kicker">Réalisations</p>
       <h1>Des créations à regarder de près.</h1>
       <p>
-        Chaque exemple publié ici doit montrer un travail réel et vérifié. Les
-        maquettes et démonstrations seront nommées comme telles, sans les
-        présenter comme des commandes clients.
+        Explorez des univers, des métiers et des façons de présenter une
+        activité. Chaque fiche précise ce qui a été construit, ce que vous
+        pouvez essayer et les limites du projet. Les concepts fictifs sont
+        indiqués comme tels.
       </p>
     </header>
-    {publishedProjects.length === 0 ? (
+    {import.meta.env.DEV && localProjectPreviews.length > 0 && (
+      <section
+        class="local-project-preview"
+        aria-labelledby="local-preview-title"
+      >
+        <h2 id="local-preview-title">Dans l’atelier : aperçu local</h2>
+        <p>
+          Ces brouillons sont visibles uniquement en développement. Ils ne font
+          pas partie de la galerie publique.
+        </p>
+        <div class="project-grid">
+          {localProjectPreviews.map(
+            ({ project, captures, displayTitle, formatLabel }) => (
+              <article class="project-card showcase-card">
+                <div class="showcase-card-art">
+                  <img
+                    src={captures[0].src}
+                    width={captures[0].width}
+                    height={captures[0].height}
+                    alt={captures[0].alt}
+                  />
+                  <span class="showcase-format">{formatLabel}</span>
+                </div>
+                <div>
+                  <p class="project-meta">
+                    {sectorLabels[project.sector]} ·{" "}
+                    {statusLabels[project.status]}
+                  </p>
+                  <h3>{displayTitle}</h3>
+                  <p>{project.summary}</p>
+                  <p class="showcase-status">
+                    Brouillon : aperçu local uniquement
+                  </p>
+                  <a
+                    class="button button-primary"
+                    href={`/atelier-local/realisations/${project.slug}/`}
+                  >
+                    Examiner la maquette
+                  </a>
+                </div>
+              </article>
+            ),
+          )}
+        </div>
+      </section>
+    )}
+    {publishedProjects.length === 0 && localProjectPreviews.length === 0 ? (
       <section class="empty-gallery" aria-labelledby="empty-title">
         <span class="empty-symbol" aria-hidden="true">
-          ⌁
+          B
         </span>
         <div>
           <p class="section-kicker">Galerie en préparation</p>
@@ -54,7 +102,7 @@ const availableSectors = [
         </div>
       </section>
     ) : (
-      <div>
+      <div hidden={publishedProjects.length === 0}>
         <div class="gallery-filter" hidden>
           <label for="sector-filter">Filtrer par secteur</label>
           <select id="sector-filter" name="secteur">
@@ -103,7 +151,9 @@ const availableSectors = [
 <script>
   const filter = document.querySelector<HTMLSelectElement>("#sector-filter");
   const filterPanel = document.querySelector<HTMLElement>(".gallery-filter");
-  const cards = [...document.querySelectorAll<HTMLElement>(".project-card")];
+  const cards = [
+    ...document.querySelectorAll<HTMLElement>(".project-card[data-sector]"),
+  ];
   const count = document.querySelector<HTMLElement>("#filter-count");
 
   if (filter && filterPanel && count) {
