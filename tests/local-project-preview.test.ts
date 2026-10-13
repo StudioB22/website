@@ -117,6 +117,56 @@ describe("pure multi-project preview validation", () => {
     expect(parseLocalProjectPreviews([], projects)).toEqual([]);
   });
 
+  it("rejects reused override names without reading an environment", () => {
+    // arrange: distinct projects accidentally reference the same override.
+    const duplicates = entries.map((entry) => ({
+      ...entry,
+      demoUrlEnv: first.demoUrlEnv,
+    }));
+    // act and assert: reject the registry before resolving any runtime values.
+    expect(() =>
+      parseLocalProjectPreviews(duplicates, projects, "2026-01-02"),
+    ).toThrow(`Duplicate local demo override: ${first.demoUrlEnv} (test-beta)`);
+  });
+
+  it("allows multiple absent override names and preserves default URLs", () => {
+    // arrange: cover both omitted and explicitly undefined optional properties.
+    const { demoUrlEnv: omitted, ...withoutOverride } = first;
+    expect(omitted).toBeDefined();
+    const defaults = [
+      withoutOverride,
+      { ...entries[1]!, demoUrlEnv: undefined },
+    ];
+    // act
+    const result = parseLocalProjectPreviews(defaults, projects, "2026-01-02");
+    // assert
+    expect(result.map((entry) => entry.demoUrlEnv)).toEqual([
+      undefined,
+      undefined,
+    ]);
+    expect(result.map((entry) => entry.demoUrl)).toEqual(
+      entries.map((entry) => entry.demoUrl),
+    );
+  });
+
+  it("allows shared default URLs with distinct override names", () => {
+    // arrange
+    const shared = entries.map((entry) => ({
+      ...entry,
+      demoUrl: first.demoUrl,
+    }));
+    // act
+    const result = parseLocalProjectPreviews(shared, projects, "2026-01-02");
+    // assert: uniqueness applies to names, not destinations.
+    expect(result.map((entry) => entry.demoUrl)).toEqual([
+      first.demoUrl,
+      first.demoUrl,
+    ]);
+    expect(result.map((entry) => entry.demoUrlEnv)).toEqual(
+      entries.map((entry) => entry.demoUrlEnv),
+    );
+  });
+
   it("rejects duplicate registration and missing or published catalogue references", () => {
     expect(() => parseLocalProjectPreviews([first, first], projects)).toThrow(
       "Duplicate",

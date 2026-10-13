@@ -39,11 +39,20 @@ export const parseLocalProjectPreviews = (
 ) => {
   const entries = z.array(localPreviewSchema).parse(input);
   const seen = new Set<string>();
+  const overrideNames = new Set<string>();
   return entries.map((entry) => {
     if (seen.has(entry.projectSlug)) {
       throw new Error(`Duplicate local preview: ${entry.projectSlug}`);
     }
     seen.add(entry.projectSlug);
+    if (entry.demoUrlEnv !== undefined) {
+      if (overrideNames.has(entry.demoUrlEnv)) {
+        throw new Error(
+          `Duplicate local demo override: ${entry.demoUrlEnv} (${entry.projectSlug})`,
+        );
+      }
+      overrideNames.add(entry.demoUrlEnv);
+    }
     const project = projects.find((item) => item.slug === entry.projectSlug);
     if (!project || project.published) {
       throw new Error(

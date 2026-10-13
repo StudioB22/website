@@ -27,6 +27,8 @@ media rights.
 5. Optionally choose a unique server-only demoUrlEnv beginning STUDIOB22_LOCAL_. Set it
    in your local server environment when overriding the default loopback demo. Do not use
    PUBLIC_ names, credentials, query strings, fragments or remote hosts.
+   Reusing a defined override name is rejected even when the variable is unset.
+   Several entries may omit an override; sharing a URL value is not prohibited.
 6. Run npm run check, start the portfolio separately, then inspect /realisations/ and
    `/atelier-local/realisations/<slug>/`. Captures are served from
    `/atelier-local/captures/<slug>/desktop.png` and `mobile.png`.
