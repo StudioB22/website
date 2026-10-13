@@ -82,3 +82,37 @@ Use the existing unpublished maison-marceau catalogue draft as the integration b
 6. Only then optimise/copy approved images into public assets and publish the project card.
 
 No catalogue entry was published, no assets added under public/, and no unfinished barbier work was changed in this capture task.
+
+## Local integration recheck, 2026-10-13
+
+StudioB22 candidate: `292e5544d8774bb2804c3f6bf229ea50a9453f56`,
+`codex/portfolio-implementation-pr`, clean before this evidence update.
+Existing October 2 capture files above remain unchanged and do not depict
+the uncommitted Angular migration candidate checked today.
+
+- `npm run check` passed formatting, lint, zero Astro diagnostics,
+  81 tests, five static pages and nine generated-site checks.
+- With independent loopback servers on 4400 and 4401, all three
+  `npm run test:local` HTTP tests passed: unpublished local gallery,
+  detail/capture endpoints and reachability of the separate Angular demo.
+- Chrome navigation reached the method page, local gallery and Maison
+  Marceau detail. The detail labels the work as a fictional local draft,
+  preserves credits and exposes the independent loopback demo link with
+  a new-tab notice. Both documented capture images loaded.
+- The three native method disclosures opened with Enter and exposed all
+  fifteen steps under the three phases and seven milestones.
+- The project detail had one H1 and no horizontal overflow at exact
+  320, 412 and 1440 px viewports. The method page also had no horizontal
+  overflow at 320 and 412 px. These are targeted viewport checks, not
+  physical-device, zoom or comprehensive accessibility acceptance.
+- No application-origin errors appeared in the inspected console log;
+  temporary responsive overrides were reset.
+
+Maison Marceau's locally corrected skip link separately retained Home,
+Services and Contact and focused their main landmark on Enter. Its full
+evidence remains in the independent code repository's
+`documentation/browser-verification-2026-10-10.md`.
+
+No captures, application source, publication flags, dependencies or CI
+were changed by this recheck. No push, PR or public deployment occurred.
+The pending public-release gates above remain open.
