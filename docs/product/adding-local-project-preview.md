@@ -18,7 +18,7 @@ media rights.
 2. Add truthful draft metadata to src/data/projects.ts with published: false. Use the
    existing controlled sector/status vocabulary and unique kebab-case slug.
 3. Put unretouched desktop/mobile PNG captures and provenance documentation under
-   docs/product/reviews/<slug>/. Record source commit, capture date, creator, licence,
+   `docs/product/reviews/<slug>/`. Record source commit, capture date, creator, licence,
    limitations and fictional status where applicable. Do not copy drafts into public/.
 4. Add one entry to src/data/local-project-previews.ts, following the Maison Marceau entry.
    Supply displayTitle, formatLabel, overviewTitle, overview, demoUrl, captureDate,
@@ -29,8 +29,8 @@ media rights.
    in your local server environment when overriding the default loopback demo. Do not use
    PUBLIC_ names, credentials, query strings, fragments or remote hosts.
 6. Run npm run check, start the portfolio separately, then inspect /realisations/ and
-   /atelier-local/realisations/<slug>/. Captures are served from
-   /atelier-local/captures/<slug>/desktop.png and mobile.png.
+   `/atelier-local/realisations/<slug>/`. Captures are served from
+   `/atelier-local/captures/<slug>/desktop.png` and `mobile.png`.
 7. Check narrow mobile and desktop layouts, credits, limits, keyboard access and the
    independent demo link. The planned `npm run test:local` integration test checks the
    registered Maison Marceau reference on portfolio port 4400 and demo port 4401; it is not a generic
