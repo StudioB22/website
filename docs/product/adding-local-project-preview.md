@@ -1,18 +1,17 @@
 # Add an independent local project preview
 
-**Status: approved workflow design; pending integration into main.**
+**Status: implemented in this checkout; available in local development mode.**
 
-This conception PR documents the intended workflow. The registry, local routes and
-`npm run test:local` script exist in a separate local implementation candidate and
-are not included in this PR. Follow the procedure only after the corresponding
-implementation has been merged into your checkout. Update this status in that
-implementation PR when the prerequisites are delivered.
+This checkout includes the registry, local routes and `npm run test:local` script.
+Use a checkout containing this implementation and start Astro with `npm run dev`.
+Production builds exclude local draft pages and captures, including when served
+locally with `npm run preview`.
 
-Once integrated, this workflow exposes prepared drafts on the local portfolio only.
+This workflow exposes prepared drafts on the local portfolio only.
 It does not publish a project, start its demo, clone its repository or approve its
 media rights.
 
-## Procedure after implementation integration
+## Procedure
 
 1. Prepare the independent repository and start its server on its own loopback port.
 2. Add truthful draft metadata to src/data/projects.ts with published: false. Use the
@@ -28,15 +27,17 @@ media rights.
 5. Optionally choose a unique server-only demoUrlEnv beginning STUDIOB22_LOCAL_. Set it
    in your local server environment when overriding the default loopback demo. Do not use
    PUBLIC_ names, credentials, query strings, fragments or remote hosts.
+   Reusing a defined override name is rejected even when the variable is unset.
+   Several entries may omit an override; sharing a URL value is not prohibited.
 6. Run npm run check, start the portfolio separately, then inspect /realisations/ and
    `/atelier-local/realisations/<slug>/`. Captures are served from
    `/atelier-local/captures/<slug>/desktop.png` and `mobile.png`.
 7. Check narrow mobile and desktop layouts, credits, limits, keyboard access and the
-   independent demo link. The planned `npm run test:local` integration test checks the
+   independent demo link. The `npm run test:local` integration test checks the
    registered Maison Marceau reference on portfolio port 4400 and demo port 4401; it is not a generic
    reachability test for every added server.
 
-## Expected behavior after integration
+## Expected behavior
 
 Adding another entry does not require editing Astro page templates or the capture route.
 Missing files, duplicate slugs and invalid metadata stop local rendering with an error.

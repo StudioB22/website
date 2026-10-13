@@ -1,0 +1,64 @@
+---
+import { projects } from "../../../data/projects";
+import type { CaseStudy, Project } from "../../../domain/project";
+import ProjectCaseStudy from "../../../components/ProjectCaseStudy.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+type EditorialDraft = Extract<Project, { published: false }> & {
+  caseStudy: CaseStudy;
+};
+export const getStaticPaths = () =>
+  import.meta.env.DEV
+    ? projects
+        .filter(
+          (project): project is EditorialDraft =>
+            !project.published && Boolean(project.caseStudy),
+        )
+        .map((project) => ({
+          params: { slug: project.slug },
+          props: { project },
+        }))
+    : [];
+interface Props {
+  project: EditorialDraft;
+}
+const { project } = Astro.props;
+---
+
+<BaseLayout
+  title={`${project.title} · étude de cas locale`}
+  description={project.summary}
+>
+  <article class="page-shell inner-page">
+    <a class="back-link" href="/realisations/">
+      Retour aux réalisations
+    </a>
+    <header class="page-intro">
+      <p class="project-meta">
+        Brouillon local · projet fictif · aperçu éditorial sans captures
+      </p>
+      <h1>{project.title} : les choix derrière le site</h1>
+      <p>{project.summary}</p>
+    </header>
+    <p>
+      Cette page prépare la présentation du savoir-faire de StudioB22. Elle
+      n’est pas publiée et ne constitue pas une validation finale de la
+      démonstration.
+    </p>
+    <ProjectCaseStudy study={project.caseStudy} />
+    <section class="section-divider">
+      <h2>Les limites de cet exemple</h2>
+      <ul>
+        {project.limitations.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+      <h2>Crédits</h2>
+      <ul>
+        {project.credits.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    </section>
+  </article>
+</BaseLayout>

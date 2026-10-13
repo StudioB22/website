@@ -64,6 +64,10 @@ unsafe demo URLs, invalid/future dates, invalid source commits, missing/duplicat
 roles, nonpositive dimensions and unsafe filenames. Filenames use letters, digits, hyphens
 and underscores followed by .png; neither paths nor traversal syntax are accepted.
 Environment override names must start with STUDIOB22_LOCAL_ and never PUBLIC_.
+Defined override names must be unique across the registry, even when their environment
+values are unset. The pure parser rejects duplicates before environment or filesystem
+resolution. Multiple absent names are valid; URL values are not required to be unique.
+Duplicate errors identify the name and conflicting project, never environment values.
 
 ## Routes and migration
 

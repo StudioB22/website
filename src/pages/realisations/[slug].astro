@@ -10,6 +10,7 @@ import {
 import { projects } from "../../data/projects";
 import type { Project } from "../../domain/project";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import ProjectCaseStudy from "../../components/ProjectCaseStudy.astro";
 
 type PublishedProject = Extract<Project, { published: true }>;
 
@@ -112,5 +113,6 @@ const { project } = Astro.props;
         )}
       </div>
     </div>
+    {project.caseStudy && <ProjectCaseStudy study={project.caseStudy} />}
   </article>
 </BaseLayout>

@@ -1,0 +1,113 @@
+---
+import { localProjectPreviews } from "../../../config/local-project-preview";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { formatReviewDate } from "../../../data/project-labels";
+
+export const getStaticPaths = () =>
+  import.meta.env.DEV
+    ? localProjectPreviews.map((preview) => ({
+        params: { slug: preview.project.slug },
+        props: { preview },
+      }))
+    : [];
+interface Props {
+  preview: (typeof localProjectPreviews)[number];
+}
+const { preview } = Astro.props;
+const { project } = preview;
+---
+
+<BaseLayout
+  title={`${project.title} · aperçu local`}
+  description={project.summary}
+>
+  <article class="page-shell inner-page project-detail local-project-detail">
+    <a class="back-link" href="/realisations/">
+      ← Retour aux réalisations
+    </a>
+    <header class="page-intro">
+      <p class="project-meta">Brouillon · aperçu local uniquement</p>
+      <h1>{preview.displayTitle}</h1>
+      <p>{project.summary}</p>
+      <a
+        class="button button-primary"
+        href={preview.demoUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-describedby="local-demo-notice"
+      >
+        Ouvrir la maquette locale <span class="sr-only">(nouvel onglet)</span>
+      </a>
+      <p id="local-demo-notice">
+        Aperçu de projet en brouillon. Le site doit être démarré séparément sur
+        ton ordinateur. Aucun serveur n’est lancé automatiquement et aucun
+        message n’est envoyé.
+      </p>
+    </header>
+    <div class="detail-layout showcase-layout">
+      <div class="detail-images local-captures">
+        {preview.captures.map((capture) => (
+          <figure
+            class:list={[
+              "local-capture",
+              { "local-capture-mobile": capture.name === "mobile" },
+            ]}
+          >
+            <img
+              src={capture.src}
+              width={capture.width}
+              height={capture.height}
+              alt={capture.alt}
+            />
+            <figcaption>
+              {capture.name === "mobile" ? "Vue mobile" : "Vue ordinateur"} :
+              capture du {formatReviewDate(preview.captureDate)}, version{" "}
+              {preview.sourceCommit.slice(0, 7)}.
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+      <div class="detail-facts">
+        <section class="showcase-story">
+          <h2>{preview.overviewTitle}</h2>
+          <p>{preview.overview}</p>
+          {project.caseStudy && (
+            <a
+              class="text-link"
+              href={`/atelier-local/etudes/${project.slug}/`}
+            >
+              Comprendre les choix de conception
+            </a>
+          )}
+        </section>
+        <section>
+          <h2>Ce que cette maquette montre</h2>
+          <ul>
+            {project.demonstratedCapabilities.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </section>
+        <section>
+          <h2>Les limites du projet</h2>
+          <ul>
+            {project.limitations.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </section>
+        <section>
+          <h2>Crédits et provenance</h2>
+          <ul>
+            {project.credits.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+          {preview.captureCredits.map((credit) => (
+            <p>{credit}</p>
+          ))}
+        </section>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
