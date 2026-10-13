@@ -71,6 +71,14 @@ const { project } = preview;
         <section class="showcase-story">
           <h2>{preview.overviewTitle}</h2>
           <p>{preview.overview}</p>
+          {project.caseStudy && (
+            <a
+              class="text-link"
+              href={`/atelier-local/etudes/${project.slug}/`}
+            >
+              Comprendre les choix de conception
+            </a>
+          )}
         </section>
         <section>
           <h2>Ce que cette maquette montre</h2>

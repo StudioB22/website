@@ -4,6 +4,7 @@ import { globSync } from "node:fs";
 import {
   access,
   cp,
+  mkdir,
   mkdtemp,
   readFile,
   rm,
@@ -21,6 +22,151 @@ const distDirectory = fileURLToPath(new URL("../dist/", import.meta.url));
 const projectDirectory = fileURLToPath(new URL("../", import.meta.url));
 const routes = ["/", "/realisations/", "/services/", "/methode/", "/a-propos/"];
 
+test("the method exposes fifteen ordered steps, seven milestones and client roles", async () => {
+  // arrange and act: inspect the real generated method page.
+  const html = await readFile(
+    join(distDirectory, "methode/index.html"),
+    "utf8",
+  );
+  const disclosures = [
+    ...html.matchAll(/<details\b([^>]*)>([\s\S]*?)<\/details>/g),
+  ];
+
+  // assert: semantic, initially closed disclosures retain the complete method.
+  assert.equal(disclosures.length, 3);
+  for (const [, attributes, content] of disclosures) {
+    assert.doesNotMatch(attributes, /\bopen(?:\s|=|$)/);
+    assert.match(content, /^\s*<summary\b[^>]*>Explorer les étapes/);
+  }
+  assert.deepEqual(
+    [...html.matchAll(/data-method-step="(\d+)"/g)].map((match) =>
+      Number(match[1]),
+    ),
+    Array.from({ length: 15 }, (_, index) => index + 1),
+  );
+  const milestones = [
+    ...html.matchAll(/<ol\b[^>]*aria-label="Jalons[^>]*>([\s\S]*?)<\/ol>/g),
+  ];
+  assert.equal(milestones.length, 3);
+  assert.equal(
+    milestones.reduce(
+      (count, match) => count + [...match[1].matchAll(/<li\b/g)].length,
+      0,
+    ),
+    7,
+  );
+  assert.equal([...html.matchAll(/Votre rôle :/g)].length, 3);
+  assert.equal([...html.matchAll(/<h1\b/g)].length, 1);
+});
+
+test("local preview navigation and case-study rendering preserve eligibility and escaping", async () => {
+  // arrange: copied templates and synthetic data stay outside the real catalogue.
+  const fixtureDirectory = await mkdtemp(
+    join(tmpdir(), "studiob22-case-study-"),
+  );
+  try {
+    for (const name of ["src", "public", "package.json"]) {
+      await cp(join(projectDirectory, name), join(fixtureDirectory, name), {
+        recursive: true,
+      });
+    }
+    await symlink(
+      join(projectDirectory, "node_modules"),
+      join(fixtureDirectory, "node_modules"),
+      "dir",
+    );
+    for (const [name, slug] of [
+      ["with-story", "maison-doree"],
+      ["without-story", "maison-marceau"],
+    ]) {
+      await writeFile(
+        join(fixtureDirectory, `src/pages/${name}.astro`),
+        `---
+import Preview from "./atelier-local/realisations/[slug].astro";
+import { projects } from "../data/projects";
+const project = projects.find(project => project.slug === ${JSON.stringify(slug)});
+const preview = { project, displayTitle: project.title,
+  overviewTitle: "Synthetic fixture", overview: "Test-only rendering",
+  demoUrl: "http://127.0.0.1:4401/", captureDate: "2026-10-12",
+  sourceCommit: "0".repeat(40), captureCredits: [], captures: [] };
+---
+<Preview preview={preview} />
+`,
+      );
+    }
+    const editorialDirectory = join(
+      fixtureDirectory,
+      "src/pages/atelier-local/etudes/maison-doree",
+    );
+    await mkdir(editorialDirectory, { recursive: true });
+    await writeFile(
+      join(editorialDirectory, "index.astro"),
+      `---
+import Editorial from "../[slug].astro";
+import { projects } from "../../../../data/projects";
+const original = projects.find(project => project.slug === "maison-doree");
+const marker = '<script>alert("fixture")</script>';
+const project = { ...original, caseStudy: { ...original.caseStudy,
+  context: marker, objective: marker,
+  decisions: [{ title: marker, reason: marker, example: marker, evidenceLimit: marker }],
+  milestones: [{ title: marker, methodSteps: [14], status: "pending", explanation: marker }] } };
+---
+<Editorial project={project} />
+`,
+    );
+
+    // act: build the actual templates without launching servers or publishing fixtures.
+    const build = spawnSync("npm", ["run", "build"], {
+      cwd: fixtureDirectory,
+      env: { ...process.env, PUBLIC_RELEASE_CHANNEL: "preview" },
+      encoding: "utf8",
+      timeout: 120_000,
+    });
+    assert.equal(build.status, 0, [build.stderr, build.stdout].join("\n"));
+    const positive = await readFile(
+      join(fixtureDirectory, "dist/with-story/index.html"),
+      "utf8",
+    );
+    const negative = await readFile(
+      join(fixtureDirectory, "dist/without-story/index.html"),
+      "utf8",
+    );
+    const story = await readFile(
+      join(
+        fixtureDirectory,
+        "dist/atelier-local/etudes/maison-doree/index.html",
+      ),
+      "utf8",
+    );
+
+    // assert: same-tab, correctly targeted navigation exists only with a narrative.
+    const links = [
+      ...positive.matchAll(
+        /<a\b([^>]*)>\s*Comprendre les choix de conception\s*<\/a>/g,
+      ),
+    ];
+    assert.equal(links.length, 1);
+    assert.match(links[0][1], /href="\/atelier-local\/etudes\/maison-doree\/"/);
+    assert.doesNotMatch(links[0][1], /\btarget=/);
+    assert.doesNotMatch(
+      negative,
+      /Comprendre les choix de conception|href="\/atelier-local\/etudes\//,
+    );
+    assert.match(story, /étude de cas locale/);
+    assert.match(story, /À réaliser/);
+    assert.match(story, /Étapes\s+14/);
+    assert.match(story, /href="\/methode\/"/);
+    assert.match(story, /Preuves et limites/);
+    assert.equal([...story.matchAll(/&lt;script&gt;/g)].length, 8);
+    assert.doesNotMatch(story, /<script\b|<iframe\b|<form\b/);
+    for (const html of [positive, negative, story]) {
+      assert.match(html, /name="robots" content="noindex, nofollow"/);
+    }
+  } finally {
+    await rm(fixtureDirectory, { recursive: true, force: true });
+  }
+});
+
 test("production excludes local draft routes, demo addresses and captures", async () => {
   const emitted = globSync("**/*", { cwd: distDirectory });
   assert.ok(!emitted.some((path) => path.includes("atelier-local")));
@@ -29,7 +175,7 @@ test("production excludes local draft routes, demo addresses and captures", asyn
     const text = await readFile(join(distDirectory, path), "utf8");
     assert.doesNotMatch(
       text,
-      /atelier-local|maison-(?:marceau|aureline)|(?:127\.0\.0\.1|localhost):\d+|Dans l’atelier : aperçu local/,
+      /atelier-local|maison-(?:marceau|aureline|doree)|Maison Dorée|(?:127\.0\.0\.1|localhost):\d+|Dans l’atelier : aperçu local/,
     );
   }
 });
@@ -169,7 +315,7 @@ test("an approved public build has no private-preview copy in generated pages", 
       const html = await readFile(join(publicDist, page), "utf8");
       assert.doesNotMatch(
         html,
-        /atelier-local|maison-(?:marceau|aureline)|(?:127\.0\.0\.1|localhost):\d+|Dans l’atelier : aperçu local/,
+        /atelier-local|maison-(?:marceau|aureline|doree)|Maison Dorée|(?:127\.0\.0\.1|localhost):\d+|Dans l’atelier : aperçu local/,
       );
       assert.match(html, /name="robots" content="index, follow"/);
       assert.doesNotMatch(html, /Préversion privée|Nom de travail/);
