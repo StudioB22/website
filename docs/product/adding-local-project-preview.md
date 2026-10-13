@@ -1,7 +1,18 @@
 # Add an independent local project preview
 
-This workflow exposes prepared drafts on the local portfolio only. It does not publish a
-project, start its demo, clone its repository or approve its media rights.
+**Status: approved workflow design; pending integration into main.**
+
+This conception PR documents the intended workflow. The registry, local routes and
+`npm run test:local` script exist in a separate local implementation candidate and
+are not included in this PR. Follow the procedure only after the corresponding
+implementation has been merged into your checkout. Update this status in that
+implementation PR when the prerequisites are delivered.
+
+Once integrated, this workflow exposes prepared drafts on the local portfolio only.
+It does not publish a project, start its demo, clone its repository or approve its
+media rights.
+
+## Procedure after implementation integration
 
 1. Prepare the independent repository and start its server on its own loopback port.
 2. Add truthful draft metadata to src/data/projects.ts with published: false. Use the
@@ -21,9 +32,11 @@ project, start its demo, clone its repository or approve its media rights.
    /atelier-local/realisations/<slug>/. Captures are served from
    /atelier-local/captures/<slug>/desktop.png and mobile.png.
 7. Check narrow mobile and desktop layouts, credits, limits, keyboard access and the
-   independent demo link. npm run test:local currently checks the registered Maison
-   Marceau reference on portfolio port 4400 and demo port 4401; it is not a generic
+   independent demo link. The planned `npm run test:local` integration test checks the
+   registered Maison Marceau reference on portfolio port 4400 and demo port 4401; it is not a generic
    reachability test for every added server.
+
+## Expected behavior after integration
 
 Adding another entry does not require editing Astro page templates or the capture route.
 Missing files, duplicate slugs and invalid metadata stop local rendering with an error.
