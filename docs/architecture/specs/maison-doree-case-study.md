@@ -8,9 +8,12 @@ demo while retaining independent repositories and truthful publication gates.
 
 ## Inputs and authoritative boundaries
 
-Use the existing public-website-mvp, method-page-guide and
-portfolio-method-consolidation specifications. This checkout is the documented
-local integration reference, not an accepted production release.
+Use the [public website specification](public-website-mvp.md),
+[method page guide](method-page-guide.md) and
+[multi-project local preview specification](multi-project-local-preview.md).
+Earlier implementation evidence below refers to the separate local consolidation
+worktree. This documentation branch records the conception for independent review,
+not an accepted production release.
 The bakery repository's documentation/portfolio-case-study.md is the editorial
 source; its project-brief and static-delivery records own implementation evidence.
 The bakery is fictional. Development and reported checks are real, but they are

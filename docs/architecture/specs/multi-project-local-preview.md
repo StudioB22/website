@@ -33,7 +33,7 @@ Actor: maintainer. Preconditions: independent repository identified; truthful dr
 documented media provenance and dated captures prepared. Steps:
 
 1. Add the draft to src/data/projects.ts with published false.
-2. Store captures under docs/product/reviews/<slug>/ with a provenance document.
+2. Store captures under `docs/product/reviews/<slug>/` with a provenance document.
 3. Add an entry to src/data/local-project-previews.ts.
 4. Start the independent demo and portfolio separately; run checks and inspect both routes.
 
@@ -67,8 +67,8 @@ Environment override names must start with STUDIOB22_LOCAL_ and never PUBLIC_.
 
 ## Routes and migration
 
-- Detail remains /atelier-local/realisations/<slug>/.
-- Captures become /atelier-local/captures/<slug>/<name>.png.
+- Detail remains `/atelier-local/realisations/<slug>/`.
+- Captures become `/atelier-local/captures/<slug>/<name>.png`.
 - The handler resolves a validated registered slug/name pair, never a request-derived disk path.
 - Unknown pairs and production requests return 404; successful capture responses keep
   image/png, no-store and noindex/nofollow headers.

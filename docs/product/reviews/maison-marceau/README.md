@@ -2,6 +2,18 @@
 
 Status: review-only, not publication approval. Capture date: 2026-10-02.
 
+## Source status update, 2026-10-13
+
+The independent application's dependency and keyboard corrections were merged in
+[StudioB22/barbier-01#4](https://github.com/StudioB22/barbier-01/pull/4), commit
+`44b3d2dee6eaa00974fd78730b2f0541c3333bec`. Application CI, dependency audit and
+secret scan passed on that merge commit. Tracking evidence is recorded in
+[StudioB22/website#12](https://github.com/StudioB22/website/issues/12).
+
+The captures below still depict `8c8bb05`, not the newly merged application.
+They remain dated local review references. New source verification does not
+refresh their provenance or satisfy the remaining publication gates.
+
 ## Current captures — merged candidate 8c8bb05
 
 - Exact source: 8c8bb05898280f4d636555b5f0b0fb27a9adfb70, clean barbier-01-ci worktree.
