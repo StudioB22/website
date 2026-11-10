@@ -12,7 +12,7 @@
   `npm audit --audit-level=high` and gitleaks 8.30.1, SonarQube Community Build with quality-gate
   wait, Vitest coverage (thresholds 95/90/95/95, a ratchet above the owner floor of 80 %) and doc coverage (floor 90 %). `npm audit` found three high
   advisories on the way (zod < 4.6.6, vite 8.3.1, undici 8.11.2): zod bumped to 4.6.7, vite and
-  undici pinned through npm `overrides`. Added Dependabot (npm) and `.github/branch-protection.md`.
+  undici floored through npm `overrides` (`^8.3.6`, `^8.12.4`). Added Dependabot (npm) and `.github/branch-protection.md`.
 - **Decision**: `Repository visibility: public` — MCDA (owner, 2026-11-10): public 430, private
   with GitHub Pro 330, private with a derogation 255. GitHub Free grants branch protection on
   public repositories only; the Public Release Checklist (gitleaks on the full history: no leak;
