@@ -187,4 +187,5 @@ const publicAssetPaths = new Set(
     .filter((path) => path.includes(".")),
 );
 
+/** The validated catalogue: an invalid entry or a missing preview asset fails the build. */
 export const projects = parseProjects(projectInputs, publicAssetPaths);

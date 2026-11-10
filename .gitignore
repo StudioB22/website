@@ -12,3 +12,9 @@ node_modules/
 .env
 .env.*
 !.env.example
+
+# Vitest coverage report (just test)
+coverage/
+
+# SonarQube scanner work directory (just sonar)
+.scannerwork/

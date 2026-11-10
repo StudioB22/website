@@ -1,7 +1,9 @@
 import { z } from "zod";
 
+/** `preview` is the private release 0.1; `public` requires an approved brand (ADR-0004). */
 export const releaseChannelSchema = z.enum(["preview", "public"]);
 
+/** Release channel selected by `PUBLIC_RELEASE_CHANNEL`. */
 export type ReleaseChannel = z.infer<typeof releaseChannelSchema>;
 
 const webOriginSchema = z.url().refine((value) => {
@@ -21,6 +23,7 @@ const webOriginSchema = z.url().refine((value) => {
   );
 }, "Expected an HTTP(S) origin without credentials, path, query, or fragment");
 
+/** Brand contract: a provisional identity may leave the origin and contact email unset. */
 export const brandSchema = z.object({
   name: z.string().trim().min(1),
   descriptor: z.string().trim().min(1),
@@ -32,8 +35,10 @@ export const brandSchema = z.object({
   contactEmail: z.email().nullable(),
 });
 
+/** Validated brand identity. */
 export type Brand = z.infer<typeof brandSchema>;
 
+/** Refuse a public release until the brand, launch approval, origin and contact email exist. */
 export const validateBrandForRelease = (
   input: unknown,
   releaseChannel: ReleaseChannel,

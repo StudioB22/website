@@ -15,7 +15,7 @@
 | REQ-A11Y-001 | UC1–UC6 | 0.1 | Semantic generated HTML and accessible interactions | Use case, component | Automated checks plus manual keyboard, focus, zoom, reflow, screen-reader, and motion review |
 | REQ-PERF-001 | UC1–UC6 | 0.1 | Static generation, responsive assets, minimal islands, explicit budgets | Component | Page-weight and Core Web Vitals budget evidence on representative pages |
 | REQ-SEO-001 | UC1–UC4 | 1.0 | Static routes, page/query map, metadata, canonical origin, sitemap, robots, structured data | Component | Build checks plus pre-launch crawl and search review |
-| REQ-SEC-001 | UC5–UC7 | 0.1 | Security CI, headers, validated boundaries, least privilege | Component, data flow for 1.1 | Gitleaks, CodeQL, dependency review, audit, and targeted manual review |
+| REQ-SEC-001 | UC5–UC7 | 0.1 | Local security tiers (ADR-0005), headers, validated boundaries, least privilege | Component, data flow for 1.1 | gitleaks (staged and history), Semgrep CE, `npm audit`, SonarQube gate on the attested head, and targeted manual review |
 | REQ-PRIV-001 | UC5, UC6 | 1.0 | No connected web form in the first public release; reviewed mailbox boundary and deferred optional providers | Component, data flow | Release inventory, provider assessment, retention and rights-path exercise |
 | REQ-HON-001 | UC1–UC7 | 0.1 | Truthful catalogue states, exclusions, and publication controls | Use case, component | Manual evidence, claims, credits, and structured-data review |
 | REQ-BRAND-001 | UC1–UC7 | 0.1 | Typed central brand configuration and production gate | Component | Provisional-value build test and release checklist |

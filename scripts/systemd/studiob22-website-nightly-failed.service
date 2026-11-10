@@ -1,0 +1,6 @@
+[Unit]
+Description=Desktop notification when the StudioB22/website nightly local CI fails
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/notify-send --urgency=critical "StudioB22/website local CI nightly failed" "journalctl --user -u studiob22-website-nightly.service"

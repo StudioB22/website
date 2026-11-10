@@ -1,5 +1,6 @@
 import type { Brand } from "../domain/brand";
 
+/** Working identity (ADR-0003): provisional until the brand, origin and mailbox are approved. */
 export const brand = {
   name: "StudioB22",
   descriptor: "Sites web clairs, soignés et conçus avec méthode",

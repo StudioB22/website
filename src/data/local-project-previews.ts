@@ -1,5 +1,6 @@
 import type { LocalProjectPreviewInput } from "../domain/local-project-preview";
 
+/** Registered local previews: fictional concepts reviewed locally, never published as client work. */
 export const localProjectPreviewInputs = [
   {
     projectSlug: "maison-marceau",
