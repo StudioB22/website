@@ -65,7 +65,8 @@ explicit local environment file is useful; never commit credentials.
 - The working identity is centralised in `src/config/brand.ts`.
 - Catalogue entries are validated by `src/domain/project.ts` before publication.
 - Inactive external services contribute no SDK, endpoint, script, cookie, or embed.
-- CI separates the quality gate, CodeQL, dependency audit, and Gitleaks scans.
-- Because this private repository does not currently expose GitHub Advanced Security, CodeQL and
-  Gitleaks preserve SARIF artefacts for review, while a blocking npm audit replaces GitHub's
-  unavailable dependency-review service.
+- Every check runs locally, no GitHub workflow (ADR-0005): `just setup` once per clone, then the
+  git hooks run `just fast` on commit and `just check` on push; `just gate` attests the pushed head
+  before every merge and `just nightly` runs on a systemd timer. Semgrep Community Edition,
+  `npm audit --audit-level=high` and gitleaks replace the former CodeQL, dependency audit and
+  Gitleaks workflows.

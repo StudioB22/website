@@ -1,5 +1,28 @@
 # Project log
 
+## 2026-11-10
+
+- **Local-first CI, no GitHub workflow** ([issue #17](https://github.com/StudioB22/website/issues/17),
+  ADR-0005) — GitHub Actions minutes now bill the owner; owner rule 2026-11-07: every check runs
+  locally, the only workflow allowed is a tag-driven production deploy, which this repository does
+  not have. Deleted `codeql.yml`, `dependency-review.yml`, `gitleaks.yml` and `quality.yml`;
+  replaced them by the four `just` tiers of skill `local-ci` (`fast` on pre-commit, `check` on
+  pre-push, `gate` on the pushed head before every merge with the signed attestation, `nightly` on
+  a systemd timer), lefthook hooks, a mise-pinned toolchain, Semgrep CE for SAST, the same
+  `npm audit --audit-level=high` and gitleaks 8.30.1, SonarQube Community Build with quality-gate
+  wait, Vitest coverage (floor 80 %) and doc coverage (floor 90 %). `npm audit` found three high
+  advisories on the way (zod < 4.6.6, vite 8.3.1, undici 8.11.2): zod bumped to 4.6.7, vite and
+  undici pinned through npm `overrides`. Added Dependabot (npm) and `.github/branch-protection.md`.
+- **Decision**: `Repository visibility: public` — MCDA (owner, 2026-11-10): public 430, private
+  with GitHub Pro 330, private with a derogation 255. GitHub Free grants branch protection on
+  public repositories only; the Public Release Checklist (gitleaks on the full history: no leak;
+  no secret; placeholder-only `.env.example`) passes. The switch to public and the `gate`-only
+  protection of `main` follow the merge, on the owner's explicit approval.
+- **Bootstrap merge**: the first merge of this change cannot be verified by `just merge`
+  (`.github/allowed_signers` and `scripts/attest.sh` are not on `main` yet); it goes through
+  `gh pr merge --squash --match-head-commit <sha>` on the green `gate` status. Every later merge
+  uses `just merge <pr>`. Tracked by benoit-bremaud/agents-skills#259.
+
 ## 2026-09-25
 
 - **PR #2 merged** (`69ddd96`) — `docs(public-website): define commercial website conception`.

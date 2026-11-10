@@ -29,6 +29,7 @@ const localPreviewSchema = z.object({
   ]),
 });
 
+/** Registry entry of a local preview: evidence captures, credits and a loopback demo URL. */
 export type LocalProjectPreviewInput = z.infer<typeof localPreviewSchema>;
 
 /** Join registered previews to existing drafts without publishing or performing IO. */

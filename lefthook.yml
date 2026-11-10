@@ -1,0 +1,33 @@
+# Git hooks for the local CI (#17, skill local-ci): tier L0 on commit, L1 on push. Install once per
+# clone: `just setup` (mise install, npm ci, lefthook install). `mise x --` puts the pinned tools of
+# mise.toml (Node 22 included) on PATH whether or not the shell activates mise.
+pre-commit:
+  parallel: true
+  jobs:
+    - name: staged secrets
+      run: mise x -- gitleaks git --staged --redact --no-banner .
+    - name: eslint
+      glob: "*.ts"
+      run: mise x -- npx eslint --max-warnings 0 {staged_files}
+    - name: prettier
+      glob: "*.{ts,mts,mjs,js,cjs,json,yml,yaml,md,astro,css}"
+      run: mise x -- npx prettier --check {staged_files}
+
+commit-msg:
+  jobs:
+    - name: conventional commit subject
+      run: sh scripts/check-commit-msg.sh {1}
+
+pre-push:
+  jobs:
+    - name: just check (L1)
+      # The check runs on the working tree, so it must equal the pushed commits (untracked files
+      # included: an untracked import passes tsc locally and breaks the pushed commit).
+      # `files` + `: {files}`: lefthook 2.2.2 skips a pre-push job when the push lists no file
+      # (tag, deletion, first push of a branch) unless the job names a files command (busscope #108).
+      files: echo justfile
+      run: >-
+        : {files};
+        [ -z "$(git status --porcelain)" ]
+        || { echo "pre-push: commit or set aside the uncommitted or untracked changes first" >&2; exit 1; };
+        mise x -- just check

@@ -2,6 +2,7 @@ import type { Project } from "../domain/project";
 
 type PublishedProject = Extract<Project, { published: true }>;
 
+/** French labels of the project sectors shown on the gallery. */
 export const sectorLabels: Record<Project["sector"], string> = {
   "artisans-et-metiers": "Artisanat et métiers",
   "restauration-et-hospitalite": "Restauration et accueil",
@@ -14,6 +15,7 @@ export const sectorLabels: Record<Project["sector"], string> = {
   "services-locaux": "Services de proximité",
 };
 
+/** French labels of the truthful project statuses (never implying client work). */
 export const statusLabels: Record<Project["status"], string> = {
   concept: "Concept",
   "mock-up": "Maquette",
@@ -22,6 +24,7 @@ export const statusLabels: Record<Project["status"], string> = {
   "archived-experiment": "Expérimentation archivée",
 };
 
+/** French labels of the visual directions of published projects. */
 export const visualDirectionLabels: Record<
   PublishedProject["visualDirection"],
   string
@@ -34,6 +37,7 @@ export const visualDirectionLabels: Record<
   "technique-et-fonctionnelle": "Technique et fonctionnelle",
 };
 
+/** French labels of the review evidence dates of published projects. */
 export const reviewDateLabels: Record<
   keyof PublishedProject["reviewDates"],
   string
@@ -48,6 +52,7 @@ export const reviewDateLabels: Record<
   demoMaturity: "Maturité de la démonstration",
 };
 
+/** Format an ISO review date for French readers, independent of the build machine's time zone. */
 export const formatReviewDate = (date: string): string =>
   new Intl.DateTimeFormat("fr-FR", {
     dateStyle: "medium",

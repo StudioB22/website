@@ -1,0 +1,18 @@
+# Dependabot — the `npm` block keeps the toolchain current; minor and patch bumps are grouped.
+# No `github-actions` block: no workflow is left (ADR-0005).
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    # Supply chain: never propose a release younger than a week.
+    cooldown:
+      default-days: 7
+    groups:
+      toolchain-minor-patch:
+        update-types: ["minor", "patch"]
+    commit-message:
+      prefix: "chore(deps)"

@@ -383,7 +383,7 @@ and signatures require their own issue, conception, threat model, data model, an
 - Knowledgeable manual accessibility review and automated checks completed.
 - Performance budgets pass on representative mobile and desktop pages.
 - Canonical URLs, redirects, robots directives, sitemap, metadata, internal links, and structured data verified.
-- Security workflows and repository settings active; no unresolved high or critical dependency risk.
+- Local security tiers active (ADR-0005) and repository settings applied; no unresolved high or critical dependency risk.
 - Production deployment and rollback procedure exercised.
 
 ### Release 1.1 activation gates
@@ -423,7 +423,7 @@ and signatures require their own issue, conception, threat model, data model, an
 - Representative browser journeys for navigation, gallery, contact, and later diagnostic completion.
 - Automated accessibility checks plus manual keyboard, focus, zoom, reflow, screen-reader, and motion review.
 - Mobile and desktop performance-budget checks on representative pages.
-- Dependency audit, Gitleaks, CodeQL, dependency review, and browser-header review.
+- Dependency audit, gitleaks, Semgrep CE, SonarQube gate on the attested head, and browser-header review.
 - Manual content, rights, truthfulness, privacy, provider, and release-readiness checklists.
 - AI-assisted output review covering factual accuracy, licences, confidentiality, security, and human approval.
 - Moderated comprehension tasks using the success criteria in the product brief.

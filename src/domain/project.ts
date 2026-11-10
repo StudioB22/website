@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+/** Truthful statuses a gallery entry may declare (ADR-0002: no implied client work). */
 export const projectStatusSchema = z.enum([
   "concept",
   "mock-up",
@@ -8,6 +9,7 @@ export const projectStatusSchema = z.enum([
   "archived-experiment",
 ]);
 
+/** Sectors the gallery is filtered by. */
 export const projectSectorSchema = z.enum([
   "artisans-et-metiers",
   "restauration-et-hospitalite",
@@ -20,6 +22,7 @@ export const projectSectorSchema = z.enum([
   "services-locaux",
 ]);
 
+/** Visual directions a published entry declares. */
 export const visualDirectionSchema = z.enum([
   "editoriale",
   "chaleureuse-et-organique",
@@ -37,6 +40,7 @@ const reviewedDateSchema = z.iso
   );
 
 const caseStudyText = z.string().trim().min(1);
+/** Case study: decisions with their evidence limit, milestones mapped to method steps. */
 export const caseStudySchema = z.object({
   context: caseStudyText,
   objective: caseStudyText,
@@ -67,6 +71,7 @@ export const caseStudySchema = z.object({
     .min(1),
 });
 
+/** Validated case study of a published project. */
 export type CaseStudy = z.infer<typeof caseStudySchema>;
 
 const projectCoreSchema = z.object({
@@ -124,11 +129,13 @@ const publishedProjectSchema = projectCoreSchema.extend({
   publishedAt: reviewedDateSchema,
 });
 
+/** A draft carries the core only; a published entry adds assets and dated review evidence. */
 export const projectSchema = z.discriminatedUnion("published", [
   draftProjectSchema,
   publishedProjectSchema,
 ]);
 
+/** Validated gallery entry, draft or published. */
 export type Project = z.infer<typeof projectSchema>;
 
 const projectListSchema = z
@@ -149,6 +156,7 @@ const projectListSchema = z
     });
   });
 
+/** Validate the catalogue and refuse a published entry whose preview asset is not shipped. */
 export const parseProjects = (
   input: readonly unknown[],
   availableAssetPaths: ReadonlySet<string> = new Set(),
