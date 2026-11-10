@@ -29,7 +29,7 @@ media rights.
    PUBLIC_ names, credentials, query strings, fragments or remote hosts.
    Reusing a defined override name is rejected even when the variable is unset.
    Several entries may omit an override; sharing a URL value is not prohibited.
-6. Run npm run check, start the portfolio separately, then inspect /realisations/ and
+6. Run `just check`, start the portfolio separately, then inspect /realisations/ and
    `/atelier-local/realisations/<slug>/`. Captures are served from
    `/atelier-local/captures/<slug>/desktop.png` and `mobile.png`.
 7. Check narrow mobile and desktop layouts, credits, limits, keyboard access and the

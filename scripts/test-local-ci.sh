@@ -12,7 +12,8 @@
 # --match-head-commit and propagates a gh failure; sonar refuses a missing or stale coverage
 # report and a missing token, and a failed quality gate fails it; toolchain-drift fails on a Node
 # patch or an exact pin behind, not on a Node major; node-guard refuses the wrong Node major and
-# passes the right one; L0 (`just fast`) passes a clean staged change but refuses a staged secret.
+# passes the right one; doc-coverage counts block comments only and enforces its floor; L0
+# (`just fast`) passes a clean staged change but refuses a staged secret.
 # Needs mise, just, lefthook, gitleaks (the tool wordings asserted are pinned by mise.lock):
 #   mise x -- sh scripts/test-local-ci.sh
 set -e
@@ -63,7 +64,11 @@ grep -qF 'git status --porcelain' lefthook.yml || fail "pre-push hook does not r
 grep -qE '^ +files: echo justfile$' lefthook.yml && grep -qF ': {files};' lefthook.yml || fail "pre-push job lacks the files command that keeps it from being skipped on a file-less push"; ok
 lefthook validate > /dev/null || fail "lefthook validate"; ok
 for s in attest.sh test-attest.sh check-commit-msg.sh check-cassettes.sh; do
-  [ ! -f "$HOME/.claude/scripts/$s" ] || cmp -s "scripts/$s" "$HOME/.claude/scripts/$s" || fail "scripts/$s drifted from ~/.claude/scripts/$s (re-copy it, agents-skills#400)"
+  if [ -f "$HOME/.claude/scripts/$s" ]; then
+    cmp -s "scripts/$s" "$HOME/.claude/scripts/$s" || fail "scripts/$s drifted from ~/.claude/scripts/$s (re-copy it, agents-skills#400)"
+  else
+    echo "SKIP drift check of scripts/$s (no ~/.claude/scripts/$s on this machine)"
+  fi
 done; ok
 
 # commit-msg subjects.
@@ -95,7 +100,8 @@ box="$work/box"; mkdir -p "$box/origin" "$box/stub"
 git -C "$box/origin" init -q --bare -b main
 git clone -q "$box/origin" "$box/repo" 2> /dev/null; cd "$box/repo"
 git config user.email t@example.com && git config user.name t
-cp "$root/justfile" "$root/mise.toml" "$root/mise.lock" "$root/.nvmrc" "$root/lefthook.yml" . && mkdir scripts src coverage
+git config gpg.format ssh && git config user.signingkey /dev/null
+cp "$root/justfile" "$root/mise.toml" "$root/mise.lock" "$root/.nvmrc" "$root/lefthook.yml" "$root/.gitignore" . && mkdir scripts src coverage
 printf '{"version":"0.0.0"}\n' > package.json
 cat > scripts/attest.sh <<'EOF2'
 #!/bin/sh
@@ -104,6 +110,7 @@ EOF2
 cat > "$box/stub/just" <<'EOF2'
 #!/bin/sh
 echo "just $*" >> "$LOG"
+[ "$1" != sonar ] || { mkdir -p .scannerwork && touch .scannerwork/report-task.txt; } # the real scanner's work directory, which must stay ignored
 [ "${FAIL_STEP:-}" != "$1" ] || exit 1
 [ "$1" != sonar ] || [ -z "${MOVE_HEAD:-}" ] || git commit -q --allow-empty -m 'chore: moved' --no-verify
 EOF2
@@ -114,7 +121,7 @@ case "$*" in "pr view"*) git rev-parse "${PR_HEAD:-origin/main}" ;; esac # the P
 EOF2
 cat > "$box/stub/sonar-scanner" <<'EOF2'
 #!/bin/sh
-echo "sonar-scanner $* token=${SONAR_TOKEN:-none}" >> "$LOG"; echo "sonar-scanner $*"; [ "${SCANNER_FAIL:-0}" = 0 ]
+echo "sonar-scanner $* token=${SONAR_TOKEN:-none}" >> "$LOG"; echo "sonar-scanner $*"; mkdir -p .scannerwork && touch .scannerwork/report-task.txt; [ "${SCANNER_FAIL:-0}" = 0 ]
 EOF2
 cat > "$box/stub/npm" <<'EOF2'
 #!/bin/sh
@@ -151,6 +158,11 @@ box_run 0 "gate: green path" "attest write gate" -- "$real_just" gate main
 [ "$(tr '\n' ' ' < "$LOG")" = "npm ci just check just sonar attest write gate $(git rev-parse HEAD) " ] || { cat "$LOG"; fail "gate steps or order, or the attested SHA is not the captured head: $(cat "$LOG")"; }; ok
 box_run 1 "gate: node_modules out of sync with the lockfile stops it" - -- env NPM_FAIL=1 "$real_just" gate main
 no_line '^just check' "gate ran check on an out-of-sync node_modules"
+no_line '^attest' "gate attested after a failed npm ci"
+git config --unset user.signingkey
+box_run 1 "gate: unconfigured signing refused before the checks" "configure SSH signing" -- "$real_just" gate main
+no_line '^npm ci' "gate ran the checks without signing configured"
+git config user.signingkey /dev/null
 box_run 1 "gate: failing check stops it" - -- env FAIL_STEP=check "$real_just" gate main
 [ "$(tr '\n' ' ' < "$LOG")" = "npm ci just check " ] || { cat "$LOG"; fail "gate went past a failed check"; }; ok
 box_run 1 "gate: failing sonar stops it" - -- env FAIL_STEP=sonar "$real_just" gate main
@@ -228,6 +240,19 @@ exit 1
 EOF2
 drift 1 "mise outdated failure propagates" "mise outdated failed" ''
 rm "$box/stub/mise"
+
+# doc-coverage: a block comment counts, a line comment does not, the floor is enforced.
+doc_case() { # doc_case <expected-exit> <label> <file content>
+  d="$work/doc"; rm -rf "$d"; mkdir -p "$d/src/pages" && cd "$d" && git init -q
+  printf '%s\n' "$3" > src/a.ts; printf 'export const page = 1;\n' > src/pages/p.ts; git add -A
+  rc=0; sh "$root/scripts/doc-coverage.sh" > "$work/out" 2>&1 || rc=$?
+  case "$1:$rc" in 0:0 | 1:[1-9]*) ok ;; *) cat "$work/out"; fail "doc-coverage $2: exit $rc, expected $1" ;; esac
+  cd "$box/repo"
+}
+doc_case 0 "block comments count" "$(printf '/** a */\nexport const a = 1;\n/**\n * b\n */\nexport const b = 2;')"
+doc_case 1 "a line comment does not count" "$(printf '// a\nexport const a = 1;')"
+doc_case 1 "below the floor" "$(printf '/** a */\nexport const a = 1;\nexport const b = 2;')"
+doc_case 0 "top-level src file counted, src/pages ignored" "$(printf '/** a */\nexport const a = 1;')"
 
 # node-guard: the wrong major is refused before any step runs, the right one lets the step run.
 echo 99.0.0 > .nvmrc

@@ -45,4 +45,5 @@ Refs #<issue>
 - Use the repository's available labels; do not invent milestone or project routing.
 - No GitHub-hosted reviewer or CI (owner rule 2026-11-07): the review is the local `review-local`
   gate with the adversarial reviewer.
-- Merge only through `just merge <pr>` on a verified `gate` attestation (ADR-0005).
+- Merge only through `just merge <pr>` on a verified `gate` attestation (ADR-0005; the bootstrap
+  merge of ADR-0005 itself is the one exception). SSH signing must be configured in git.

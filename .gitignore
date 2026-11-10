@@ -15,3 +15,6 @@ node_modules/
 
 # Vitest coverage report (just test)
 coverage/
+
+# SonarQube scanner work directory (just sonar)
+.scannerwork/

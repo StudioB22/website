@@ -34,21 +34,28 @@ form, analytics, or provider integration is implemented yet.
 
 Requirements:
 
-- Node.js 22.12 or later;
-- npm 9.6.5 or later.
+- [mise](https://mise.jdx.dev/) (installs Node 22, just, lefthook, gitleaks, Semgrep and the other
+  pinned tools of `mise.toml`), `uv` (the pipx backend of mise installs Semgrep through it) and
+  `sonar-scanner` on `PATH` (skill `infra-accounts`).
 
-Install and run the private-preview build:
+Install the toolchain, the dependencies and the git hooks once per clone, then run the preview:
 
 ```bash
-npm install
+just setup
 npm run dev
 ```
 
-Run the complete local quality gate:
+Run the pre-push floor (format, lint, typecheck, tests with coverage, build, generated-site test,
+doc coverage, Semgrep, `npm audit`, gitleaks); the pre-push hook runs it again:
 
 ```bash
-npm run check
+just check
 ```
+
+Prefix with `mise x --` when the shell does not activate mise. `npm run check` is the quick subset
+without the security steps. Before every merge, `just gate` attests the pushed head
+(ADR-0005, [branch protection](.github/branch-protection.md)); the nightly tier is installed per
+[scripts/systemd/README.md](scripts/systemd/README.md).
 
 The safe default is `PUBLIC_RELEASE_CHANNEL=preview`, which keeps the generated page
 non-indexable. A `public` build fails until the identity is final, the canonical origin and
@@ -61,7 +68,7 @@ explicit local environment file is useful; never commit credentials.
 - Astro generates static HTML; no application server or runtime database exists.
 - French preview pages cover the homepage, services, method, founder, and creations. The gallery stays
   empty until reviewed entries are explicitly published; no fictional client work is displayed.
-- `npm run check` also verifies the generated pages, local links, no-index directives, and empty state.
+- `npm run test:site` (part of `just check`) verifies the generated pages, local links, no-index directives, and empty state.
 - The working identity is centralised in `src/config/brand.ts`.
 - Catalogue entries are validated by `src/domain/project.ts` before publication.
 - Inactive external services contribute no SDK, endpoint, script, cookie, or embed.

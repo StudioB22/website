@@ -10,6 +10,7 @@
 #   L3 nightly  systemd user timer                     check + TruffleHog + toolchain drift
 #
 # Then: `just merge <pr>` (refuses without the gate attestation on the head SHA).
+# The last comment line of a recipe is its `just --list` summary; the lines above are the why.
 
 set shell := ["sh", "-eu", "-c"]
 
@@ -82,10 +83,12 @@ gate base="origin/main":
     git merge-base --is-ancestor "$base" HEAD || { echo "gate: HEAD is behind $base, merge or rebase it first" >&2; exit 1; }
     # Review tripwire, not a sandbox (the pre-push hook already ran this branch's code with the
     # owner's keys and tokens): a branch that changes what the gate runs or trusts is gated only
-    # after the owner read those files (GATE_CI_CHANGE=1). One list, cited by ADR-0005.
+    # after the owner read those files (GATE_CI_CHANGE=1). One list, described in ADR-0005.
     ci=$(git diff --name-only --no-renames "$base...HEAD" -- justfile lefthook.yml lefthook-local.yml mise.toml mise.lock .mise.toml mise.local.toml .tool-versions .nvmrc scripts .github/allowed_signers package.json package-lock.json .npmrc vitest.config.ts eslint.config.cjs sonar-project.properties .gitleaks.toml .gitleaksignore .semgrepignore tsconfig.json .prettierignore .prettierrc.json)
     [ -z "$ci" ] || [ "${GATE_CI_CHANGE:-0}" = 1 ] || { echo "gate: this branch changes the local CI itself ($(printf '%s' "$ci" | tr '\n' ' ')): read those files, then run GATE_CI_CHANGE=1 just gate" >&2; exit 1; }
     [ -n "$(git branch -r --contains HEAD)" ] || { echo "gate: push HEAD first (the attestation is written on the pushed head)" >&2; exit 1; }
+    # Signing is checked now, not by attest.sh after 10 minutes of checks.
+    [ "$(git config gpg.format || true)" = ssh ] && git config user.signingkey > /dev/null || { echo "gate: configure SSH signing first (git config gpg.format ssh; git config user.signingkey <key>.pub; skill local-ci § Attestation)" >&2; exit 1; }
     # `check` runs from the body, not as a dependency, so the HEAD it checked is the one attested.
     head=$(git rev-parse HEAD)
     # The tested node_modules must be the lockfile's: a dependency bump is otherwise tested

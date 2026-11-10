@@ -38,8 +38,10 @@ export const buildLocalProjectPreviews = (
     };
   });
 
-// Both the configuration and route generation enforce the development-only boundary.
-/** Resolved local previews; an empty list outside development keeps them out of every build. */
+/**
+ * Resolved local previews. Empty outside `import.meta.env.DEV`: the configuration and the route
+ * generation both enforce the development-only boundary, so previews never reach a build.
+ */
 export const localProjectPreviews = import.meta.env.DEV
   ? buildLocalProjectPreviews(
       localProjectPreviewInputs,

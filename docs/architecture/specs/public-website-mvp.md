@@ -139,7 +139,8 @@ location pages, keyword stuffing, or unverified local claims.
 
 ### REQ-SEC-001 — Repository and delivery baseline
 
-Use dependency review, secret detection, static analysis, pinned CI actions, no committed secrets,
+Use a dependency audit (`npm audit --audit-level=high`), secret detection (gitleaks), static analysis
+(Semgrep CE, SonarQube) in the local tiers of ADR-0005, a pinned local toolchain (`mise.lock`), no committed secrets,
 minimal dependencies, and reviewed browser security headers. Public input endpoints require schema
 validation, safe output handling, abuse protection, generic errors, least privilege, and privacy-safe
 logging before activation.

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-/** Truthful statuses a gallery entry may declare (ADR-0002: no implied client work). */
+/** Truthful statuses a gallery entry may declare; none may imply client work (REQ-HON-001). */
 export const projectStatusSchema = z.enum([
   "concept",
   "mock-up",

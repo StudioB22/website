@@ -12,13 +12,13 @@ GitHub Actions minutes now bill the owner (Free plan quota exceeded in October a
 and the owner rule of 2026-11-07 (every repository, both accounts) states that every check runs
 locally and that the only workflow allowed is a production deploy triggered by a signed release
 tag. This repository deploys nothing through Actions: release 0.1 is a private preview reviewed
-locally and release 1.0 will be promoted by a signed tag (ADR-0004). Tracked by
+locally and release 1.0 will be promoted by a signed tag (skill `release-tag`). Tracked by
 benoit-bremaud/agents-skills#259.
 
 Every GitHub check already had a local or free open-source equivalent: `npm run check` is the
 quality job itself; gitleaks runs over the full history in under a second; Semgrep Community
-Edition covers SAST (the CodeQL CLI licence is limited to public repositories and the owner's rule
-is free open-source tools only); `npm audit` is the exact command of the dependency job.
+Edition covers SAST (owner's rule: free open-source tools only; the CodeQL CLI is proprietary);
+`npm audit` is the exact command of the dependency job.
 
 ## Options and scoring
 
@@ -54,14 +54,28 @@ Sensitivity: with fidelity at 40 and the owner rule at 20, A still leads (A 460,
   `.github/allowed_signers` of `origin/main`, plus the `gate` commit status). The merge is a
   squash: one `main` commit per pull request, which carries no attestation of its own, so
   `just gate` runs again on `main` before any deploy.
+- `just gate` refuses a branch that changes the files the gate runs or trusts (`justfile`,
+  `lefthook.yml`, `mise.*`, `scripts/`, `.github/allowed_signers`, `package.json`, the lockfile,
+  the tool configs) until the owner has read them and sets `GATE_CI_CHANGE=1`: a review tripwire,
+  not a sandbox (the pre-push hook already ran the branch's code). The list lives in the `gate`
+  recipe; `scripts/test-local-ci.sh` exercises every path of it.
 - Branch protection on `main` requires the `gate` status only (`.github/branch-protection.md`).
   GitHub Free grants it on public repositories only: it is applied once the repository is public.
 - Repository visibility: public, per agents-skills ADR-0005 (public by default), after the Public
   Release Checklist (gitleaks on the full history, no secret, placeholder-only `.env.example`) and
-  the owner's explicit approval. MCDA: public 430, private with GitHub Pro 330, private with a
-  derogation 255 (criteria: owner rule 30, protection of `main` 25, confidentiality 25, cost 10,
-  effort 10).
-- Bootstrap: the first merge of this change happens before `.github/allowed_signers` and
+  the owner's explicit approval (decided 2026-11-10).
+
+  | # | Criterion | Weight | **A. Public** | B. Private, derogation | C. Private + GitHub Pro |
+  |---|---|---|---|---|---|
+  | 1 | Owner rule / agents-skills ADR-0005 (public by default) | 30 | 5 | 1 (no listed derogation motive) | 1 |
+  | 2 | Protection of `main` = `gate` status required | 25 | 5 | 0 (403 on a private Free repo) | 5 |
+  | 3 | Confidentiality | 25 | 3 (working name, no secret; product docs and unpublished drafts visible) | 5 | 5 |
+  | 4 | Cost | 10 | 5 | 5 | 1 (subscription) |
+  | 5 | Effort | 10 | 3 (checklist, product-doc review) | 5 | 4 |
+  | | **Total / 500** | **100** | **430** | 255 | 330 |
+
+  Sensitivity: confidentiality at 40 and the owner rule at 15 → A 400, C 390: A still leads.
+- Bootstrap (the one exception to `just merge`): the first merge of this change happens before `.github/allowed_signers` and
   `scripts/attest.sh` exist on `main`, so its attestation cannot be verified against `main`;
   that one merge goes through `gh pr merge --squash --match-head-commit <sha>` on the green
   `gate` status, recorded in `PROJECT_LOG.md`. Every later merge uses `just merge`.
@@ -69,10 +83,10 @@ Sensitivity: with fidelity at 40 and the owner rule at 20, A still leads (A 460,
   `~/.claude/scripts` (skill `local-ci` § Apply, step 1), kept byte-identical (the wiring test
   compares them) so a fix lands in one place and is re-copied; `check-cassettes.sh` has no caller
   here (the site calls no third-party API) and stays with the set rather than diverging from it.
-- Dropped without replacement: CodeQL itself (rule 4 of the skill). The Semgrep rulesets are
+- Dropped without replacement: CodeQL itself (rule 4 of the skill: free open-source tools only). The Semgrep rulesets are
   fetched from the registry on each run, so `security` needs the network; accepted over vendoring
   the rules, which would freeze known-bad gaps and need its own update chore.
-- **Fallback: B** if a check proves impossible to run locally.
+- **Fallback: B** only if a check proves impossible to run locally, logged in `PROJECT_LOG.md`.
 
 ## Consequences
 
@@ -82,10 +96,12 @@ Sensitivity: with fidelity at 40 and the owner rule at 20, A still leads (A 460,
   code, which `gate` then refuses to attest.
 - Vitest now measures coverage (`@vitest/coverage-v8`, floor 80 % in `vitest.config.ts`; Astro
   route handlers under `src/pages/` are excluded, the generated-site test exercises them), and
-  every export under `src/` carries a doc block (floor 90 %).
+  the exports under `src/` outside `src/pages/` are measured against a 90 % doc-coverage floor.
 - The `pipx:semgrep` entry is pinned by version only: its Python dependencies are resolved at
   install time, an accepted gap. System prerequisites outside mise: `uv` (the `pipx` backend of
-  mise installs Semgrep through it) and `sonar-scanner`.
+  mise installs Semgrep through it), `sonar-scanner`, and SSH signing configured in git
+  (`gpg.format ssh`, `user.signingkey`) with the key listed in `.github/allowed_signers`;
+  `just gate` checks the signing before its first step.
 - `tests/local-preview.test.mjs` (`npm run test:local`) needs running demo servers and stays a
   manual check, outside the tiers.
 - The traceability matrix maps REQ-SEC-001 to the local tiers instead of the removed workflows.

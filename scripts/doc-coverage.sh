@@ -4,7 +4,7 @@
 # re-exports are not counted: the const's doc is theirs. Astro route handlers (src/pages) export
 # the names Astro requires (GET, getStaticPaths): the route file's header comment documents them.
 set -eu
-git ls-files 'src/**/*.ts' ':!src/pages/**' ':!src/**/*.d.ts' | xargs awk '
+git ls-files 'src/*.ts' 'src/**/*.ts' ':!src/pages/**' ':!src/**/*.d.ts' | xargs awk '
   FNR == 1 { prev = "" }
   /^export (type [A-Za-z]+ = \(typeof|\{)/ { next }
   /^export / { total++; if (prev !~ /\*\/[[:space:]]*$/) missing++ }

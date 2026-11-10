@@ -18,7 +18,7 @@ on GitHub, not in the repository.
 | Push restrictions                          | none (solo repository)                                                                                                                                                     |
 
 The required check is a commit status, not a workflow job: no GitHub workflow runs (ADR-0005).
-`scripts/attest.sh write gate` posts `gate` = success through the REST Statuses API, last, after
+`scripts/attest.sh write gate`, run by `just gate`, posts `gate` = success through the REST Statuses API, last, after
 the signed note is pushed, so a green status always has its note; `just merge <pr>` verifies both
 on the exact head SHA before `gh pr merge`. `app_id` stays omitted: the status is posted by the
 owner's `gh`, not by an app. Run `just merge` from an up-to-date `main` checkout, so the `merge`
@@ -26,7 +26,9 @@ recipe itself is the trusted one.
 
 The `gate` status alone is a plain API write that anyone with push access could post; the signed
 note, verified against the trust store of `origin/main`, is the real control, and only `just merge`
-checks it. The owner therefore merges through `just merge` only, never the GitHub button.
+checks it. The owner therefore merges through `just merge` only, never the GitHub button (the
+bootstrap merge of ADR-0005 is the one exception); the protection below enforces the status, the
+`just merge` rule stays a discipline.
 
 ### Required reviews: 0
 
@@ -38,7 +40,7 @@ bypass, and a gate bypassed on every merge is worse than none.
 ### When to apply
 
 GitHub Free offers branch protection on public repositories only (the API answers 403 on a private
-one). The repository goes public under ADR-0005 (agents-skills) after the Public Release Checklist;
+one). The repository goes public under agents-skills ADR-0005 after the Public Release Checklist;
 apply the protection right after that change of visibility, then verify. Until then `just merge`
 is the only control, which is why it is the only merge path used.
 
