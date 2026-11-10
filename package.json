@@ -35,6 +35,7 @@
     "typescript-eslint": "8.70.1",
     "vitest": "5.0.2"
   },
+  "overridesNote": "vite and undici: floor above the npm audit highs of 2026-11-10; drop once astro ships the fixed ranges (#17)",
   "overrides": {
     "vite": "^8.3.6",
     "undici": "^8.12.4"

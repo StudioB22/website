@@ -163,6 +163,9 @@ git config --unset user.signingkey
 box_run 1 "gate: unconfigured signing refused before the checks" "configure SSH signing" -- "$real_just" gate main
 no_line '^npm ci' "gate ran the checks without signing configured"
 git config user.signingkey /dev/null
+git config gpg.format openpgp
+box_run 1 "gate: non-SSH signing format refused before the checks" "configure SSH signing" -- "$real_just" gate main
+git config gpg.format ssh
 box_run 1 "gate: failing check stops it" - -- env FAIL_STEP=check "$real_just" gate main
 [ "$(tr '\n' ' ' < "$LOG")" = "npm ci just check " ] || { cat "$LOG"; fail "gate went past a failed check"; }; ok
 box_run 1 "gate: failing sonar stops it" - -- env FAIL_STEP=sonar "$real_just" gate main
@@ -178,7 +181,7 @@ box_run 0 "gate: the same branch gated after reading" "attest write gate" -- env
 box_run 1 "gate: GATE_CI_CHANGE other than 1 refused" "changes the local CI itself" -- env GATE_CI_CHANGE=true "$real_just" gate origin/main
 git reset -q --hard origin/main
 # Every guarded path trips the guard, the trust store first.
-for f in .github/allowed_signers justfile lefthook.yml mise.toml mise.lock .nvmrc package-lock.json .npmrc vitest.config.ts eslint.config.cjs sonar-project.properties .gitleaks.toml .semgrepignore tsconfig.json; do
+for f in .github/allowed_signers justfile lefthook.yml lefthook-local.yml mise.toml mise.lock .mise.toml mise.local.toml .tool-versions .nvmrc package-lock.json .npmrc vitest.config.ts eslint.config.cjs sonar-project.properties .gitleaks.toml .gitleaksignore .semgrepignore tsconfig.json .prettierignore .prettierrc.json; do
   mkdir -p "$(dirname "$f")" && echo x >> "$f" && git add "$f" && git commit -qm "ci(repo): touch $f" --no-verify && git push -q origin HEAD:ci3 2> /dev/null
   box_run 1 "gate: a branch changing $f refused" "$f" -- "$real_just" gate origin/main
   git reset -q --hard origin/main && git -C "$box/origin" update-ref -d refs/heads/ci3

@@ -41,7 +41,7 @@ Sensitivity: with fidelity at 40 and the owner rule at 20, A still leads (A 460,
   | Tier | Recipe | Trigger | Holds |
   |---|---|---|---|
   | L0 | `just fast` | pre-commit hook | staged secrets (gitleaks), eslint and prettier on the staged files; the commit-msg hook checks the Conventional Commits subject |
-  | L1 | `just check` | pre-push hook, `review-local --push` | prettier, eslint, `astro check`, `lefthook validate`; Vitest with coverage ≥ 80 %, the production build and the generated-site test, doc coverage ≥ 90 %, the wiring and attestation tests; Semgrep CE (`p/javascript`, `p/typescript`) and `npm audit --audit-level=high`; gitleaks over the whole history |
+  | L1 | `just check` | pre-push hook, `review-local --push` | prettier, eslint, `astro check`, `lefthook validate`; Vitest with coverage thresholds 95 % statements/functions/lines and 90 % branches (owner floor 80 %), the production build and the generated-site test, doc coverage ≥ 90 %, the wiring and attestation tests; Semgrep CE (`p/javascript`, `p/typescript`) and `npm audit --audit-level=high`; gitleaks over the whole history |
   | L2 | `just gate` | `review-local` § 2b on the pushed head, before every merge | `npm ci`, `check`, `sonar-scanner` waiting for the quality gate, then the signed attestation of the head SHA |
   | L3 | `just nightly` | systemd user timer, 05:20 | `check`, TruffleHog (offline), toolchain drift |
 
@@ -58,7 +58,7 @@ Sensitivity: with fidelity at 40 and the owner rule at 20, A still leads (A 460,
   `lefthook.yml`, `mise.*`, `scripts/`, `.github/allowed_signers`, `package.json`, the lockfile,
   the tool configs) until the owner has read them and sets `GATE_CI_CHANGE=1`: a review tripwire,
   not a sandbox (the pre-push hook already ran the branch's code). The list lives in the `gate`
-  recipe; `scripts/test-local-ci.sh` exercises every path of it.
+  recipe; `scripts/test-local-ci.sh` trips the guard on each entry.
 - Branch protection on `main` requires the `gate` status only (`.github/branch-protection.md`).
   GitHub Free grants it on public repositories only: it is applied once the repository is public.
 - Repository visibility: public, per agents-skills ADR-0005 (public by default), after the Public
@@ -94,8 +94,9 @@ Sensitivity: with fidelity at 40 and the owner rule at 20, A still leads (A 460,
   merge without a green `gate` on the exact head SHA is refused by `just merge`.
 - The hooks must be installed (`just setup`) in every clone; a clone without them can push red
   code, which `gate` then refuses to attest.
-- Vitest now measures coverage (`@vitest/coverage-v8`, floor 80 % in `vitest.config.ts`; Astro
-  route handlers under `src/pages/` are excluded, the generated-site test exercises them), and
+- Vitest now measures coverage (`@vitest/coverage-v8`; thresholds 95/90/95/95 in
+  `vitest.config.ts`, a ratchet above the owner floor of 80 %; `src/pages/` is excluded: its only
+  handler, the DEV-only capture route, is covered by the manual `npm run test:local`), and
   the exports under `src/` outside `src/pages/` are measured against a 90 % doc-coverage floor.
 - The `pipx:semgrep` entry is pinned by version only: its Python dependencies are resolved at
   install time, an accepted gap. System prerequisites outside mise: `uv` (the `pipx` backend of
