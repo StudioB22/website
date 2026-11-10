@@ -24,16 +24,16 @@
     "zod": "4.6.7"
   },
   "devDependencies": {
-    "@astrojs/check": "0.9.10",
+    "@astrojs/check": "0.9.12",
     "@eslint/js": "10.0.1",
     "@types/node": "^22.20.4",
-    "@vitest/coverage-v8": "5.0.2",
-    "eslint": "10.11.0",
-    "prettier": "3.9.9",
-    "prettier-plugin-astro": "1.1.0",
+    "@vitest/coverage-v8": "5.1.0",
+    "eslint": "10.14.0",
+    "prettier": "3.9.10",
+    "prettier-plugin-astro": "1.1.2",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.70.1",
-    "vitest": "5.0.2"
+    "typescript-eslint": "8.72.1",
+    "vitest": "5.1.0"
   },
   "overridesNote": "vite and undici: floor above the npm audit highs of 2026-11-10; drop once astro ships the fixed ranges (#17)",
   "overrides": {
